@@ -1,0 +1,118 @@
+/**
+ * Punto unico de importacion de entidades para TypeORM.
+ * `entidades` se pasa a `DataSource` y a `TypeOrmModule.forRoot`.
+ */
+import {
+  Archivo,
+  ArchivoVersion,
+  Categoria,
+  CategoriaTraduccion,
+  ConfiguracionSistema,
+  Departamento,
+  Formulario,
+  FormularioCampo,
+  FormularioCampoCondicion,
+  FormularioCampoOpcion,
+  FormularioSeccion,
+  FormularioVersion,
+  Idioma,
+  Institucion,
+  InstitucionContacto,
+  InstitucionDireccion,
+  LlaveApi,
+  LlaveApiScope,
+  Municipio,
+  Notificacion,
+  PerfilCiudadano,
+  Permiso,
+  QuejaDenuncia,
+  RecursoAccesibilidad,
+  RefreshToken,
+  RegistroAuditoria,
+  Rol,
+  RolPermiso,
+  Sesion,
+  Solicitud,
+  SolicitudArchivo,
+  SolicitudHistorialEstado,
+  Tramite,
+  TramiteCategoria,
+  TramiteCosto,
+  TramiteDisponibilidad,
+  TramiteEnlace,
+  TramiteHistorialEstado,
+  TramiteIntegracion,
+  TramiteNormativa,
+  TramitePaso,
+  TramiteRequisito,
+  TramiteTiempo,
+  TramiteTraduccion,
+  TramiteVersion,
+  Usuario,
+  UsuarioRol,
+  VideoSenas,
+} from './schema.js';
+
+export * from './enums.js';
+export * from './base.entity.js';
+export * from './schema.js';
+
+export const entidades = [
+  // Seguridad / RBAC
+  Usuario,
+  Rol,
+  Permiso,
+  RolPermiso,
+  UsuarioRol,
+  Sesion,
+  RefreshToken,
+  LlaveApi,
+  LlaveApiScope,
+  // Geografia
+  Departamento,
+  Municipio,
+  // Catalogo
+  Institucion,
+  InstitucionContacto,
+  InstitucionDireccion,
+  Categoria,
+  CategoriaTraduccion,
+  // Tramites
+  Tramite,
+  TramiteCategoria,
+  TramiteTraduccion,
+  TramiteHistorialEstado,
+  TramiteRequisito,
+  TramitePaso,
+  TramiteNormativa,
+  TramiteEnlace,
+  TramiteCosto,
+  TramiteTiempo,
+  TramiteDisponibilidad,
+  TramiteVersion,
+  TramiteIntegracion,
+  // Accesibilidad
+  Idioma,
+  VideoSenas,
+  RecursoAccesibilidad,
+  // Formularios dinamicos
+  Formulario,
+  FormularioVersion,
+  FormularioSeccion,
+  FormularioCampo,
+  FormularioCampoOpcion,
+  FormularioCampoCondicion,
+  // Solicitudes
+  PerfilCiudadano,
+  Solicitud,
+  SolicitudArchivo,
+  SolicitudHistorialEstado,
+  // Archivos
+  Archivo,
+  ArchivoVersion,
+  // Auditoria y sistema
+  RegistroAuditoria,
+  Notificacion,
+  ConfiguracionSistema,
+  QuejaDenuncia,
+] as const;
