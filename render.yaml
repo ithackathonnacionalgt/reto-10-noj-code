@@ -1,0 +1,83 @@
+# Blueprint de Render: crea 2 servicios web desde ESTE mismo repo.
+# El repo tiene backend/ y frontend/ como apps independientes; cada servicio
+# apunta a su carpeta con "rootDir".
+#
+# Uso:
+#   1. Subir este archivo al repo (git push).
+#   2. En Render: New + -> "Blueprint" -> elegir el repo. Detecta este render.yaml.
+#   3. Render pide los valores de las variables marcadas "sync: false".
+#   4. Tras el primer deploy, completar las 2 URLs cruzadas (ver notas abajo) y
+#      redeployar ambos servicios.
+#
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  # ─────────────────────────  API  (NestJS)  ─────────────────────────
+  - type: web
+    name: reto10-api
+    runtime: node
+    plan: free
+    region: ohio            # cerca de Supabase us-east-2
+    rootDir: backend
+    # Render pone NODE_ENV=production, que hace que npm install omita devDependencies.
+    # Necesitamos @nestjs/cli (build) y tsx (migraciones), asi que forzamos --include=dev.
+    buildCommand: npm install --include=dev && npm run build
+    # Corre migraciones pendientes (idempotente) y luego arranca la API.
+    startCommand: npm run start:prod:migrate
+    healthCheckPath: /api/v1/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # --- Base de datos (Supabase Session pooler, IPv4) ---
+      - key: DB_HOST
+        sync: false          # aws-0-<region>.pooler.supabase.com
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_USER
+        sync: false          # postgres.<project-ref>
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: postgres
+      - key: DB_SSL
+        value: "true"
+      # --- Auth ---
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: API_KEY_PEPPER
+        generateValue: true
+      # --- CORS: URL publica del frontend (completar tras el 1er deploy) ---
+      - key: CORS_ORIGINS
+        sync: false          # https://reto10-web.onrender.com
+      # --- Supabase (Storage / API), opcionales por ahora ---
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+
+  # ────────────────────────  Frontend  (Next.js SSR)  ────────────────────────
+  - type: web
+    name: reto10-web
+    runtime: node
+    plan: free
+    region: ohio
+    rootDir: frontend
+    # --include=dev: next build necesita typescript/eslint (devDependencies) y
+    # Render pone NODE_ENV=production, que hace que npm install los omita.
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm run start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # URL publica de la API (completar tras el 1er deploy y redeployar el front,
+      # porque NEXT_PUBLIC_* se "hornea" en el build).
+      - key: NEXT_PUBLIC_API_URL
+        sync: false          # https://reto10-api.onrender.com/api/v1

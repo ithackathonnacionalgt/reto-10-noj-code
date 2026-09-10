@@ -23,20 +23,36 @@ function primerValor(v: string | string[] | undefined): string {
   return v ?? "";
 }
 
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const MODALIDADES = new Set(["en_linea", "presencial", "mixto"]);
+const TIPOS_COSTO = new Set(["gratuito", "fijo", "variable", "desconocido"]);
+const ORDENES = new Set(["recientes", "nombre", "populares"]);
+
+/**
+ * Sanea un valor que viene de la URL: si no cumple, se descarta.
+ * Evita que un `?institucionId=basura` haga fallar toda la pagina con un 400.
+ */
+function limpio(valor: string, permitido: Set<string> | RegExp): string {
+  const ok =
+    permitido instanceof Set ? permitido.has(valor) : permitido.test(valor);
+  return ok ? valor : "";
+}
+
 export default async function TramitesPage(props: PageProps<"/tramites">) {
   const sp = await props.searchParams;
   const leer = (clave: string) => primerValor(sp[clave]);
 
   const filtros: ValoresFiltro = {
-    institucionId: leer("institucionId"),
-    categoriaId: leer("categoriaId"),
-    modalidad: leer("modalidad"),
-    tipoCosto: leer("tipoCosto"),
-    departamentoId: leer("departamentoId"),
+    institucionId: limpio(leer("institucionId"), UUID_RE),
+    categoriaId: limpio(leer("categoriaId"), UUID_RE),
+    modalidad: limpio(leer("modalidad"), MODALIDADES),
+    tipoCosto: limpio(leer("tipoCosto"), TIPOS_COSTO),
+    departamentoId: limpio(leer("departamentoId"), UUID_RE),
     disponibleEnLinea: leer("disponibleEnLinea") === "true",
-    orden: leer("orden"),
+    orden: limpio(leer("orden"), ORDENES),
   };
-  const q = leer("q");
+  const q = leer("q").slice(0, 160);
   const page = Math.max(1, Number.parseInt(leer("page") || "1", 10) || 1);
   const limit = 12;
 

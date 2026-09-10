@@ -1,0 +1,17 @@
+# Dependencias y builds (cada app tiene su propio .gitignore tambien)
+node_modules/
+dist/
+.next/
+build/
+out/
+
+# Entorno - NUNCA commitear
+.env
+.env.local
+.env.*.local
+
+# Sistema / editores
+.DS_Store
+*.log
+*.tsbuildinfo
+coverage/

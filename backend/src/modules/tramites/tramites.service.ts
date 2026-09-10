@@ -41,6 +41,11 @@ import type {
 const CODIGO_FK_VIOLATION = '23503';
 const CODIGO_UNIQUE_VIOLATION = '23505';
 
+/** Escapa los comodines de LIKE (%, _, \) para que se busquen como texto literal. */
+function escaparLike(valor: string): string {
+  return valor.replace(/[\\%_]/g, '\\$&');
+}
+
 const RELACIONES_DETALLE = {
   institucion: true,
   categorias: { categoria: true },
@@ -430,10 +435,10 @@ export class TramitesService {
           OR lower("t".nombre) % lower(:q)
           OR lower(coalesce("t".descripcion_corta, '')) % lower(:q)
           OR "t".codigo ILIKE :qLike)`,
-        { q, qLike: `%${q}%` },
+        { q, qLike: `%${escaparLike(q)}%` },
       );
     } else if (q) {
-      qb.andWhere('"t".nombre ILIKE :qLike', { qLike: `%${q}%` });
+      qb.andWhere('"t".nombre ILIKE :qLike', { qLike: `%${escaparLike(q)}%` });
     }
   }
 

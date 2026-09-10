@@ -6,6 +6,9 @@
   "private": true,
   "license": "UNLICENSED",
   "type": "module",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "build": "nest build",
     "deploy": "nest deploy",
@@ -15,14 +18,18 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "typeorm": "node --env-file=.env --import tsx ./node_modules/typeorm/cli.js",
+    "typeorm:prod": "node --import tsx ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm -- migration:generate -d ./src/database/data-source.ts",
     "migration:create": "npm run typeorm -- migration:create",
     "migration:run": "npm run typeorm -- migration:run -d ./src/database/data-source.ts",
+    "migration:run:prod": "npm run typeorm:prod -- migration:run -d ./src/database/data-source.ts",
     "migration:revert": "npm run typeorm -- migration:revert -d ./src/database/data-source.ts",
     "migration:show": "npm run typeorm -- migration:show -d ./src/database/data-source.ts",
     "schema:log": "npm run typeorm -- schema:log -d ./src/database/data-source.ts",
     "seed": "node --env-file=.env --import tsx ./src/database/seed/seed.ts",
+    "seed:prod": "node --import tsx ./src/database/seed/seed.ts",
     "db:setup": "npm run migration:run && npm run seed",
+    "start:prod:migrate": "npm run migration:run:prod && npm run start:prod",
     "lint": "oxlint src/ test/",
     "test": "vitest run",
     "test:watch": "vitest",
