@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Imagen generada del trámite
+
+   Cada categoría tiene su tono. Se declara acá y no en el TypeScript porque
+   es una decisión visual: cambiar la paleta no debería tocar la lógica.
+
+   Los tonos se derivan con `color-mix` sobre la superficie del tema, así el
+   mismo valor funciona en claro y en oscuro sin declarar dos paletas.
+   ========================================================================== */
+
+:host {
+  --tono: #64748b; /* gris azulado por defecto */
+
+  position: relative;
+  display: block;
+}
+
+/* Tono por categoría. Elegidos por asociación semántica, no por variedad. */
+:host([data-cat='medio-ambiente']) {
+  --tono: #16a34a;
+}
+:host([data-cat='economia']) {
+  --tono: #2563eb;
+}
+:host([data-cat='trabajo']) {
+  --tono: #7c3aed;
+}
+:host([data-cat='educacion-cultura-y-deporte']) {
+  --tono: #d97706;
+}
+:host([data-cat='seguridad']) {
+  --tono: #dc2626;
+}
+:host([data-cat='energia']) {
+  --tono: #ca8a04;
+}
+:host([data-cat='comunicaciones-y-transporte']) {
+  --tono: #0891b2;
+}
+:host([data-cat='territorio-vivienda-e-infraestructura']) {
+  --tono: #ea580c;
+}
+:host([data-cat='mediacion-y-dialogo']) {
+  --tono: #db2777;
+}
+:host([data-cat='manejo-de-animales-y-vegetales']) {
+  --tono: #059669;
+}
+
+.lienzo {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  height: 6.5rem;
+  border-radius: var(--radio) var(--radio) 0 0;
+  /* Mezcla contra la superficie del tema: en claro queda un pastel muy suave,
+     en oscuro un tinte profundo, sin declarar dos paletas. */
+  background:
+    radial-gradient(
+      ellipse 70% 90% at 50% 120%,
+      color-mix(in oklab, var(--tono) var(--visual-halo), transparent),
+      transparent 70%
+    ),
+    color-mix(in oklab, var(--tono) var(--visual-fondo), var(--color-superficie));
+}
+
+.icono {
+  position: relative;
+  z-index: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: color-mix(in oklab, var(--tono) var(--visual-icono), var(--color-texto));
+  transition: transform var(--transicion);
+}
+
+img {
+  position: relative;
+  z-index: 1;
+  max-height: 3.25rem;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Trama diagonal: textura mínima para que no sea un bloque de color plano. */
+.trama {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--tono) 12%, transparent) 0 1px,
+    transparent 1px 9px
+  );
+  opacity: 0.5;
+}
+
+/* El ícono acompaña el hover de la tarjeta. */
+:host-context(.tarjeta:hover) .icono {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* --- Etiqueta de categoría ------------------------------------------------
+   Va sobre la imagen, no debajo: aprovecha espacio que ya existe y ata el
+   nombre de la categoría al color con el que se la está representando. */
+
+.etiqueta {
+  position: absolute;
+  left: var(--e-3);
+  bottom: var(--e-3);
+  z-index: 2;
+  max-width: calc(100% - var(--e-5));
+  padding: 0.2rem 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--tono) 30%, transparent);
+  border-radius: var(--radio-full);
+  /* Fondo sólido del tema, no translúcido: sobre la trama diagonal un fondo
+     semitransparente deja pasar las rayas y el texto pierde legibilidad. */
+  background: var(--color-superficie);
+  color: color-mix(in oklab, var(--tono) var(--visual-etiqueta), var(--color-texto));
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

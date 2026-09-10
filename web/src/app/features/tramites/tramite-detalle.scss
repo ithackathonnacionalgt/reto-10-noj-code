@@ -1,0 +1,226 @@
+.pagina {
+  padding-block: var(--e-5) var(--e-7);
+}
+
+.volver {
+  margin-bottom: var(--e-4);
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--e-1);
+    color: var(--color-texto-suave);
+    font-size: var(--texto-sm);
+    font-weight: 600;
+
+    &:hover {
+      color: var(--color-acento);
+      text-decoration: none;
+    }
+
+    span {
+      transition: transform var(--transicion);
+    }
+
+    &:hover span {
+      transform: translateX(-0.2rem);
+    }
+  }
+}
+
+.ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-5);
+  max-width: 52rem;
+}
+
+/* --- Encabezado ---------------------------------------------------------- */
+
+.encabezado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+
+  h1 {
+    font-size: var(--texto-3xl);
+  }
+}
+
+.institucion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  align-self: flex-start;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radio);
+  background: linear-gradient(135deg, var(--color-acento), var(--color-celeste));
+  color: #fff;
+  font-size: var(--texto-base);
+  font-weight: 800;
+  box-shadow: var(--sombra-1);
+}
+
+.institucion-texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+
+  strong {
+    font-size: var(--texto-sm);
+    font-weight: 700;
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: var(--texto-xs);
+  }
+}
+
+.descripcion {
+  color: var(--color-texto-medio);
+  font-size: var(--texto-lg);
+  max-width: var(--ancho-texto);
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+}
+
+.pastilla {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.7rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  color: var(--color-texto-medio);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+}
+
+.pastilla-ok {
+  border-color: var(--color-exito-borde);
+  background: var(--color-exito-fondo);
+  color: var(--color-exito-texto);
+}
+
+.punto {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentcolor;
+}
+
+/* --- Datos clave --------------------------------------------------------- */
+
+.datos {
+  display: grid;
+  gap: var(--e-4);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  margin: 0;
+  padding: var(--e-4);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-1);
+}
+
+.dato {
+  min-width: 0;
+
+  dt {
+    color: var(--color-texto-suave);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0.25rem 0 0;
+    font-size: var(--texto-base);
+    font-weight: 600;
+  }
+}
+
+.accion {
+  margin: 0;
+}
+
+/* --- Atribución ---------------------------------------------------------- */
+
+.atribucion {
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--color-borde);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+
+  .epigrafe {
+    margin-bottom: var(--e-1);
+  }
+
+  p {
+    margin-bottom: 0.2rem;
+  }
+}
+
+/* --- Esqueleto de carga --------------------------------------------------- */
+
+.esqueleto-ficha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-3);
+  max-width: 52rem;
+
+  .linea,
+  .bloque {
+    border-radius: var(--radio);
+    background: linear-gradient(
+      100deg,
+      var(--color-fondo-alt) 30%,
+      var(--color-superficie) 50%,
+      var(--color-fondo-alt) 70%
+    );
+    background-size: 200% 100%;
+    animation: brillo 1.5s infinite;
+  }
+
+  .linea {
+    height: 1.1rem;
+  }
+
+  .corta {
+    width: 8rem;
+  }
+
+  .titulo {
+    height: 2.5rem;
+    width: 70%;
+  }
+
+  .bloque {
+    height: 7rem;
+    margin-top: var(--e-2);
+    border-radius: var(--radio-lg);
+  }
+}
+
+@keyframes brillo {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

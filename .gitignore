@@ -1,3 +1,15 @@
+# Secretos y entorno - NUNCA commitear
+env
+env.*
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+
+# Notas de trabajo locales
+CLAUDE.md
+
 # Dependencias y builds (cada app tiene su propio .gitignore tambien)
 node_modules/
 dist/
@@ -5,13 +17,12 @@ dist/
 build/
 out/
 
-# Entorno - NUNCA commitear
-.env
-.env.local
-.env.*.local
-
 # Sistema / editores
 .DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
 *.log
 *.tsbuildinfo
 coverage/

@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Cabecera de búsqueda
+
+   Sin línea divisoria ni cambio de fondo: la búsqueda y los resultados son
+   una sola cosa continua. Lo que separa las dos zonas es el aire, no un borde.
+   ========================================================================== */
+
+/* Halo detrás del buscador: lo señala como el centro de la página sin un
+   bloque de color con bordes duros. Se desvanece hacia abajo, así que no hay
+   costura con los resultados.
+
+   Va como `background` de la sección y no como un `::before` con z-index
+   negativo: eso obligaba a `isolation: isolate`, que creaba un contexto de
+   apilamiento y dejaba el panel de filtros por debajo de las tarjetas. */
+.cabecera {
+  position: relative;
+  background: radial-gradient(
+    ellipse 40rem 22rem at 50% 38%,
+    var(--color-acento-suave),
+    transparent 68%
+  );
+}
+
+.cabecera-interna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--e-3);
+  padding-block: clamp(var(--e-6), 6vw, var(--e-8)) var(--e-5);
+  text-align: center;
+
+  h1 {
+    font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.6rem);
+  }
+}
+
+/* Sin `max-width`: con 36rem la frase partía en dos renglones. Va en una sola
+   línea mientras quepa y recién se acomoda sola en pantallas angostas —
+   forzar `nowrap` provocaría desbordamiento horizontal en móvil. */
+.bajada {
+  color: var(--color-texto-suave);
+  font-size: var(--texto-base);
+  text-wrap: pretty;
+}
+
+/* Buscador y botón de filtros en la misma fila. */
+.fila-busqueda {
+  display: flex;
+  align-items: stretch;
+  gap: var(--e-2);
+  width: 100%;
+  max-width: 46rem;
+  margin-top: var(--e-3);
+
+  app-buscador {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+app-chips-categorias {
+  width: 100%;
+  margin-top: var(--e-2);
+}
+
+/* ==========================================================================
+   Resultados
+   ========================================================================== */
+
+.resultados {
+  padding-block: var(--e-5) var(--e-7);
+}
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-2);
+  margin-bottom: var(--e-4);
+}
+
+.conteo {
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+
+  strong {
+    color: var(--color-texto);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.filtrado {
+  color: var(--color-acento-texto);
+  font-weight: 600;
+}
+
+.rejilla {
+  display: grid;
+  gap: var(--e-4);
+  /* min() evita que la tarjeta fuerce scroll horizontal en pantallas angostas. */
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.esqueleto {
+  height: 18rem;
+  border-radius: var(--radio-lg);
+  background: linear-gradient(
+    100deg,
+    var(--color-fondo-alt) 30%,
+    var(--color-superficie) 50%,
+    var(--color-fondo-alt) 70%
+  );
+  background-size: 200% 100%;
+  animation: brillo 1.5s infinite;
+}
+
+@keyframes brillo {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

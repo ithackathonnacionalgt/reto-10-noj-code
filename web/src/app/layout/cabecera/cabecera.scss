@@ -1,0 +1,139 @@
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-cabecera);
+  border-bottom: 1px solid var(--color-borde);
+  /* Traslúcida sobre el contenido que pasa por debajo. El color-mix mantiene
+     el efecto en claro y oscuro sin declarar dos veces. */
+  background: color-mix(in srgb, var(--color-superficie) 84%, transparent);
+  backdrop-filter: blur(12px) saturate(1.4);
+}
+
+.interna {
+  display: flex;
+  gap: var(--e-3);
+  align-items: center;
+  justify-content: space-between;
+  padding-block: 0.65rem;
+}
+
+/* --- Marca ---------------------------------------------------------------- */
+
+.marca {
+  display: flex;
+  gap: var(--e-2);
+  align-items: center;
+  min-width: 0;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none;
+
+    .sigla {
+      transform: rotate(-4deg) scale(1.05);
+    }
+  }
+}
+
+.sigla {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: var(--radio);
+  background: linear-gradient(135deg, var(--color-acento), var(--color-celeste));
+  color: #fff;
+  font-size: var(--texto-xs);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  box-shadow: var(--sombra-1);
+  transition: transform var(--transicion);
+}
+
+.texto {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+
+  strong {
+    font-size: var(--texto-sm);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: 0.7rem;
+  }
+
+  /* En pantallas muy angostas queda solo el escudo. */
+  @media (max-width: 26rem) {
+    display: none;
+  }
+}
+
+/* --- Herramientas --------------------------------------------------------- */
+
+.herramientas {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+}
+
+/* Botón cuadrado de solo icono: accesibilidad y tema comparten forma para
+   que se lean como un grupo. */
+.icono {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  color: var(--color-texto-medio);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento-borde);
+    background: var(--color-acento-suave);
+    color: var(--color-acento-texto);
+  }
+}
+
+.asistente {
+  flex: none;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--color-acento-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-acento-suave);
+  color: var(--color-acento-texto);
+  font-size: var(--texto-sm);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    color: var(--color-sobre-acento);
+  }
+
+  /* Mientras el cajón está abierto el botón queda "encendido". */
+  &.activo {
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    color: var(--color-sobre-acento);
+  }
+}
+
+.destello {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.asistente-texto {
+  @media (max-width: 30rem) {
+    display: none;
+  }
+}

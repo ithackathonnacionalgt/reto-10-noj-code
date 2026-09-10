@@ -1,0 +1,186 @@
+// Vive dentro de la cabecera, junto al tema y al asistente.
+:host {
+  position: relative;
+  display: block;
+  flex: none;
+}
+
+// Misma forma que el botón de tema: los dos se leen como un grupo.
+.disparador {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  color: var(--color-texto-medio);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento-borde);
+    background: var(--color-acento-suave);
+    color: var(--color-acento-texto);
+  }
+
+  // Punto verde cuando hay ajustes activos.
+  &.con-ajustes::after {
+    content: '';
+    position: absolute;
+    top: -0.1rem;
+    right: -0.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 2px solid var(--color-superficie);
+    border-radius: 50%;
+    background: var(--color-exito-texto);
+  }
+}
+
+.capa {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-flotante);
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + 0.55rem);
+  // Anclado a la derecha: el botón está en el extremo derecho de la barra y
+  // abrir hacia la izquierda evita que el panel se salga de la pantalla.
+  right: 0;
+  z-index: calc(var(--z-flotante) + 1);
+  width: min(21rem, calc(100vw - 2rem));
+  max-height: min(34rem, calc(100dvh - 6rem));
+  overflow-y: auto;
+  padding: var(--e-4);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-lg);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-3);
+  text-align: left;
+  animation: aparecer 180ms cubic-bezier(0.2, 0.9, 0.3, 1);
+
+  // En móvil el popover no cabe: se ancla al ancho de la pantalla.
+  @media (max-width: 26rem) {
+    position: fixed;
+    top: 3.6rem;
+    right: var(--e-3);
+    left: var(--e-3);
+    width: auto;
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(-0.4rem);
+  }
+}
+
+.panel-cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e-2);
+  margin-bottom: var(--e-3);
+
+  h2 {
+    font-size: var(--texto-base);
+  }
+}
+
+.cerrar {
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border-radius: var(--radio-full);
+}
+
+.grupo {
+  padding-block: var(--e-3);
+  border-top: 1px solid var(--color-borde);
+}
+
+.grupo-titulo {
+  margin-bottom: var(--e-2);
+}
+
+.escala {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+
+  button {
+    flex: none;
+    min-width: 2.75rem;
+    font-weight: 700;
+  }
+}
+
+.valor {
+  flex: 1;
+  text-align: center;
+  font-size: var(--texto-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+// Cada opción es una fila entera clicable: objetivo táctil generoso.
+.opcion {
+  display: flex;
+  gap: var(--e-2);
+  align-items: flex-start;
+  margin-bottom: var(--e-2);
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: var(--color-superficie-alt);
+  cursor: pointer;
+  transition:
+    border-color var(--transicion),
+    background-color var(--transicion);
+
+  &:hover {
+    border-color: var(--color-acento-borde);
+  }
+
+  &:has(input:checked) {
+    border-color: var(--color-acento);
+    background: var(--color-acento-suave);
+  }
+
+  input {
+    width: auto;
+    flex: none;
+    margin-top: 0.2rem;
+    accent-color: var(--color-acento);
+    cursor: pointer;
+  }
+
+  span {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--texto-sm);
+    font-weight: 600;
+  }
+
+  small {
+    color: var(--color-texto-suave);
+    font-size: var(--texto-xs);
+    font-weight: 400;
+  }
+}
+
+.ancho {
+  width: 100%;
+  margin-top: var(--e-1);
+}
+
+.nota {
+  margin-top: var(--e-3);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-xs);
+  text-align: center;
+}

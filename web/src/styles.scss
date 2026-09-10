@@ -1,0 +1,555 @@
+/* ==========================================================================
+   Sistema de diseño — Plataforma Nacional de Trámites
+   Dirección: cívico moderno. Azul profundo como acento, celeste guatemalteco
+   como secundario, mucho aire y profundidad sutil.
+
+   Todo valor visual se declara acá una sola vez. Los componentes consumen
+   tokens, nunca literales: el rediseño se hace en este archivo.
+   ========================================================================== */
+
+/* Inter variable, servida desde el propio dominio: sin dependencia de un CDN
+   externo, sin salto de layout y sin filtrar visitas a un tercero. */
+@use '@fontsource-variable/inter/index.css';
+
+:root {
+  color-scheme: light dark;
+
+  /* ---------------------------------------------------------------------
+     Color — tema claro
+     El blanco es el protagonista y los grises apenas se insinúan, con un
+     leve tinte azul para que convivan con el acento en vez de verse sucios
+     al lado. Los datos tienen que ser lo único que pese en la página.
+     --------------------------------------------------------------------- */
+  --color-fondo: #ffffff;
+  --color-fondo-alt: #f4f7fb;
+  --color-superficie: #ffffff;
+  --color-superficie-alt: #f8fafd;
+  --color-borde: #e8edf4;
+  --color-borde-fuerte: #d3dbe6;
+  --color-texto: #1a2333;
+  --color-texto-medio: #46536b;
+  /* Oscurecido a propósito: en #6b7789 el texto secundario quedaba en 4.54:1,
+     apenas sobre el mínimo AA, y se usa en tamaños chicos. */
+  --color-texto-suave: #5b6779;
+
+  /* Acento principal */
+  --color-acento: #2563eb;
+  --color-acento-hover: #1d4ed8;
+  --color-acento-activo: #1e40af;
+  --color-acento-suave: #f2f7ff;
+  --color-acento-borde: #cddfff;
+  --color-acento-texto: #1d4ed8;
+  --color-sobre-acento: #ffffff;
+
+  /* Secundario: celeste de la bandera. Solo decorativo (fondos, degradados);
+     nunca lleva texto encima, porque no alcanza contraste AA. */
+  --color-celeste: #4997d0;
+  --color-celeste-suave: #e7f2fa;
+
+  /* Semánticos */
+  --color-exito-fondo: #dcfce7;
+  --color-exito-borde: #86efac;
+  --color-exito-texto: #14532d;
+  --color-alerta-fondo: #fef3c7;
+  --color-alerta-texto: #92400e;
+  --color-error-fondo: #fef2f2;
+  --color-error-borde: #fca5a5;
+  --color-error-texto: #991b1b;
+
+  /* ---------------------------------------------------------------------
+     Tipografía
+     Escala modular ~1.25. Los tamaños en rem para que la escala de
+     accesibilidad los reajuste todos de una sola vez.
+     --------------------------------------------------------------------- */
+  --fuente:
+    'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --fuente-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+
+  --texto-xs: 0.75rem;
+  --texto-sm: 0.875rem;
+  --texto-base: 1rem;
+  --texto-lg: 1.125rem;
+  --texto-xl: 1.375rem;
+  --texto-2xl: 1.75rem;
+  --texto-3xl: clamp(1.85rem, 1.4rem + 2.2vw, 2.75rem);
+  --texto-4xl: clamp(2.15rem, 1.5rem + 3.2vw, 3.5rem);
+
+  /* ---------------------------------------------------------------------
+     Espaciado — escala de 4px. Nombrada, para que nadie improvise 13px.
+     --------------------------------------------------------------------- */
+  --e-1: 0.25rem;
+  --e-2: 0.5rem;
+  --e-3: 0.75rem;
+  --e-4: 1rem;
+  --e-5: 1.5rem;
+  --e-6: 2rem;
+  --e-7: 3rem;
+  --e-8: 4rem;
+
+  /* ---------------------------------------------------------------------
+     Forma y elevación
+     Sombras en dos capas (contacto + difusa) y teñidas de azul: se ven
+     como luz real y no como una mancha gris.
+     --------------------------------------------------------------------- */
+  --radio-sm: 0.375rem;
+  --radio: 0.625rem;
+  --radio-lg: 1rem;
+  --radio-xl: 1.5rem;
+  --radio-full: 999px;
+
+  /* Sombras muy contenidas: en una paleta clara, una sombra marcada ensucia
+     más de lo que separa. La jerarquía la hace el borde. */
+  --sombra-1: 0 1px 2px rgb(26 35 51 / 4%);
+  --sombra-2: 0 1px 2px rgb(26 35 51 / 4%), 0 4px 12px rgb(26 35 51 / 6%);
+  --sombra-3: 0 2px 6px rgb(26 35 51 / 6%), 0 14px 36px rgb(26 35 51 / 12%);
+  --sombra-acento: 0 4px 14px rgb(37 99 235 / 22%);
+
+  --ancho-max: 78rem;
+  --ancho-texto: 42rem;
+
+  /* Capas: numeradas acá para que nadie invente un z-index de 9999. */
+  --z-cabecera: 10;
+  --z-flotante: 40;
+
+  /* Transición base. Se anula sola con "reducir movimiento". */
+  --transicion: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Intensidad de la imagen generada de cada trámite (ver visual-tramite).
+     En claro basta un tinte muy leve; en oscuro hace falta más cuerpo. */
+  --visual-fondo: 9%;
+  --visual-halo: 14%;
+  --visual-icono: 78%;
+  --visual-etiqueta: 72%;
+
+  /* Lo escribe AccesibilidadStore. */
+  --escala-texto: 1;
+}
+
+/* ==========================================================================
+   Tema oscuro
+
+   Los valores se declaran UNA vez en un mixin y se aplican en dos lugares:
+   cuando el sistema lo pide (y la persona no eligió claro a mano), y cuando
+   eligió oscuro explícitamente. Sin el mixin habría que mantener la paleta
+   duplicada y se desincronizaría a la primera.
+
+   No es la paleta clara invertida: sobre fondo oscuro los azules saturados
+   vibran y los grises medios desaparecen, así que el acento se aclara y las
+   superficies suben en luminosidad en vez de bajar.
+   ========================================================================== */
+
+@mixin tokens-oscuros {
+  --color-fondo: #0b1017;
+  --color-fondo-alt: #161d28;
+  /* Las superficies son MÁS claras que el fondo: en oscuro la elevación se
+     lee por luz, no por sombra. */
+  --color-superficie: #131a24;
+  --color-superficie-alt: #1a222e;
+  --color-borde: #242e3d;
+  --color-borde-fuerte: #35435a;
+  --color-texto: #eef2f7;
+  --color-texto-medio: #c2ccdb;
+  --color-texto-suave: #8d9aad;
+
+  --color-acento: #6ba5fb;
+  --color-acento-hover: #93bffc;
+  --color-acento-activo: #bcd7fe;
+  --color-acento-suave: #14243c;
+  --color-acento-borde: #27456f;
+  --color-acento-texto: #a9caff;
+  --color-sobre-acento: #08101c;
+
+  --color-celeste: #7cbce4;
+  --color-celeste-suave: #10222f;
+
+  --color-exito-fondo: #0c2a19;
+  --color-exito-borde: #1d5236;
+  --color-exito-texto: #7ee0a4;
+  --color-alerta-fondo: #2a2008;
+  --color-alerta-texto: #f2c464;
+  --color-error-fondo: #2a1316;
+  --color-error-borde: #6d2027;
+  --color-error-texto: #f3a2a6;
+
+  --visual-fondo: 15%;
+  --visual-halo: 22%;
+  --visual-icono: 85%;
+  --visual-etiqueta: 78%;
+
+  /* En oscuro la sombra casi no se ve: la profundidad la da el borde. */
+  --sombra-1: 0 1px 2px rgb(0 0 0 / 40%);
+  --sombra-2: 0 2px 4px rgb(0 0 0 / 35%), 0 8px 20px rgb(0 0 0 / 45%);
+  --sombra-3: 0 4px 10px rgb(0 0 0 / 40%), 0 18px 44px rgb(0 0 0 / 60%);
+  --sombra-acento: 0 4px 16px rgb(37 99 235 / 40%);
+}
+
+/* Preferencia del sistema, salvo que se haya elegido claro a mano. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema='claro']) {
+    @include tokens-oscuros;
+  }
+}
+
+/* Elección explícita: gana sobre la preferencia del sistema en ambos sentidos. */
+:root[data-tema='oscuro'] {
+  @include tokens-oscuros;
+  /* Alinea los controles nativos (scrollbars, desplegables de los select)
+     con el tema elegido; sin esto quedan blancos sobre fondo oscuro. */
+  color-scheme: dark;
+}
+
+:root[data-tema='claro'] {
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Reinicio
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* La escala de accesibilidad multiplica el tamaño base: como todo se mide
+     en rem, un solo valor reescala la interfaz completa. */
+  font-size: calc(100% * var(--escala-texto));
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--fuente);
+  font-size: var(--texto-base);
+  line-height: 1.6;
+  /* Inter trae versalitas y ligaduras que mejoran el gris tipográfico. */
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================================================
+   Tipografía
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 700;
+  line-height: 1.2;
+  /* Tracking negativo en tamaños grandes: sin esto los títulos en Inter se
+     ven sueltos. */
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--texto-3xl);
+  letter-spacing: -0.03em;
+}
+h2 {
+  font-size: var(--texto-2xl);
+}
+h3 {
+  font-size: var(--texto-lg);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* Antetítulo en versalitas: separa secciones sin gritar. */
+.epigrafe {
+  color: var(--color-texto-suave);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mono {
+  font-family: var(--fuente-mono);
+  font-size: 0.92em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================================
+   Utilidades
+   ========================================================================== */
+
+.contenedor {
+  width: 100%;
+  max-width: var(--ancho-max);
+  margin-inline: auto;
+  padding-inline: var(--e-4);
+
+  @media (min-width: 48rem) {
+    padding-inline: var(--e-5);
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   Elementos interactivos
+   ========================================================================== */
+
+a {
+  color: var(--color-acento);
+  text-decoration: none;
+  transition: color var(--transicion);
+
+  &:hover {
+    color: var(--color-acento-hover);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* El foco visible nunca se desactiva: es requisito de accesibilidad. */
+:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+  border-radius: var(--radio-sm);
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio);
+  background: var(--color-superficie);
+  transition:
+    border-color var(--transicion),
+    box-shadow var(--transicion);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento-borde);
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: var(--color-acento);
+    box-shadow: 0 0 0 3px var(--color-acento-suave);
+  }
+}
+
+/* Flecha propia para los select: la nativa cambia en cada navegador. */
+select {
+  appearance: none;
+  padding-right: 2rem;
+  background-image: linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.05rem) calc(50% + 0.1rem),
+    calc(100% - 0.75rem) calc(50% + 0.1rem);
+  background-size: 0.3rem 0.3rem;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e-2);
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--radio);
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  transition:
+    background-color var(--transicion),
+    border-color var(--transicion),
+    transform var(--transicion),
+    box-shadow var(--transicion);
+
+  &:hover:not(:disabled) {
+    background: var(--color-acento-hover);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+button.secundario {
+  border-color: var(--color-borde-fuerte);
+  background: var(--color-superficie);
+  color: var(--color-texto-medio);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento);
+    background: var(--color-acento-suave);
+    color: var(--color-acento-texto);
+  }
+}
+
+button.fantasma {
+  background: none;
+  color: var(--color-texto-suave);
+
+  &:hover:not(:disabled) {
+    background: var(--color-fondo-alt);
+    color: var(--color-texto);
+  }
+}
+
+/* Botón que se comporta visualmente como un enlace. */
+button.enlace {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-acento);
+  font-size: var(--texto-sm);
+
+  &:hover:not(:disabled) {
+    background: none;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+}
+
+/* Enlace que se comporta visualmente como un botón. */
+a.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: 0.65rem 1.15rem;
+  border-radius: var(--radio);
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+  box-shadow: var(--sombra-acento);
+  transition:
+    background-color var(--transicion),
+    transform var(--transicion);
+
+  &:hover {
+    background: var(--color-acento-hover);
+    color: var(--color-sobre-acento);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+}
+
+/* ==========================================================================
+   Preferencias de accesibilidad
+   AccesibilidadStore marca <html> con estos atributos.
+   ========================================================================== */
+
+[data-alto-contraste] {
+  --color-fondo: #ffffff;
+  --color-fondo-alt: #ffffff;
+  --color-superficie: #ffffff;
+  --color-superficie-alt: #ffffff;
+  --color-borde: #000000;
+  --color-borde-fuerte: #000000;
+  --color-texto: #000000;
+  --color-texto-medio: #000000;
+  --color-texto-suave: #1a1a1a;
+  --color-acento: #0000cc;
+  --color-acento-hover: #000099;
+  --color-acento-suave: #ffffff;
+  --color-acento-borde: #000000;
+  --color-acento-texto: #0000cc;
+  --color-celeste-suave: #ffffff;
+  --sombra-1: none;
+  --sombra-2: none;
+  --sombra-3: none;
+  --sombra-acento: none;
+
+  /* Todo lo interactivo con borde visible, sin depender del color. */
+  button,
+  input,
+  select,
+  .chip {
+    border: 2px solid currentcolor;
+  }
+}
+
+[data-subrayar-enlaces] a {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+[data-fuente-legible] body {
+  font-family: 'Atkinson Hyperlegible', Verdana, Tahoma, sans-serif;
+  font-feature-settings: normal;
+  letter-spacing: 0.03em;
+  word-spacing: 0.12em;
+  line-height: 1.8;
+}
+
+/* Se respeta tanto el ajuste manual como la preferencia del sistema. */
+[data-reducir-movimiento] {
+  --transicion: 0ms;
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transicion: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

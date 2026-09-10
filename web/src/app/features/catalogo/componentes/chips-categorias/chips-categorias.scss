@@ -1,0 +1,83 @@
+:host {
+  display: block;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/* Compactos a propósito: son un filtro secundario bajo el buscador, no la
+   acción principal. Con el tamaño anterior competían con él. */
+.chip {
+  padding: 0.28rem 0.4rem 0.28rem 0.7rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  color: var(--color-texto-medio);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.3;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento);
+    background: var(--color-acento-suave);
+    color: var(--color-acento-texto);
+  }
+
+  &.activo {
+    border-color: var(--color-acento);
+    background: var(--color-acento);
+    color: var(--color-sobre-acento);
+
+    .conteo {
+      background: rgb(255 255 255 / 22%);
+      color: inherit;
+    }
+  }
+
+  /* Categoría sin trámites: se muestra igual, apagada. Ocultarla daría una
+     idea falsa de la cobertura del catálogo. */
+  &.vacio {
+    border-style: dashed;
+    border-color: var(--color-borde);
+    background: none;
+    color: var(--color-texto-suave);
+    opacity: 0.6;
+  }
+}
+
+.conteo {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.15rem;
+  margin-left: 0.35rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--radio-full);
+  background: var(--color-fondo-alt);
+  color: var(--color-texto-suave);
+  font-size: 0.66rem;
+  font-weight: 700;
+  /* Los conteos se leen en columna vertical al escanear la fila. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Repliegue de las categorías vacías: no se ocultan, se guardan. */
+.mas {
+  padding: 0.28rem 0.7rem;
+  border: 1px dashed var(--color-borde-fuerte);
+  border-radius: var(--radio-full);
+  background: none;
+  color: var(--color-texto-suave);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-acento);
+    background: var(--color-acento-suave);
+    color: var(--color-acento-texto);
+  }
+}

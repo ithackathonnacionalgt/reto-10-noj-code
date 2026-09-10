@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "catalogo-tramites",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-01",
+
+  // El build de Angular deja el SPA acá. `single-page-application` hace que
+  // cualquier ruta desconocida devuelva index.html, que es lo que necesita el
+  // router para que /tramites/:slug funcione al recargar la página.
+  "assets": {
+    "directory": "./dist/web/browser",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application"
+  },
+
+  "observability": {
+    "enabled": true
+  },
+
+  "vars": {
+    // Origen del backend al que el Worker reenvía /api/*. Es una URL pública,
+    // no un secreto: vive acá para que el despliegue sea reproducible desde el
+    // repositorio. Cambiarla y volver a desplegar no requiere recompilar el front.
+    "API_ORIGEN": "https://reto-10-noj-code-api.onrender.com",
+
+    // Modelo que responde en el asistente. Cambiarlo no requiere tocar código.
+    // La llave NO va acá: es un secreto y se carga aparte con
+    //     wrangler secret put OPENAI_API_KEY
+    "OPENAI_MODELO": "gpt-4o-mini"
+  }
+}

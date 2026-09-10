@@ -1,0 +1,53 @@
+<header class="cabecera">
+  <div class="contenedor interna">
+    <a class="marca" routerLink="/">
+      <span class="sigla" aria-hidden="true">GT</span>
+      <span class="texto">
+        <strong>Plataforma Nacional</strong>
+        <small>de Trámites</small>
+      </span>
+    </a>
+
+    <div class="herramientas">
+      <!-- Accesibilidad: el panel se despliega desde su propio botón. -->
+      <app-panel-accesibilidad />
+
+      <!-- Tema claro / oscuro -->
+      <button
+        type="button"
+        class="icono"
+        [attr.aria-label]="etiquetaTema()"
+        [attr.title]="etiquetaTema()"
+        [attr.aria-pressed]="esOscuro()"
+        (click)="tema.alternar()"
+      >
+        @if (esOscuro()) {
+          <!-- Sol: la acción es volver al modo claro -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2" />
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" />
+          </svg>
+        } @else {
+          <!-- Luna: la acción es pasar al modo oscuro -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 13.5A8.5 8.5 0 1 1 10.5 4a6.8 6.8 0 0 0 9.5 9.5Z" />
+          </svg>
+        }
+      </button>
+
+      <!-- Asistente de IA -->
+      <button
+        type="button"
+        class="asistente"
+        [class.activo]="chat.abierto()"
+        [attr.aria-expanded]="chat.abierto()"
+        (click)="chat.alternar()"
+      >
+        <span class="destello" aria-hidden="true">✦</span>
+        <span class="asistente-texto">Asistente</span>
+      </button>
+    </div>
+  </div>
+</header>

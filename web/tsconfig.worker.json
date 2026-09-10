@@ -1,0 +1,15 @@
+/* El Worker corre en el runtime de Cloudflare, no en el navegador: necesita sus
+   propios tipos (`Fetcher`, `ExportedHandler`) y no debe ver los del DOM ni los
+   de Angular. Por eso vive en un proyecto de TypeScript aparte. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/worker",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022"],
+    "types": ["@cloudflare/workers-types"],
+    "noEmit": true
+  },
+  "include": ["worker/**/*.ts"]
+}

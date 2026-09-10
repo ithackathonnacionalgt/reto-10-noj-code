@@ -1,0 +1,36 @@
+<div class="chips" role="group" aria-label="Filtrar por categoría">
+  <button
+    type="button"
+    class="chip"
+    [class.activo]="!seleccionada()"
+    (click)="elegir.emit(null)"
+  >
+    Todos
+    <span class="conteo">{{ totalTramites() }}</span>
+  </button>
+
+  @for (c of visibles(); track c.id) {
+    <button
+      type="button"
+      class="chip"
+      [class.activo]="seleccionada() === c.id"
+      [class.vacio]="c.conteo === 0"
+      [disabled]="c.conteo === 0"
+      [attr.title]="c.conteo === 0 ? 'Todavía sin trámites en el catálogo' : null"
+      (click)="alternar(c.id)"
+    >
+      {{ c.nombre }}
+      <span class="conteo">{{ c.conteo }}</span>
+    </button>
+  }
+
+  @if (sinDatos().length > 0) {
+    <button type="button" class="mas" (click)="alternarVacias()">
+      @if (mostrarVacias()) {
+        Ocultar vacías
+      } @else {
+        +{{ sinDatos().length }} sin trámites
+      }
+    </button>
+  }
+</div>

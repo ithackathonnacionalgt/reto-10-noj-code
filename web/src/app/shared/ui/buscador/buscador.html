@@ -1,0 +1,35 @@
+<form class="barra" (ngSubmit)="enviar()" role="search">
+  <label class="sr-only" [attr.for]="'buscador-' + variante()">{{ etiqueta() }}</label>
+
+  <!-- SVG en vez de emoji: se tiñe con currentColor y no cambia según el SO. -->
+  <span class="icono" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7" />
+      <path d="m20 20-3.5-3.5" />
+    </svg>
+  </span>
+
+  <input
+    [id]="'buscador-' + variante()"
+    name="q"
+    type="search"
+    [placeholder]="marcador()"
+    [attr.autofocus]="autofoco() ? '' : null"
+    [ngModel]="texto()"
+    (ngModelChange)="texto.set($event)"
+  />
+
+  @if (texto()) {
+    <button
+      type="button"
+      class="limpiar"
+      aria-label="Limpiar búsqueda"
+      (click)="limpiar()"
+    >
+      ✕
+    </button>
+  }
+
+  <button type="submit" class="enviar">Buscar</button>
+</form>

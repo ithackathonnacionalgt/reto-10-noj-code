@@ -1,0 +1,54 @@
+@let t = tramite();
+
+<article class="tarjeta">
+  <app-visual-tramite [tramite]="t" />
+
+  <div class="cuerpo">
+    <header class="cabecera">
+      <span class="institucion" [title]="t.institucion.nombre">
+        {{ t.institucion.siglas ?? t.institucion.nombre }}
+      </span>
+
+      @if (t.disponibleEnLinea) {
+        <span class="marca-linea">
+          <span class="punto" aria-hidden="true"></span>
+          En línea
+        </span>
+      }
+    </header>
+
+    <h3 class="titulo">
+      <!-- El enlace cubre toda la tarjeta (ver .titulo a::after) pero el nombre
+           accesible sigue siendo el texto del título. -->
+      <a [routerLink]="['/tramites', t.slug]">{{ t.nombre }}</a>
+    </h3>
+
+    @if (t.descripcionCorta) {
+      <p class="descripcion">{{ t.descripcionCorta }}</p>
+    }
+
+    <!-- Solo las dos cifras que la gente vino a buscar. Todo lo demás
+         (código, categorías, modalidad, calidad) vive en la ficha completa:
+         en un listado no ayuda a decidir, solo satura. -->
+    <footer class="pie">
+      <span class="cifra" [class.sin-dato]="!tieneCosto()">
+        {{ t.costo | costo: t.tipoCosto : t.moneda }}
+      </span>
+      <span class="separador" aria-hidden="true">·</span>
+      <span class="cifra" [class.sin-dato]="!tieneTiempo()">
+        {{ t.tiempoRespuesta | tiempoRespuesta }}
+      </span>
+
+      @if (datosIncompletos()) {
+        <!-- Marca discreta: la explicación completa está en la ficha. -->
+        <span
+          class="alerta"
+          [title]="calidad() + ' — puede haber campos sin verificar'"
+          aria-label="Información incompleta"
+        >
+          ◍
+        </span>
+      }
+    </footer>
+  </div>
+</article>

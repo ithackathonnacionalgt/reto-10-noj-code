@@ -1,0 +1,108 @@
+<!-- ---------------------------------------------------------------------- -->
+<!-- Buscador: lo primero y lo único que compite por la atención           -->
+<!-- ---------------------------------------------------------------------- -->
+<section class="cabecera">
+  <div class="contenedor cabecera-interna">
+    <h1>¿Qué trámite necesitás?</h1>
+    <p class="bajada">
+      Buscá en el Catálogo Nacional de Trámites: qué necesitás, cuánto cuesta y
+      cuánto tarda.
+    </p>
+
+    <!-- Buscador y filtros avanzados en la misma fila: filtrar está a un clic,
+         pero plegado para no abrumar a quien solo quiere buscar. -->
+    <div class="fila-busqueda">
+      <app-buscador
+        variante="grande"
+        etiqueta="Buscar trámites del catálogo"
+        marcador="Buscá por nombre, institución o código…"
+        [valorInicial]="termino()"
+        (buscar)="buscar($event)"
+      />
+
+      <app-filtros-avanzados
+        [filtros]="filtros()"
+        [instituciones]="instituciones()"
+        [departamentos]="departamentos()"
+        [conDepartamento]="conDepartamento()"
+        (cambiar)="aplicar($event)"
+        (limpiar)="limpiar()"
+      />
+    </div>
+
+    <!-- Etiquetas de categoría: filtro rápido, sin abrir nada. -->
+    @if (categorias().length > 0) {
+      <app-chips-categorias
+        [categorias]="categorias()"
+        [seleccionada]="filtros().categoriaId"
+        [totalTramites]="totalCatalogo()"
+        (elegir)="elegirCategoria($event)"
+      />
+    }
+  </div>
+</section>
+
+<!-- ---------------------------------------------------------------------- -->
+<!-- Resultados: visibles de inmediato, sin paso intermedio                 -->
+<!-- ---------------------------------------------------------------------- -->
+<section class="contenedor resultados" aria-live="polite">
+  @let e = estado();
+
+  @switch (e.fase) {
+    @case ('cargando') {
+      <ul class="rejilla" aria-hidden="true">
+        @for (_ of esqueletos; track $index) {
+          <li class="esqueleto"></li>
+        }
+      </ul>
+      <p class="sr-only">Cargando trámites…</p>
+    }
+
+    @case ('error') {
+      <app-aviso tono="error" icono="⚠️" titulo="No se pudo cargar el catálogo">
+        <p>{{ e.mensaje }}</p>
+      </app-aviso>
+    }
+
+    @case ('listo') {
+      <div class="barra">
+        <p class="conteo">
+          <strong>{{ e.pagina.meta.total }}</strong>
+          {{ e.pagina.meta.total === 1 ? 'trámite' : 'trámites' }}
+          @if (hayFiltros()) {
+            <span class="filtrado">· filtrado</span>
+          }
+        </p>
+
+        @if (hayFiltros()) {
+          <button type="button" class="enlace" (click)="limpiar()">
+            Quitar filtros
+          </button>
+        }
+      </div>
+
+      @if (e.pagina.data.length === 0) {
+        <app-aviso icono="🔍" titulo="Sin resultados">
+          <p>No hay trámites que coincidan con esa búsqueda.</p>
+          @if (hayFiltros()) {
+            <p>
+              <button type="button" class="enlace" (click)="limpiar()">
+                Ver todo el catálogo
+              </button>
+            </p>
+          }
+        </app-aviso>
+      } @else {
+        <ul class="rejilla">
+          @for (t of e.pagina.data; track t.id) {
+            <li>
+              <app-tarjeta-tramite [tramite]="t" />
+            </li>
+          }
+        </ul>
+
+        <app-paginacion [meta]="e.pagina.meta" (ir)="irAPagina($event)" />
+      }
+    }
+  }
+</section>

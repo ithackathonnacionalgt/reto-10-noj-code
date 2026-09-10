@@ -1,0 +1,74 @@
+<!-- Decorativa: el nombre de la categoría ya está en el texto de la tarjeta,
+     así que para un lector de pantalla esto es ruido. -->
+<div class="lienzo" aria-hidden="true">
+  @if (logo(); as url) {
+    <img [src]="url" [alt]="siglas()" loading="lazy" decoding="async" />
+  } @else {
+    <svg
+      class="icono"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      @switch (clave()) {
+        @case ('medio-ambiente') {
+          <path d="M12 21c0-6 3-10 8-11-1 7-4 10-8 11Z" />
+          <path d="M12 21c0-5-2.5-8-6.5-9C6.2 17 8.8 20 12 21Z" />
+          <path d="M12 21v-4" />
+        }
+        @case ('economia') {
+          <path d="M4 20V9M10 20V5M16 20v-8M22 20H2" />
+          <path d="M20 20V3" />
+        }
+        @case ('trabajo') {
+          <rect x="3" y="7" width="18" height="13" rx="2" />
+          <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18" />
+        }
+        @case ('educacion-cultura-y-deporte') {
+          <path d="m12 4 10 5-10 5L2 9l10-5Z" />
+          <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
+        }
+        @case ('seguridad') {
+          <path d="M12 3l8 3v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6l8-3Z" />
+          <path d="m9 12 2 2 4-4" />
+        }
+        @case ('energia') {
+          <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z" />
+        }
+        @case ('comunicaciones-y-transporte') {
+          <path d="M2 8h11v9H2zM13 11h4l4 3v3h-8z" />
+          <circle cx="6" cy="18.5" r="1.8" />
+          <circle cx="17" cy="18.5" r="1.8" />
+        }
+        @case ('territorio-vivienda-e-infraestructura') {
+          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />
+        }
+        @case ('mediacion-y-dialogo') {
+          <path d="M8 13H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+          <path d="M10 20h4l4 2v-2h1a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-9a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2Z" />
+        }
+        @case ('manejo-de-animales-y-vegetales') {
+          <path d="M12 20v-8" />
+          <path d="M12 12c0-3.5 2.5-6 6-6 0 3.5-2.5 6-6 6Z" />
+          <path d="M12 15c0-2.8-2-5-5-5 0 2.8 2 5 5 5Z" />
+          <path d="M7 20h10" />
+        }
+        @default {
+          <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+          <path d="M14 3v5h5M9 13h6M9 17h4" />
+        }
+      }
+    </svg>
+  }
+
+  <!-- Trama diagonal muy tenue: da textura y evita el bloque de color plano. -->
+  <span class="trama"></span>
+</div>
+
+<!-- La categoría se lee sobre la imagen, en su mismo tono: la persona ubica
+     el tipo de trámite antes de leer el título. No va dentro del `aria-hidden`
+     porque sí aporta información. -->
+<span class="etiqueta">{{ nombreCategoria() }}</span>

@@ -1,0 +1,121 @@
+<button
+  type="button"
+  class="disparador"
+  [class.con-ajustes]="a11y.hayAjustes()"
+  [attr.aria-expanded]="abierto()"
+  aria-controls="panel-a11y"
+  (click)="alternar()"
+>
+  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="4.2" r="1.8" />
+    <path d="M5 8.5h14M12 8.5v6M12 14.5l-3 6M12 14.5l3 6" />
+  </svg>
+  <span class="sr-only">Opciones de accesibilidad</span>
+</button>
+
+@if (abierto()) {
+  <!-- Capa para cerrar tocando fuera. Es decorativa: cerrar tambien
+       funciona con Escape y con el botón de cerrar. -->
+  <div class="capa" (click)="cerrar()" aria-hidden="true"></div>
+
+  <section
+    id="panel-a11y"
+    class="panel"
+    role="dialog"
+    aria-label="Opciones de accesibilidad"
+    (keydown.escape)="cerrar()"
+  >
+    <header class="panel-cabecera">
+      <h2>Accesibilidad</h2>
+      <button type="button" class="cerrar fantasma" aria-label="Cerrar panel" (click)="cerrar()">
+        ✕
+      </button>
+    </header>
+
+    <div class="grupo">
+      <p class="grupo-titulo epigrafe" id="a11y-texto">Tamaño del texto</p>
+      <div class="escala" role="group" aria-labelledby="a11y-texto">
+        <button
+          type="button"
+          class="secundario"
+          [disabled]="enElMinimo()"
+          aria-label="Reducir el tamaño del texto"
+          (click)="a11y.achicarTexto()"
+        >
+          A−
+        </button>
+        <span class="valor" aria-live="polite">{{ porcentaje() }}</span>
+        <button
+          type="button"
+          class="secundario"
+          [disabled]="enElMaximo()"
+          aria-label="Aumentar el tamaño del texto"
+          (click)="a11y.agrandarTexto()"
+        >
+          A+
+        </button>
+      </div>
+    </div>
+
+    <div class="grupo">
+      <p class="grupo-titulo epigrafe">Presentación</p>
+
+      <label class="opcion">
+        <input
+          type="checkbox"
+          [checked]="a11y.altoContraste()"
+          (change)="a11y.alternarPreferencia('altoContraste')"
+        />
+        <span>
+          Alto contraste
+          <small>Aumenta el contraste entre texto y fondo.</small>
+        </span>
+      </label>
+
+      <label class="opcion">
+        <input
+          type="checkbox"
+          [checked]="a11y.subrayarEnlaces()"
+          (change)="a11y.alternarPreferencia('subrayarEnlaces')"
+        />
+        <span>
+          Subrayar enlaces
+          <small>Los distingue sin depender del color.</small>
+        </span>
+      </label>
+
+      <label class="opcion">
+        <input
+          type="checkbox"
+          [checked]="a11y.fuenteLegible()"
+          (change)="a11y.alternarPreferencia('fuenteLegible')"
+        />
+        <span>
+          Tipografía legible
+          <small>Mayor espaciado entre letras y palabras.</small>
+        </span>
+      </label>
+
+      <label class="opcion">
+        <input
+          type="checkbox"
+          [checked]="a11y.reducirMovimiento()"
+          (change)="a11y.alternarPreferencia('reducirMovimiento')"
+        />
+        <span>
+          Reducir movimiento
+          <small>Quita animaciones y transiciones.</small>
+        </span>
+      </label>
+    </div>
+
+    @if (a11y.hayAjustes()) {
+      <button type="button" class="secundario ancho" (click)="a11y.restablecer()">
+        Restablecer todo
+      </button>
+    }
+
+    <p class="nota">Tus preferencias se guardan en este navegador.</p>
+  </section>
+}

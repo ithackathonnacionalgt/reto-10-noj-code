@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.principal {
+  flex: 1;
+  /* Zona franca para los botones flotantes (accesibilidad y chat): sin esto
+     tapan el final del contenido en páginas cortas. */
+  padding-bottom: var(--e-7);
+}
+
+// Enlace de salto: oculto hasta que recibe foco por teclado.
+.saltar {
+  position: absolute;
+  left: -9999px;
+
+  &:focus {
+    left: 1rem;
+    top: 1rem;
+    z-index: calc(var(--z-flotante) + 1);
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radio);
+    background: var(--color-superficie);
+    box-shadow: 0 0 0 2px var(--color-acento);
+  }
+}

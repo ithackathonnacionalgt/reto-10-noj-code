@@ -1,0 +1,154 @@
+:host {
+  display: block;
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: 0.3rem 0.3rem 0.3rem 0.9rem;
+  border: 1px solid var(--color-borde-fuerte);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  box-shadow: var(--sombra-1);
+  transition:
+    box-shadow var(--transicion),
+    border-color var(--transicion);
+
+  &:hover {
+    border-color: var(--color-acento-borde);
+  }
+
+  &:focus-within {
+    border-color: var(--color-acento);
+    box-shadow:
+      var(--sombra-2),
+      0 0 0 4px var(--color-acento-suave);
+  }
+}
+
+.icono {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--color-texto-suave);
+  line-height: 1;
+}
+
+input {
+  flex: 1;
+  min-width: 0; /* sin esto el input desborda el contenedor flex */
+  padding: 0.5rem 0;
+  border: none;
+  background: none;
+
+  &::placeholder {
+    color: var(--color-texto-suave);
+  }
+
+  /* El foco lo pinta .barra:focus-within, no el input suelto. */
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Oculta la X nativa de Chrome: ya hay un botón propio y accesible. */
+  &::-webkit-search-cancel-button {
+    appearance: none;
+  }
+}
+
+.limpiar {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-texto-suave);
+  font-size: var(--texto-xs);
+
+  &:hover:not(:disabled) {
+    background: var(--color-fondo-alt);
+    color: var(--color-texto);
+  }
+}
+
+.enviar {
+  flex: none;
+  border-radius: var(--radio-full);
+  padding-inline: 1.2rem;
+}
+
+/* --- Variante grande: portada -------------------------------------------- */
+
+:host([data-variante='grande']) {
+  .barra {
+    padding: 0.45rem 0.45rem 0.45rem 1.25rem;
+    /* Anillo de acento permanente: es el elemento principal de la página y
+       tiene que verse como tal, no como un input más del formulario. */
+    border-color: var(--color-acento-borde);
+    box-shadow:
+      var(--sombra-2),
+      0 0 0 5px var(--color-acento-suave);
+
+    &:hover {
+      border-color: var(--color-acento);
+    }
+
+    &:focus-within {
+      border-color: var(--color-acento);
+      box-shadow:
+        var(--sombra-3),
+        0 0 0 5px color-mix(in oklab, var(--color-acento) 20%, transparent);
+    }
+  }
+
+  .icono {
+    color: var(--color-acento);
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  input {
+    padding-block: 0.75rem;
+    font-size: var(--texto-lg);
+  }
+
+  .enviar {
+    padding-block: 0.75rem;
+    padding-inline: 1.7rem;
+    font-size: var(--texto-base);
+    box-shadow: var(--sombra-acento);
+  }
+
+  /* En pantallas angostas el input pasa a su propia línea para no quedar
+     con 40px de ancho útil. */
+  @media (max-width: 34rem) {
+    .barra {
+      flex-wrap: wrap;
+      border-radius: var(--radio-lg);
+      padding: 0.6rem;
+    }
+
+    input {
+      flex-basis: 100%;
+      order: -1;
+      padding-inline: 0.4rem;
+      font-size: var(--texto-base);
+    }
+
+    .icono {
+      display: none;
+    }
+
+    .enviar {
+      margin-left: auto;
+    }
+  }
+}

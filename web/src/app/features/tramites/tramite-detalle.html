@@ -1,0 +1,127 @@
+@let e = estado();
+
+<div class="contenedor pagina">
+  <p class="volver">
+    <a routerLink="/"><span aria-hidden="true">←</span> Volver al listado</a>
+  </p>
+
+  @if (e.fase === 'cargando') {
+    <div class="esqueleto-ficha" aria-hidden="true">
+      <div class="linea corta"></div>
+      <div class="linea titulo"></div>
+      <div class="linea"></div>
+      <div class="bloque"></div>
+    </div>
+    <p class="sr-only">Cargando trámite…</p>
+  } @else if (e.fase === 'error') {
+    <app-aviso tono="error" icono="⚠️" titulo="No se pudo cargar el trámite">
+      <p>{{ e.mensaje }}</p>
+      <p><a routerLink="/">Volver al listado</a></p>
+    </app-aviso>
+  } @else {
+    @let t = e.tramite;
+
+    <article class="ficha">
+      <header class="encabezado">
+        <span class="institucion">
+          <span class="avatar" aria-hidden="true">{{ inicial() }}</span>
+          <span class="institucion-texto">
+            <strong>{{ t.institucion.siglas ?? t.institucion.nombre }}</strong>
+            @if (t.institucion.siglas) {
+              <small>{{ t.institucion.nombre }}</small>
+            }
+          </span>
+        </span>
+
+        <h1>{{ t.nombre }}</h1>
+
+        @if (t.descripcionCorta) {
+          <p class="descripcion">{{ t.descripcionCorta }}</p>
+        }
+
+        <div class="etiquetas">
+          @if (t.disponibleEnLinea) {
+            <span class="pastilla pastilla-ok">
+              <span class="punto" aria-hidden="true"></span> Disponible en línea
+            </span>
+          }
+          @if (etiquetaModalidad(); as m) {
+            <span class="pastilla">{{ m }}</span>
+          }
+          @for (c of t.categorias; track c.id) {
+            <span class="pastilla">{{ c.nombre }}</span>
+          }
+        </div>
+      </header>
+
+      <!-- Datos clave, arriba de todo: es lo que la gente vino a saber. -->
+      <dl class="datos">
+        <div class="dato">
+          <dt>Costo</dt>
+          <dd>{{ t.costo | costo: t.tipoCosto : t.moneda }}</dd>
+        </div>
+        <div class="dato">
+          <dt>Tiempo de respuesta</dt>
+          <dd>{{ t.tiempoRespuesta | tiempoRespuesta }}</dd>
+        </div>
+        <div class="dato">
+          <dt>Cómo se realiza</dt>
+          <dd>{{ etiquetaModo() }}</dd>
+        </div>
+        <div class="dato">
+          <dt>Código</dt>
+          <dd class="mono">{{ t.publicId }}</dd>
+        </div>
+      </dl>
+
+      @if (t.urlExterna) {
+        <p class="accion">
+          <a class="boton" [href]="t.urlExterna" target="_blank" rel="noopener noreferrer">
+            Ir al trámite en línea <span aria-hidden="true">↗</span>
+          </a>
+        </p>
+      } @else {
+        <app-aviso icono="🏢" titulo="Este trámite no se hace en línea">
+          <p>Consultá directamente con la institución responsable.</p>
+        </app-aviso>
+      }
+
+      <!-- Calidad del dato: el reto pide medirla y mostrarla, no esconderla. -->
+      @if (datosIncompletos()) {
+        <app-aviso icono="◍" titulo="Información incompleta">
+          <p>
+            Esta ficha está marcada como
+            <strong>{{ etiquetaCalidad[t.calidadDatos].toLowerCase() }}</strong> en el
+            catálogo. Algunos campos pueden faltar o estar sin verificar contra la
+            fuente oficial.
+          </p>
+        </app-aviso>
+      }
+
+      <!-- Atribución a la fuente: requisito del reto, no un detalle. -->
+      <footer class="atribucion">
+        <p class="epigrafe">Fuente</p>
+        <p>
+          Catálogo Nacional de Trámites.
+          @if (t.urlFuenteOficial) {
+            <a [href]="t.urlFuenteOficial" target="_blank" rel="noopener noreferrer">
+              Ver ficha oficial <span aria-hidden="true">↗</span>
+            </a>
+          }
+        </p>
+        <p>
+          Publicado bajo
+          <a
+            href="https://creativecommons.org/licenses/by/4.0/deed.es"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Creative Commons Atribución 4.0</a
+          >.
+        </p>
+        @if (t.actualizadoEn) {
+          <p>Actualizado el {{ t.actualizadoEn | date: 'longDate' : '' : 'es-GT' }}.</p>
+        }
+      </footer>
+    </article>
+  }
+</div>
