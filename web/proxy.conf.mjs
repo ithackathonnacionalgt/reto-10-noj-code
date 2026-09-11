@@ -5,7 +5,7 @@
  * de modo que el navegador siempre habla con su mismo origen y no hay CORS.
  *
  * Usa el backend local actualizado en :3001. Para consultar la API publicada,
- * establecer API_PROXY=https://reto-10-noj-code-api.onrender.com.
+ * establecer API_PROXY=https://reto-10-noj-code-production.up.railway.app.
  *
  * `/api/asistente` es la excepción: no lo resuelve el backend sino el Worker,
  * porque necesita la llave de OpenAI. `ng serve` no tiene Worker, así que se

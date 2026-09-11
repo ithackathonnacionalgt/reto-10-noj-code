@@ -9,8 +9,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "check:worker": "tsc -p tsconfig.worker.json",
+    "indice-ia": "node scripts/generar-indice-ia.mjs",
     "preview": "npm run build && wrangler dev",
-    "deploy": "npm run build && wrangler deploy",
+    "deploy": "npm run indice-ia && npm run build && wrangler deploy",
     "cf-typegen": "wrangler types"
   },
   "private": true,

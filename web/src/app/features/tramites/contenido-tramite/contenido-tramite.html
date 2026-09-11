@@ -1,0 +1,107 @@
+@let ficha = c();
+
+@if (ficha.descripcion) {
+  <section class="seccion" aria-labelledby="ficha-descripcion">
+    <h2 id="ficha-descripcion" class="seccion-titulo">Sobre este trámite</h2>
+    <p class="texto-largo">{{ ficha.descripcion }}</p>
+  </section>
+}
+
+@if (ficha.totalRequisitos) {
+  <section class="seccion" aria-labelledby="ficha-requisitos">
+    <h2 id="ficha-requisitos" class="seccion-titulo">
+      Requisitos
+      <span class="cuenta">{{ ficha.totalRequisitos }}</span>
+    </h2>
+
+    <ul class="requisitos">
+      @for (item of ficha.requisitos; track $index) {
+        @if (item.clase === 'grupo') {
+          <li class="grupo">{{ item.titulo }}</li>
+        } @else {
+          <li class="requisito">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="m8.5 12.5 2.5 2.5 4.5-5" />
+            </svg>
+            <div>
+              <p class="requisito-titulo">
+                {{ item.titulo }}
+                @for (m of item.marcas; track m) {
+                  <span class="marca">{{ m }}</span>
+                }
+              </p>
+              @if (item.descripcion) {
+                <p class="nota">{{ item.descripcion }}</p>
+              }
+            </div>
+          </li>
+        }
+      }
+    </ul>
+  </section>
+}
+
+<section class="seccion" aria-labelledby="ficha-pasos">
+  <h2 id="ficha-pasos" class="seccion-titulo">
+    Paso a paso
+    @if (ficha.pasos.length) {
+      <span class="cuenta">{{ ficha.pasos.length }} {{ ficha.pasos.length === 1 ? 'paso' : 'pasos' }}</span>
+    }
+  </h2>
+
+  @if (ficha.pasos.length) {
+    <!-- Lista ordenada: el lector de pantalla anuncia «paso 2 de 5». El
+         número visible es decorativo. -->
+    <ol class="pasos">
+      @for (p of ficha.pasos; track p.numero) {
+        <li class="paso">
+          <span class="paso-numero" aria-hidden="true">{{ p.numero }}</span>
+          <div class="paso-cuerpo">
+            <p class="paso-titulo">{{ p.titulo }}</p>
+            @if (p.descripcion) {
+              <p class="nota">{{ p.descripcion }}</p>
+            }
+            @if (p.detalles.length) {
+              <p class="detalles">
+                @for (d of p.detalles; track d) {
+                  <span class="marca">{{ d }}</span>
+                }
+              </p>
+            }
+            @if (p.url) {
+              <a class="enlace" [href]="p.url" target="_blank" rel="noopener noreferrer">
+                Abrir enlace <span aria-hidden="true">↗</span>
+              </a>
+            }
+          </div>
+        </li>
+      }
+    </ol>
+  } @else {
+    <p class="sin-pasos">
+      El paso a paso de este trámite todavía no está cargado en el catálogo.
+      {{ conVideo() ? 'Mirá el video en lengua de señas o consultá' : 'Consultá' }}
+      la ficha oficial de la institución.
+    </p>
+  }
+</section>
+
+@if (ficha.normativas.length) {
+  <details class="base-legal">
+    <summary>Base legal</summary>
+    @for (n of ficha.normativas; track $index) {
+      <p class="norma">
+        @if (n.titulo) {
+          <strong>{{ n.titulo }}</strong>
+        }
+        @if (n.texto) {
+          {{ n.texto }}
+        }
+        @if (n.url) {
+          <a [href]="n.url" target="_blank" rel="noopener noreferrer">Ver norma <span aria-hidden="true">↗</span></a>
+        }
+      </p>
+    }
+  </details>
+}

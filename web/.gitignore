@@ -39,6 +39,10 @@ testem.log
 /typings
 __screenshots__/
 
+# Copia del catálogo para el asistente: se regenera en cada deploy
+# (npm run indice-ia) y pesa ~2 MB.
+/public/ia/
+
 # System files
 .DS_Store
 Thumbs.db

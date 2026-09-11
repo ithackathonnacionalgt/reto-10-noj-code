@@ -176,7 +176,6 @@
 .encabezado { gap: var(--e-5); }
 .encabezado h1 { font-size: var(--texto-4xl); max-width: 24ch; }
 .descripcion { max-width: 54ch; line-height: 1.7; }
-.emblema { margin-bottom: var(--e-1); }
 .etiquetas:empty { display: none; }
 .pastilla-ok {
   padding: var(--e-1) var(--e-3);
@@ -217,5 +216,3 @@
   .dato dd { font-size: var(--texto-base); }
 }
 
-.cabecera-visual { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--e-4); width: 100%; }
-.cabecera-visual .emblema { min-width: 0; }

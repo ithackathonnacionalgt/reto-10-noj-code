@@ -1,9 +1,12 @@
 import type {
   CalidadDatos,
+  Canal,
   Modalidad,
   ModoEjecucion,
   Orden,
+  ParteResponsable,
   TipoCosto,
+  TipoRequisito,
   UnidadTiempo,
 } from './enums';
 
@@ -104,6 +107,53 @@ export interface Tramite {
   accesibilidad?: AccesibilidadTramite;
   publicadoEn: string | null;
   actualizadoEn: string | null;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Ficha completa                                                             */
+/* -------------------------------------------------------------------------- */
+
+export interface PasoTramite {
+  id: string;
+  orden: number;
+  titulo: string;
+  descripcion: string | null;
+  parteResponsable: ParteResponsable | null;
+  tiempoEstimado: string | null;
+  canal: Canal | null;
+  ubicacion: string | null;
+  requierePago: boolean;
+  requiereDocumento: boolean;
+  urlExterna: string | null;
+}
+
+export interface RequisitoTramite {
+  id: string;
+  orden: number;
+  titulo: string;
+  descripcion: string | null;
+  tipo: TipoRequisito | null;
+  esObligatorio: boolean;
+  cantidad: number | null;
+  notas: string | null;
+}
+
+export interface NormativaTramite {
+  id: string;
+  titulo: string | null;
+  tipo: string | null;
+  numero: string | null;
+  url: string | null;
+  fecha: string | null;
+  extracto: string | null;
+}
+
+/** `GET /procedures/:slug`: el trámite con su descripción, requisitos y pasos. */
+export interface TramiteDetalle extends Tramite {
+  descripcion: string | null;
+  requisitos: RequisitoTramite[];
+  pasos: PasoTramite[];
+  normativas: NormativaTramite[];
 }
 
 export interface Institucion {

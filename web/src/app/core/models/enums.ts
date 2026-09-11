@@ -90,3 +90,29 @@ export const ETIQUETA_ORDEN: Record<Orden, string> = {
   nombre: 'Nombre (A-Z)',
   populares: 'Más consultados',
 };
+
+/* --- Contenido de la ficha: pasos y requisitos ----------------------------- */
+
+export const PARTES_RESPONSABLES = ['ciudadano', 'institucion', 'tercero', 'sistema'] as const;
+export type ParteResponsable = (typeof PARTES_RESPONSABLES)[number];
+
+export const CANALES = ['en_linea', 'presencial', 'telefono', 'correo', 'mixto'] as const;
+export type Canal = (typeof CANALES)[number];
+
+export const TIPOS_REQUISITO = ['documento', 'pago', 'condicion', 'otro'] as const;
+export type TipoRequisito = (typeof TIPOS_REQUISITO)[number];
+
+export const ETIQUETA_PARTE_RESPONSABLE: Record<ParteResponsable, string> = {
+  ciudadano: 'Lo hacés vos',
+  institucion: 'Lo hace la institución',
+  tercero: 'Lo hace un tercero',
+  sistema: 'Automático',
+};
+
+export const ETIQUETA_CANAL: Record<Canal, string> = {
+  en_linea: 'En línea',
+  presencial: 'Presencial',
+  telefono: 'Por teléfono',
+  correo: 'Por correo',
+  mixto: 'En línea o presencial',
+};

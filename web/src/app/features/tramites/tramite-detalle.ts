@@ -11,7 +11,8 @@ import { RouterLink } from '@angular/router';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { CatalogoApi } from '../../core/api/catalogo-api';
 import { ErrorApi } from '../../core/api/error-api.interceptor';
-import type { Tramite } from '../../core/models/catalogo.model';
+// Con alias: `TramiteDetalle` ya es el nombre de este componente.
+import type { TramiteDetalle as FichaTramite } from '../../core/models/catalogo.model';
 import {
   ETIQUETA_CALIDAD_DATOS,
   ETIQUETA_MODALIDAD,
@@ -22,16 +23,23 @@ import { CostoPipe } from '../../shared/formato/costo.pipe';
 import { TiempoRespuestaPipe } from '../../shared/formato/tiempo-respuesta.pipe';
 import { Aviso } from '../../shared/ui/aviso/aviso';
 import { VideoSenasReproductor } from '../../shared/video/video-senas';
-import { VisualTramite } from '../../shared/ui/visual-tramite/visual-tramite';
+import { ContenidoTramite } from './contenido-tramite/contenido-tramite';
 
 type Estado =
   | { fase: 'cargando' }
-  | { fase: 'listo'; tramite: Tramite }
+  | { fase: 'listo'; tramite: FichaTramite }
   | { fase: 'error'; mensaje: string };
 
 @Component({
   selector: 'app-tramite-detalle',
-  imports: [RouterLink, CostoPipe, TiempoRespuestaPipe, Aviso, VideoSenasReproductor, VisualTramite],
+  imports: [
+    RouterLink,
+    CostoPipe,
+    TiempoRespuestaPipe,
+    Aviso,
+    VideoSenasReproductor,
+    ContenidoTramite,
+  ],
   templateUrl: './tramite-detalle.html',
   styleUrl: './tramite-detalle.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

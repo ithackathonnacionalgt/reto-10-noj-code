@@ -9,17 +9,64 @@
 .interna {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+  gap: var(--e-3);
   height: var(--alto-cabecera);
 }
 
+.izquierda,
 .herramientas {
   display: flex;
   align-items: center;
   gap: var(--e-2);
 }
 
-.volver { margin-right: auto; }
+.izquierda {
+  gap: var(--e-3);
+  min-width: 0;
+}
+
+/* --- Marca ---------------------------------------------------------------- */
+
+/* El glifo No’j ya trae sus azules, parientes del acento de la plataforma:
+   va sin marco ni sombra propia, como una firma. */
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  min-width: 0;
+  border-radius: var(--radio);
+  color: var(--color-texto);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+
+    .logo {
+      transform: scale(1.06);
+    }
+  }
+}
+
+.logo {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  object-fit: contain;
+  transition: transform var(--transicion);
+}
+
+.nombre {
+  font-size: var(--texto-lg);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.apostrofe {
+  color: var(--color-acento-texto);
+}
 
 @media (pointer: coarse), (max-width: 48rem) {
   .icono { min-width: 2.75rem; min-height: 2.75rem; }

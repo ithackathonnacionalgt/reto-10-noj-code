@@ -9,10 +9,11 @@ import { PanelAccesibilidad } from '../panel-accesibilidad/panel-accesibilidad';
 /**
  * Cabecera del sitio.
  *
- * Deliberadamente casi vacía: solo accesibilidad y tema, arriba a la derecha.
- * La pantalla principal es el buscador y cualquier otra cosa en esta barra
- * competiría con él. El asistente ya no tiene botón propio: vive dentro del
- * buscador como «modo IA».
+ * Deliberadamente liviana: la marca No’j a la izquierda (lleva al inicio) y
+ * las herramientas transversales a la derecha. Sin fondo ni borde: la
+ * pantalla principal es el buscador y nada en esta barra debe competir con
+ * él. El asistente no tiene botón propio: vive dentro del buscador como
+ * «modo IA».
  */
 @Component({
   selector: 'app-cabecera',

@@ -20,7 +20,7 @@ cd ../backend && npm run start:dev      # en otra terminal
 API_PROXY=http://localhost:3001 npm start
 ```
 
-Para usar la API publicada, establecé `API_PROXY=https://reto-10-noj-code-api.onrender.com`
+Para usar la API publicada, establecé `API_PROXY=https://reto-10-noj-code-production.up.railway.app`
 antes de iniciar Angular. Reiniciá `ng serve` cuando cambies el destino del proxy.
 
 En ambos casos el navegador habla siempre con su mismo origen — igual que en
@@ -253,11 +253,27 @@ pierde nada — coherente con un proyecto de datos abiertos.
 
 ## Accesibilidad
 
-`AccesibilidadStore` refleja las preferencias como atributos `data-*` en `<html>`
-y una variable CSS `--escala-texto`; los estilos reaccionan solos. Se ofrece
-tamaño de texto, alto contraste, subrayado de enlaces, tipografía legible y
-reducción de movimiento, y se guardan en `localStorage` (con `try/catch`: la app
-funciona igual si el navegador lo bloquea).
+El panel (botón de la cabecera o **Alt + A**) es de íconos: cada herramienta
+es un ícono con una o dos palabras, y la explicación completa va en su nombre
+accesible y en el `title`. En teléfono se abre como una hoja desde abajo.
+
+- **Perfiles** de un toque: Baja visión, Dislexia, Calma (sin animaciones ni
+  color, pensado para fotosensibilidad y TDAH) y Teclado. Tocar uno activo lo
+  apaga.
+- **Tamaño del texto** en cinco niveles (90 % a 150 %).
+- **Herramientas**: contraste alto (también en oscuro: negro, blanco y
+  amarillo), escala de grises, enlaces subrayados, títulos marcados, tipografía
+  Atkinson Hyperlegible, espaciado de texto (WCAG 1.4.12), lupa de texto,
+  cursor grande, guía de lectura, foco resaltado, sin animaciones (también
+  frena los videos que arrancan solos) y lectura en voz alta.
+
+`AccesibilidadStore` guarda todo en `localStorage` (con `try/catch`: la app
+funciona igual si el navegador lo bloquea). Lo que se resuelve con CSS se
+refleja como atributos `data-*` en `<html>` y los estilos de `styles.scss`
+reaccionan solos. La guía, la lupa y la voz necesitan JavaScript y viven en
+`layout/herramientas-accesibilidad`; escuchan el documento solo mientras están
+encendidas. La fuente Atkinson solo se descarga cuando alguien activa
+«Legible».
 
 También de serie: enlace de salto al contenido, foco visible que nunca se
 desactiva, `aria-live` en los resultados y respeto de `prefers-reduced-motion`.
@@ -270,20 +286,47 @@ El modo IA del buscador responde con un modelo de OpenAI, pero **solo puede
 hablar del catálogo**. Cómo se garantiza eso:
 
 ```
-Angular  ──POST /api/asistente──▶  Worker  ──▶  GET /procedures?limit=100
-                                      │              (índice, cacheado 5 min)
-                                      ▼
-                                   OpenAI  ──▶  { respuesta, slugs }
-                                      │
-                                      ▼
-                        slugs ─resueltos contra el índice─▶ trámites reales
+Angular ──POST /api/asistente──▶ Worker
+                                   │
+             ┌─────────────────────┼──────────────────────┐
+             ▼                     ▼                      │
+   1. ENTENDER (OpenAI)     copia del catálogo            │
+   «murió mi papá» →        (assets del Worker,           │
+   defunción, RENAP…         índice en memoria)           │
+             └──────────┬──────────┘                      │
+                        ▼                                 │
+   2. BUSCAR: pregunta literal + términos, fundidos (RRF) │
+                        ▼                                 │
+   3. ELEGIR (OpenAI): 14 candidatos numerados ──▶ { respuesta, ids }
+                        ▼
+          ids ─resueltos contra la copia─▶ trámites reales
 ```
 
-**El modelo nunca redacta datos de un trámite.** Recibe el índice como contexto,
-responde en una o dos oraciones y devuelve `slugs`. Los trámites que la interfaz
-pinta como tarjetas se resuelven en el Worker contra ese índice, así que siempre
-son filas de la base. Si el modelo inventara un slug, no encuentra nada y no
-aparece ninguna tarjeta — no hay forma de que un trámite falso llegue a la pantalla.
+1. **Entender.** La persona cuenta un problema («mi hijo acaba de nacer»), no
+   el nombre de un trámite. Un primer llamado corto al modelo lo traduce a cómo
+   se llaman las cosas en el catálogo («certificado de nacimiento»,
+   «inscripción de nacimiento», «RENAP»). Sin este paso, la búsqueda por
+   palabras no tiene cómo unir «morir» con «defunción».
+2. **Buscar.** Sobre una copia del catálogo que viaja en los assets del Worker
+   (`public/ia/catalogo.json`, la genera `npm run indice-ia` en cada deploy).
+   El índice mira nombre, **etiquetas curadas**, institución, categorías y
+   descripción. Se funden por rango recíproco la búsqueda de los términos y la
+   de la pregunta literal. No toca el backend: buscar cuesta microsegundos.
+3. **Elegir.** El modelo recibe los 14 mejores candidatos numerados, decide
+   cuál resuelve la situación (primero lo urgente: el certificado de defunción
+   antes que la pensión) y devuelve números, no slugs: los slugs largos
+   costaban hasta 150 tokens de salida.
+
+La copia se carga en paralelo con el paso 1, y una pregunta repetida en los
+últimos 15 minutos sale de memoria sin llamar al modelo. La cabecera
+`Server-Timing` de la respuesta dice cuánto tardó cada paso.
+
+**El modelo nunca redacta datos de un trámite.** Devuelve números de candidato,
+y los trámites que la interfaz pinta como tarjetas salen de la copia, así que
+siempre son filas de la base. Un número inventado no encuentra nada y no
+aparece ninguna tarjeta — no hay forma de que un trámite falso llegue a la
+pantalla. Sin la copia (entorno local sin generarla), el Worker busca los
+términos en la API del backend.
 
 Se usa *structured outputs* (`response_format: json_schema`, `strict: true`), de
 modo que la salida no puede salirse del esquema y no hay que parsear texto libre.
@@ -308,8 +351,15 @@ la llave va en `web/.dev.vars`, que está en `.gitignore`:
 OPENAI_API_KEY=sk-...
 ```
 
-El modelo se elige con la variable `OPENAI_MODELO` de `wrangler.jsonc`
-(`gpt-4o-mini` por defecto). Cambiarlo no requiere tocar código.
+Cada paso usa el modelo que le conviene, y los dos se cambian sin tocar código
+con variables de `wrangler.jsonc`:
+
+- `OPENAI_MODELO` — **entender** (`gpt-4o-mini`): sacar palabras clave es una
+  tarea simple y es el más rápido.
+- `OPENAI_MODELO_ELEGIR` — **elegir** (`gpt-4.1-mini` por defecto): tiene que
+  respetar «si ninguno sirve, no recomiendes nada». `gpt-4o-mini` recomendaba
+  un aviso de robo de armas ante «me robaron el celular» antes que admitir que
+  el catálogo no tiene esa denuncia.
 
 ### Cuando el asistente no está disponible
 
@@ -321,9 +371,9 @@ directa» y no «Respuesta con IA»: la interfaz no se atribuye una IA que no us
 ### Límites
 
 El endpoint es público, así que el Worker acota el gasto antes de llamar al
-modelo: pregunta de 500 caracteres, 6 mensajes de historial, 300 tokens de
-salida y como mucho 6 trámites por respuesta. No se confía en el cliente para
-esto.
+modelo: pregunta de 500 caracteres, 90 tokens para entender, 120 para
+responder y como mucho 6 trámites por respuesta. No se confía en el cliente
+para esto.
 
 ## Despliegue en Cloudflare
 
@@ -336,7 +386,7 @@ npm run deploy
 ```
 
 **La API** se configura con la variable `API_ORIGEN` en `wrangler.jsonc`, hoy
-apuntando a `https://reto-10-noj-code-api.onrender.com`. Es una URL pública, no un
+apuntando a `https://reto-10-noj-code-production.up.railway.app` (Railway). Es una URL pública, no un
 secreto: vive en el repositorio para que el despliegue sea reproducible.
 
 Para cambiar de backend basta editar esa variable y volver a desplegar — **no hay

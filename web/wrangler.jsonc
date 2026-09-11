@@ -21,7 +21,7 @@
     // Origen del backend al que el Worker reenvía /api/*. Es una URL pública,
     // no un secreto: vive acá para que el despliegue sea reproducible desde el
     // repositorio. Cambiarla y volver a desplegar no requiere recompilar el front.
-    "API_ORIGEN": "https://reto-10-noj-code-api.onrender.com",
+    "API_ORIGEN": "https://reto-10-noj-code-production.up.railway.app",
 
     // Modelo que responde en el asistente. Cambiarlo no requiere tocar código.
     // La llave NO va acá: es un secreto y se carga aparte con

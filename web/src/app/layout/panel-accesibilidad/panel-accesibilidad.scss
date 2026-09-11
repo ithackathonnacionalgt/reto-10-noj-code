@@ -18,8 +18,7 @@
   background: var(--color-superficie);
   color: var(--color-texto-medio);
 
-  &:hover:not(:disabled),
-  &[aria-expanded='true'] {
+  &:hover:not(:disabled) {
     border-color: var(--color-acento-borde);
     background: var(--color-acento-suave);
     color: var(--color-acento-texto);
@@ -64,7 +63,6 @@
   border-radius: var(--radio-xl);
   background: var(--color-superficie);
   box-shadow: var(--sombra-visor);
-  text-align: left;
   transform-origin: top right;
   animation: panel-entra var(--transicion-flotante) both;
 
@@ -115,7 +113,6 @@
   h2 {
     font-size: var(--texto-base);
     font-weight: 700;
-    line-height: 1.3;
   }
 
   p {
@@ -289,9 +286,11 @@
   border-radius: var(--radio-sm);
   background: none;
 
+  // Ancho explícito: el botón es flex y sin esto la barra mide cero.
   &::before {
     content: '';
     display: block;
+    width: 100%;
     height: 0.4rem;
     border-radius: var(--radio-full);
     background: var(--color-borde-fuerte);
@@ -304,10 +303,6 @@
 
   &:hover:not(:disabled) {
     background: none;
-
-    &::before {
-      background: var(--color-acento-hover);
-    }
   }
 }
 
@@ -467,7 +462,6 @@
     border-radius: var(--radio-sm);
     background: var(--color-superficie);
     font-family: var(--fuente-mono);
-    font-size: var(--texto-xs);
   }
 }
 
@@ -505,10 +499,6 @@
       border-radius: var(--radio-full);
       background: var(--color-borde-fuerte);
     }
-  }
-
-  .cabeza {
-    padding-top: var(--e-2);
   }
 
   .pie {

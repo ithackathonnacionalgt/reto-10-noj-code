@@ -1,0 +1,215 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-7);
+  min-width: 0;
+}
+
+.seccion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-4);
+}
+
+.seccion-titulo {
+  display: flex;
+  align-items: baseline;
+  gap: var(--e-3);
+  font-size: var(--texto-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cuenta {
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.texto-largo {
+  max-width: 65ch;
+  color: var(--color-texto-medio);
+  line-height: 1.75;
+  white-space: pre-line;
+}
+
+.nota {
+  margin-top: var(--e-1);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+  line-height: 1.6;
+}
+
+/* Pastilla chica para lo que acompaña a un paso o requisito. */
+.marca {
+  display: inline-block;
+  margin-inline-start: var(--e-2);
+  padding: 0.1rem var(--e-2);
+  border-radius: var(--radio-full);
+  background: var(--color-fondo-alt);
+  color: var(--color-texto-medio);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* --- Requisitos: lista de verificación ----------------------------------- */
+
+.requisitos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-borde);
+}
+
+.requisito {
+  display: flex;
+  gap: var(--e-3);
+  align-items: flex-start;
+  padding-block: var(--e-3);
+  border-bottom: 1px solid var(--color-borde);
+
+  svg {
+    flex: none;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-top: var(--e-1);
+    fill: none;
+    stroke: var(--color-acento-texto);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.requisito-titulo {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.grupo {
+  padding: var(--e-4) 0 var(--e-2);
+  border-bottom: 1px solid var(--color-borde);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* --- Paso a paso: línea de tiempo ---------------------------------------- */
+
+.pasos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* El número en un círculo y una línea que lo une con el siguiente: se lee
+   como un recorrido, no como una lista suelta. */
+.paso {
+  --diametro: 2.25rem;
+
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--diametro) minmax(0, 1fr);
+  gap: var(--e-4);
+  padding-bottom: var(--e-5);
+
+  &:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--diametro) + var(--e-1));
+    bottom: var(--e-1);
+    left: calc(var(--diametro) / 2 - 1px);
+    width: 2px;
+    border-radius: var(--radio-full);
+    background: var(--color-borde);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.paso-numero {
+  display: grid;
+  place-items: center;
+  width: var(--diametro);
+  height: var(--diametro);
+  border: 1px solid var(--color-acento-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-acento-suave);
+  color: var(--color-acento-texto);
+  font-size: var(--texto-sm);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.paso-cuerpo {
+  min-width: 0;
+  padding-top: var(--e-1);
+}
+
+.paso-titulo {
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.detalles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e-2);
+  margin-top: var(--e-2);
+
+  .marca {
+    margin: 0;
+  }
+}
+
+.enlace {
+  display: inline-block;
+  margin-top: var(--e-2);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}
+
+.sin-pasos {
+  padding: var(--e-4);
+  border-radius: var(--radio-lg);
+  background: var(--color-fondo-alt);
+  color: var(--color-texto-medio);
+  font-size: var(--texto-sm);
+  line-height: 1.6;
+}
+
+/* --- Base legal ---------------------------------------------------------- */
+
+.base-legal {
+  padding-top: var(--e-4);
+  border-top: 1px solid var(--color-borde);
+
+  summary {
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.norma {
+  max-width: 70ch;
+  margin-top: var(--e-3);
+  color: var(--color-texto-medio);
+  font-size: var(--texto-sm);
+  line-height: 1.7;
+
+  strong {
+    display: block;
+    color: var(--color-texto);
+  }
+
+  a {
+    margin-inline-start: var(--e-1);
+    font-weight: 600;
+  }
+}

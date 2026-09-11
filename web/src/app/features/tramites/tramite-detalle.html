@@ -23,9 +23,6 @@
          teléfono, entre el encabezado y los datos. -->
     <article class="ficha" [class.con-videos]="hayVideos()">
       <header class="encabezado">
-        <div class="cabecera-visual">
-          <app-visual-tramite class="emblema" [tramite]="t" aria-hidden="true" />
-        </div>
         <h1>{{ t.nombre }}</h1>
 
         @if (t.descripcionCorta) {
@@ -123,6 +120,9 @@
           }
         </div>
       </section>
+
+      <!-- Descripción, requisitos, paso a paso y base legal. -->
+      <app-contenido-tramite [tramite]="t" [conVideo]="hayVideos()" />
 
       <!-- Calidad del dato: el reto pide medirla y mostrarla, no esconderla. -->
       @if (datosIncompletos()) {

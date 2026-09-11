@@ -10,6 +10,7 @@ import type {
   Paginada,
   Sobre,
   Tramite,
+  TramiteDetalle,
 } from '../models/catalogo.model';
 
 /**
@@ -46,9 +47,9 @@ export class CatalogoApi {
   }
 
   /** `GET /procedures/:slug` — acepta slug o publicId (`TR-AB12CD34`). */
-  obtenerTramite(slugOPublicId: string): Observable<Tramite> {
+  obtenerTramite(slugOPublicId: string): Observable<TramiteDetalle> {
     return this.http
-      .get<Sobre<Tramite>>(
+      .get<Sobre<TramiteDetalle>>(
         `${this.base}/procedures/${encodeURIComponent(slugOPublicId)}`,
       )
       .pipe(map((r) => r.data));

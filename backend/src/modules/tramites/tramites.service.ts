@@ -64,6 +64,17 @@ const RELACIONES_DETALLE = {
   videosSenas: true,
 };
 
+/**
+ * Lo que necesita el listado (`aResumen`): nada de requisitos, pasos,
+ * normativas ni costos. Cargarlos para 100 trámites era un JOIN de ~1.500
+ * filas cruzadas que el listado tiraba sin usar.
+ */
+const RELACIONES_RESUMEN = {
+  institucion: true,
+  categorias: { categoria: true },
+  videosSenas: true,
+};
+
 @Injectable()
 export class TramitesService {
   constructor(
@@ -434,21 +445,27 @@ export class TramitesService {
     } else {
       this.aplicarOrden(idQb, filtros.orden);
     }
+    // El total sale de la misma consulta: una sola pasada por la tabla en vez
+    // de dos (la busqueda difusa por palabra no puede usar indices y recorre
+    // toda la tabla, ~150 ms cada vez).
+    idQb.addSelect('COUNT(*) OVER()', 'total');
     idQb.offset(filtros.offset).limit(filtros.limit);
 
-    const countQb = this.repo.createQueryBuilder('t');
-    this.aplicarFiltros(countQb, filtros, estado, q);
+    const filas = await idQb.getRawMany<{ id: string; total: string }>();
 
-    const [filas, total] = await Promise.all([
-      idQb.getRawMany<{ id: string }>(),
-      countQb.getCount(),
-    ]);
+    let total = filas.length ? Number(filas[0].total) : 0;
+    if (!filas.length && filtros.offset > 0) {
+      // Pagina pedida mas alla del final: no hay filas de donde leer el total.
+      const countQb = this.repo.createQueryBuilder('t');
+      this.aplicarFiltros(countQb, filtros, estado, q);
+      total = await countQb.getCount();
+    }
 
     const ids = filas.map((f) => f.id);
     const tramites = ids.length
       ? await this.repo.find({
           where: { id: In(ids) },
-          relations: RELACIONES_DETALLE,
+          relations: RELACIONES_RESUMEN,
         })
       : [];
     const posicion = new Map(ids.map((id, indice) => [id, indice]));
