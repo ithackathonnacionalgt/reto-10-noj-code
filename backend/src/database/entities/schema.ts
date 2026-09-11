@@ -564,6 +564,9 @@ export class Tramite extends EntidadAuditable {
   @Column({ name: 'descripcion_corta', type: 'text', nullable: true })
   descripcionCorta: string | null;
 
+  @Column({ name: 'url_imagen', type: 'text', nullable: true })
+  urlImagen: string | null;
+
   @Column({ type: 'text', nullable: true })
   descripcion: string | null;
 

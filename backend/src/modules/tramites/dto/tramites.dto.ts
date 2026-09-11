@@ -82,6 +82,11 @@ export class CrearTramiteDto {
   urlFuenteOficial?: string;
 
   @IsOptional()
+  @IsUrl({ protocols: ['https', 'http'], require_protocol: true })
+  @MaxLength(2000)
+  urlImagen?: string | null;
+
+  @IsOptional()
   @IsEnum(TipoCosto)
   tipoCosto?: TipoCosto;
 
@@ -205,6 +210,11 @@ export class ActualizarTramiteDto {
   @IsUrl({ require_tld: false })
   @MaxLength(1000)
   urlFuenteOficial?: string;
+
+  @IsOptional()
+  @IsUrl({ protocols: ['https', 'http'], require_protocol: true })
+  @MaxLength(2000)
+  urlImagen?: string | null;
 
   @IsOptional()
   @IsEnum(TipoCosto)

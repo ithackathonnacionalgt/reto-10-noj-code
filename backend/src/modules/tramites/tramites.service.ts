@@ -659,6 +659,7 @@ export class TramitesService {
     asignar('dirigidoA', dto.dirigidoA?.trim() ?? undefined);
     asignar('disponibleEnLinea', dto.disponibleEnLinea);
     asignar('urlExterna', dto.urlExterna);
+    asignar('urlImagen', dto.urlImagen);
     asignar('urlFuenteOficial', dto.urlFuenteOficial);
     asignar('tipoCosto', dto.tipoCosto);
     asignar('costo', dto.costo);

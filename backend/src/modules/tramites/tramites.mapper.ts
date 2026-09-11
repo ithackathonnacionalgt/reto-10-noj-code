@@ -28,6 +28,24 @@ function institucionDe(tramite: Tramite) {
   };
 }
 
+/** Videos LENSEGUA publicados: descripcion corta y paso a paso (CLAUDE.md 11). */
+function videosSenasDe(tramite: Tramite) {
+  return (tramite.videosSenas ?? [])
+    .filter((v) => v.estado === EstadoContenido.PUBLICADO)
+    .map((v) => ({
+      id: v.id,
+      tipo: v.tipo,
+      lenguaSenas: v.lenguaSenas,
+      titulo: v.titulo,
+      descripcion: v.descripcion,
+      urlVideo: v.urlVideo,
+      urlMiniatura: v.urlMiniatura,
+      duracionSegundos: v.duracionSegundos,
+      transcripcion: v.transcripcion,
+      estado: v.estado,
+    }));
+}
+
 /** Item de listado (CLAUDE.md 40). */
 export function aResumen(tramite: Tramite) {
   return {
@@ -52,12 +70,22 @@ export function aResumen(tramite: Tramite) {
     calidadDatos: tramite.calidadDatos,
     /** URL de la pagina externa donde se realiza el tramite (CLAUDE.md 12). */
     urlExterna: tramite.urlExterna,
+    urlImagen: tramite.urlImagen ?? null,
     /** URL oficial de la institucion que describe el tramite. */
     urlFuenteOficial: tramite.urlFuenteOficial,
     institucion: institucionDe(tramite),
     categorias: categoriasDe(tramite.categorias),
     /** Sinonimos/palabras clave para la busqueda (CLAUDE.md 28). */
     etiquetas: tramite.etiquetas ?? [],
+    /**
+     * Videos LENSEGUA tambien en el listado: la tarjeta del frontend muestra la
+     * vista previa sin pedir la ficha. El listado ya carga la relacion
+     * (RELACIONES_DETALLE), asi que no agrega consultas. Si la relacion no se
+     * cargo, la clave se omite (undefined) y el cliente sabe que debe pedirla.
+     */
+    accesibilidad: tramite.videosSenas
+      ? { videosSenas: videosSenasDe(tramite) }
+      : undefined,
     publicadoEn: tramite.publicadoEn,
     actualizadoEn: tramite.fechaActualizacion,
   };
@@ -141,22 +169,7 @@ export function aDetalle(tramite: Tramite) {
       descripcion: t.descripcion,
     })),
     /** Videos en LENSEGUA: uno de descripcion corta y otro de los pasos (CLAUDE.md 11). */
-    accesibilidad: {
-      videosSenas: (tramite.videosSenas ?? [])
-        .filter((v) => v.estado === EstadoContenido.PUBLICADO)
-        .map((v) => ({
-        id: v.id,
-        tipo: v.tipo,
-        lenguaSenas: v.lenguaSenas,
-        titulo: v.titulo,
-        descripcion: v.descripcion,
-        urlVideo: v.urlVideo,
-        urlMiniatura: v.urlMiniatura,
-        duracionSegundos: v.duracionSegundos,
-        transcripcion: v.transcripcion,
-        estado: v.estado,
-      })),
-    },
+    accesibilidad: { videosSenas: videosSenasDe(tramite) },
     creadoEn: tramite.fechaCreacion,
   };
 }
