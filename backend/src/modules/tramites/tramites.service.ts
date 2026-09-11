@@ -18,7 +18,10 @@ import {
 } from 'typeorm';
 import { paginar } from '../../common/dto/respuesta-paginada.js';
 import { asegurarSlugUnico, generarSlug } from '../../common/utils/slug.js';
-import { EstadoPublicacion } from '../../database/entities/enums.js';
+import {
+  EstadoContenido,
+  EstadoPublicacion,
+} from '../../database/entities/enums.js';
 import {
   Categoria,
   Institucion,
@@ -28,13 +31,16 @@ import {
   TramitePaso,
   TramiteRequisito,
   TramiteVersion,
+  VideoSenas,
 } from '../../database/entities/schema.js';
 import { aDetalle, aResumen } from './tramites.mapper.js';
 import type {
+  ActualizarEtiquetasDto,
   ActualizarTramiteDto,
   CrearPasoDto,
   CrearRequisitoDto,
   CrearTramiteDto,
+  CrearVideoSenasDto,
   FiltrosTramiteDto,
 } from './dto/tramites.dto.js';
 
@@ -55,6 +61,7 @@ const RELACIONES_DETALLE = {
   enlaces: true,
   costos: true,
   tiempos: true,
+  videosSenas: true,
 };
 
 @Injectable()
@@ -71,6 +78,8 @@ export class TramitesService {
     private readonly instituciones: Repository<Institucion>,
     @InjectRepository(Categoria)
     private readonly categorias: Repository<Categoria>,
+    @InjectRepository(VideoSenas)
+    private readonly videosSenas: Repository<VideoSenas>,
   ) {}
 
   // ---- Lectura publica -----------------------------------------------------
@@ -320,6 +329,75 @@ export class TramitesService {
     }
   }
 
+  // ---- Videos LENSEGUA (CLAUDE.md 11) ------------------------------------
+
+  /**
+   * Agrega un video: uno de descripcion corta y otro de los pasos por
+   * tramite (por idioma de senas). Si ya existe uno del mismo tipo, lo
+   * reemplaza (evita acumular videos obsoletos).
+   */
+  async agregarVideoSenas(tramiteId: string, dto: CrearVideoSenasDto) {
+    await this.cargarBasico(tramiteId);
+    const lenguaSenas = dto.lenguaSenas?.trim() || 'LENSEGUA';
+    const existente = await this.videosSenas.findOne({
+      where: { tramiteId, tipo: dto.tipo, lenguaSenas },
+    });
+
+    const datos = {
+      titulo: dto.titulo.trim(),
+      descripcion: dto.descripcion?.trim() ?? null,
+      urlVideo: dto.urlVideo,
+      urlMiniatura: dto.urlMiniatura ?? null,
+      duracionSegundos: dto.duracionSegundos ?? null,
+      transcripcion: dto.transcripcion?.trim() ?? null,
+      estado: EstadoContenido.PUBLICADO,
+    };
+
+    if (existente) {
+      Object.assign(existente, datos);
+      return this.videosSenas.save(existente);
+    }
+    return this.videosSenas.save(
+      this.videosSenas.create({
+        tramiteId,
+        tipo: dto.tipo,
+        lenguaSenas,
+        ...datos,
+      }),
+    );
+  }
+
+  async listarVideosSenas(tramiteId: string) {
+    await this.cargarBasico(tramiteId);
+    return this.videosSenas.find({
+      where: { tramiteId },
+      order: { tipo: 'ASC' },
+    });
+  }
+
+  async eliminarVideoSenas(tramiteId: string, videoId: string) {
+    const res = await this.videosSenas.delete({ id: videoId, tramiteId });
+    if (!res.affected) {
+      throw new NotFoundException('Video no encontrado');
+    }
+  }
+
+  // ---- Etiquetas de busqueda (CLAUDE.md 28) ------------------------------
+
+  async actualizarEtiquetas(tramiteId: string, dto: ActualizarEtiquetasDto) {
+    const tramite = await this.cargarBasico(tramiteId);
+    const limpias = [
+      ...new Set(
+        dto.etiquetas
+          .map((e) => e.trim().toLowerCase())
+          .filter((e) => e.length >= 2),
+      ),
+    ].slice(0, 30);
+    tramite.etiquetas = limpias;
+    await this.repo.save(tramite);
+    return { id: tramiteId, etiquetas: limpias };
+  }
+
   // ---- Internos ---------------------------------------------------------
 
   /**
@@ -343,6 +421,10 @@ export class TramitesService {
       idQb
         .addSelect(
           `ts_rank("t".busqueda_tsv, websearch_to_tsquery('spanish', :q))
+           + ts_rank(
+               to_tsvector('spanish', f_array_to_string("t".etiquetas, ' ')),
+               websearch_to_tsquery('spanish', :q)
+             )
            + similarity(lower("t".nombre), lower(:q))`,
           'rango',
         )
@@ -429,16 +511,38 @@ export class TramitesService {
         { categoriaId: filtros.categoriaId },
       );
     }
-    if (q && q.length >= 2) {
-      qb.andWhere(
-        `("t".busqueda_tsv @@ websearch_to_tsquery('spanish', :q)
-          OR lower("t".nombre) % lower(:q)
-          OR lower(coalesce("t".descripcion_corta, '')) % lower(:q)
-          OR "t".codigo ILIKE :qLike)`,
-        { q, qLike: `%${escaparLike(q)}%` },
-      );
-    } else if (q) {
-      qb.andWhere('"t".nombre ILIKE :qLike', { qLike: `%${escaparLike(q)}%` });
+    if (q) {
+      // Por palabra (no por frase completa): asi "policia antecedentes" y
+      // "antecedentes policiacos" encuentran lo mismo sin importar el orden,
+      // y una palabra con error/variante ("policiacos") no arruina las demas.
+      const palabras = [
+        ...new Set(q.toLowerCase().split(/\s+/).filter((p) => p.length >= 2)),
+      ].slice(0, 6);
+
+      if (palabras.length === 0) {
+        qb.andWhere('"t".nombre ILIKE :qCorto', {
+          qCorto: `%${escaparLike(q.trim())}%`,
+        });
+      } else {
+        palabras.forEach((palabra, i) => {
+          const p = `qp${i}`;
+          const pLike = `qpLike${i}`;
+          qb.andWhere(
+            `(
+              "t".busqueda_tsv @@ websearch_to_tsquery('spanish', :${p})
+              OR to_tsvector('spanish', f_array_to_string("t".etiquetas, ' '))
+                 @@ websearch_to_tsquery('spanish', :${p})
+              OR similarity(lower("t".nombre), :${p}) > 0.28
+              OR EXISTS (
+                SELECT 1 FROM unnest("t".etiquetas) AS et
+                WHERE similarity(lower(et), :${p}) > 0.3
+              )
+              OR "t".codigo ILIKE :${pLike}
+            )`,
+            { [p]: palabra, [pLike]: `%${escaparLike(palabra)}%` },
+          );
+        });
+      }
     }
   }
 

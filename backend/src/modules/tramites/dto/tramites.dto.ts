@@ -26,6 +26,7 @@ import {
   ParteResponsable,
   TipoCosto,
   TipoRequisito,
+  TipoVideoSenas,
   UnidadTiempo,
 } from '../../../database/entities/enums.js';
 
@@ -424,4 +425,53 @@ export class CrearPasoDto {
   @IsUrl({ require_tld: false })
   @MaxLength(1000)
   urlExterna?: string;
+}
+
+export class CrearVideoSenasDto {
+  /** Video de la descripcion corta del tramite, o del paso a paso (CLAUDE.md 11). */
+  @IsEnum(TipoVideoSenas)
+  tipo: TipoVideoSenas;
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(200)
+  titulo: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  descripcion?: string;
+
+  @IsUrl({ require_tld: false })
+  @MaxLength(1000)
+  urlVideo: string;
+
+  @IsOptional()
+  @IsUrl({ require_tld: false })
+  @MaxLength(1000)
+  urlMiniatura?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(0)
+  duracionSegundos?: number;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(10000)
+  transcripcion?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(60)
+  lenguaSenas?: string;
+}
+
+export class ActualizarEtiquetasDto {
+  @IsArray()
+  @ArrayUnique()
+  @IsString({ each: true })
+  @MaxLength(60, { each: true })
+  etiquetas: string[];
 }

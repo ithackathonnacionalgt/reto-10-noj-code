@@ -9,6 +9,7 @@ import {
   TramitePaso,
   TramiteRequisito,
   TramiteVersion,
+  VideoSenas,
 } from '../../database/entities/schema.js';
 import { TramitesAdminController } from './tramites.admin.controller.js';
 import { TramitesController } from './tramites.controller.js';
@@ -25,6 +26,7 @@ import { TramitesService } from './tramites.service.js';
       TramiteVersion,
       Institucion,
       Categoria,
+      VideoSenas,
     ]),
   ],
   controllers: [TramitesController, TramitesAdminController],

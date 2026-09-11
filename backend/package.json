@@ -33,6 +33,8 @@
     "import:catalogo:prod": "node --import tsx ./src/database/seed/importar-catalogo.ts",
     "import:extraidos": "node --env-file=.env --import tsx ./src/database/seed/importar-extraidos.ts",
     "import:extraidos:prod": "node --import tsx ./src/database/seed/importar-extraidos.ts",
+    "generar:etiquetas": "node --env-file=.env --import tsx ./src/database/seed/generar-etiquetas.ts",
+    "generar:etiquetas:prod": "node --import tsx ./src/database/seed/generar-etiquetas.ts",
     "db:setup": "npm run migration:run && npm run seed",
     "start:prod:migrate": "npm run migration:run:prod && npm run start:prod",
     "lint": "oxlint src/ test/",

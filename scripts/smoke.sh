@@ -54,6 +54,12 @@ check "busqueda full-text (q=licencia)" "True" \
   "$(curl -s "$BASE/procedures?q=licencia" | j "d['meta']['total'] >= 1")"
 check "busqueda trigram parcial (q=empres)" "True" \
   "$(curl -s "$BASE/procedures?q=empres" | j "d['meta']['total'] >= 1")"
+check "busqueda tolera orden de palabras (antecedentes policiacos)" "True" \
+  "$(curl -s "$BASE/procedures?q=antecedentes+policiacos" | j "d['meta']['total'] >= 1")"
+check "misma busqueda con palabras al reves da lo mismo" "True" \
+  "$(A=$(curl -s "$BASE/procedures?q=antecedentes+policiacos" | j "d['meta']['total']"); \
+     B=$(curl -s "$BASE/procedures?q=policia+antecedentes" | j "d['meta']['total']"); \
+     [ "$A" = "$B" ] && [ "$A" != "0" ] && echo True || echo False)"
 check "busqueda sin resultados (q=zzzznope)" "0" \
   "$(curl -s "$BASE/procedures?q=zzzznope" | j "d['meta']['total']")"
 

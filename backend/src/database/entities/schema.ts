@@ -53,6 +53,7 @@ import {
   TipoQueja,
   TipoRecursoAccesibilidad,
   TipoRequisito,
+  TipoVideoSenas,
   UnidadTiempo,
 } from './enums.js';
 
@@ -602,6 +603,14 @@ export class Tramite extends EntidadAuditable {
 
   @Column({ name: 'disponible_en_linea', type: 'boolean', default: false })
   disponibleEnLinea: boolean;
+
+  /**
+   * Palabras clave / sinonimos para la busqueda (CLAUDE.md 28): terminos con
+   * los que la gente busca este tramite aunque no aparezcan en el nombre
+   * (variantes, siglas, jerga). Se incluyen en `busqueda_tsv` (ver migracion).
+   */
+  @Column({ type: 'text', array: true, default: () => "'{}'" })
+  etiquetas: string[];
 
   @Column({ name: 'url_externa', type: 'text', nullable: true })
   urlExterna: string | null;
@@ -1198,6 +1207,7 @@ export class Idioma extends EntidadBase {
 }
 
 @Entity('tramites_videos_senas')
+@Unique(['tramiteId', 'tipo', 'lenguaSenas'])
 export class VideoSenas extends EntidadAuditable {
   @Index()
   @Column({ name: 'tramite_id', type: 'uuid' })
@@ -1206,6 +1216,14 @@ export class VideoSenas extends EntidadAuditable {
   @ManyToOne(() => Tramite, (t) => t.videosSenas, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'tramite_id' })
   tramite: Relation<Tramite>;
+
+  /** Descripcion corta del tramite o el paso a paso en LENSEGUA (CLAUDE.md 11). */
+  @Column({
+    type: 'enum',
+    enum: TipoVideoSenas,
+    default: TipoVideoSenas.DESCRIPCION,
+  })
+  tipo: TipoVideoSenas;
 
   @Column({ name: 'lengua_senas', type: 'text', default: 'LENSEGUA' })
   lenguaSenas: string;

@@ -45,7 +45,7 @@ Con la API corriendo:
 ./scripts/smoke.sh https://reto10-api.onrender.com/api/v1
 ```
 
-Debe terminar con `TODO OK (33 checks)` y código de salida 0.
+Debe terminar con `TODO OK (35 checks)` y código de salida 0.
 Cubre: health, listado y búsqueda de trámites (full-text + trigram), filtros,
 validación (400/404), catálogos, auth (login, perfil, RBAC 401/200) y **API keys**
 (crear, listar sin exponer el hash, usar con `X-API-Key`, headers de rate limit,
@@ -207,3 +207,27 @@ curl -s $B/api-keys/uso -H "X-API-Key: $K" | jq
 - **Validación de API key = 1 query por petición con key** (lookup por hash). Sin
   caché por ahora.
 - **Petición anónima sin límite de tasa.** Solo se limita cuando hay `X-API-Key`.
+
+---
+
+## 11. Etiquetas de búsqueda y videos LENSEGUA (2 tipos)
+
+- `tramites.etiquetas` (`text[]`): sinónimos/palabras clave para que la búsqueda
+  tolere orden distinto y variantes ("antecedentes policiacos" = "policia
+  antecedentes" = "policiacos"). Generadas para los 1374 trámites:
+  `npm run generar:etiquetas` (reejecutable, sobrescribe).
+- La búsqueda ahora compara **por palabra** (no por frase completa): cada
+  palabra del query debe matchear en `busqueda_tsv`, en las etiquetas
+  (texto completo o full-text), por similitud (typos) contra el nombre o
+  contra alguna etiqueta individual, o contra el código.
+- `tramites_videos_senas.tipo` (`descripcion` | `pasos`): un video LENSEGUA de
+  la descripción corta y otro de los pasos, por trámite. Único por
+  `(tramite_id, tipo, lengua_senas)` — crear de nuevo reemplaza al anterior.
+  Endpoints: `GET/POST /admin/procedures/:id/videos-senas`,
+  `DELETE /admin/procedures/:id/videos-senas/:videoId`. Se ven en
+  `GET /procedures/:slug` → `data.accesibilidad.videosSenas` (solo los
+  `estado=publicado`).
+- Migración `1910000000000-EtiquetasYVideos`: usa una función `f_array_to_string`
+  `IMMUTABLE` como wrapper, porque en esta versión de Postgres
+  `array_to_string()` es `STABLE` y Postgres exige `IMMUTABLE` tanto en
+  columnas generadas como en índices de expresión.

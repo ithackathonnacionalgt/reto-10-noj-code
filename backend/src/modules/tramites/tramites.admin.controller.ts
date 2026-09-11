@@ -17,10 +17,12 @@ import { PERMISOS } from '../auth/auth.constants.js';
 import { EstadoPublicacion } from '../../database/entities/enums.js';
 import { TramitesService } from './tramites.service.js';
 import {
+  ActualizarEtiquetasDto,
   ActualizarTramiteDto,
   CrearPasoDto,
   CrearRequisitoDto,
   CrearTramiteDto,
+  CrearVideoSenasDto,
   FiltrosTramiteDto,
 } from './dto/tramites.dto.js';
 
@@ -154,5 +156,44 @@ export class TramitesAdminController {
     @Param('pasoId', ParseUUIDPipe) pasoId: string,
   ) {
     await this.tramites.eliminarPaso(id, pasoId);
+  }
+
+  // ---- Videos LENSEGUA (descripcion / pasos) -----------------------------
+
+  @Permisos(PERMISOS.ACCESIBILIDAD_LEER)
+  @Get(':id/videos-senas')
+  listarVideosSenas(@Param('id', ParseUUIDPipe) id: string) {
+    return this.tramites.listarVideosSenas(id);
+  }
+
+  /** Crea o reemplaza el video de ese tipo (descripcion | pasos). */
+  @Permisos(PERMISOS.ACCESIBILIDAD_ESCRIBIR)
+  @Post(':id/videos-senas')
+  agregarVideoSenas(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: CrearVideoSenasDto,
+  ) {
+    return this.tramites.agregarVideoSenas(id, dto);
+  }
+
+  @Permisos(PERMISOS.ACCESIBILIDAD_ESCRIBIR)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @Delete(':id/videos-senas/:videoId')
+  async eliminarVideoSenas(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('videoId', ParseUUIDPipe) videoId: string,
+  ) {
+    await this.tramites.eliminarVideoSenas(id, videoId);
+  }
+
+  // ---- Etiquetas de busqueda ----------------------------------------------
+
+  @Permisos(PERMISOS.TRAMITES_ESCRIBIR)
+  @Patch(':id/etiquetas')
+  actualizarEtiquetas(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: ActualizarEtiquetasDto,
+  ) {
+    return this.tramites.actualizarEtiquetas(id, dto);
   }
 }

@@ -164,6 +164,12 @@ export enum TipoRecursoAccesibilidad {
   OTRO = 'otro',
 }
 
+/** Que explica el video en LENSEGUA (CLAUDE.md 11): resumen o el paso a paso. */
+export enum TipoVideoSenas {
+  DESCRIPCION = 'descripcion',
+  PASOS = 'pasos',
+}
+
 /** Tipos de campo soportados por el motor de formularios dinamicos (CLAUDE.md 7). */
 export enum TipoCampo {
   TEXTO = 'texto',

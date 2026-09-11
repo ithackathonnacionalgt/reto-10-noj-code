@@ -1,3 +1,4 @@
+import { EstadoContenido } from '../../database/entities/enums.js';
 import type {
   Tramite,
   TramiteCategoria,
@@ -55,6 +56,8 @@ export function aResumen(tramite: Tramite) {
     urlFuenteOficial: tramite.urlFuenteOficial,
     institucion: institucionDe(tramite),
     categorias: categoriasDe(tramite.categorias),
+    /** Sinonimos/palabras clave para la busqueda (CLAUDE.md 28). */
+    etiquetas: tramite.etiquetas ?? [],
     publicadoEn: tramite.publicadoEn,
     actualizadoEn: tramite.fechaActualizacion,
   };
@@ -137,6 +140,23 @@ export function aDetalle(tramite: Tramite) {
       unidad: t.unidad,
       descripcion: t.descripcion,
     })),
+    /** Videos en LENSEGUA: uno de descripcion corta y otro de los pasos (CLAUDE.md 11). */
+    accesibilidad: {
+      videosSenas: (tramite.videosSenas ?? [])
+        .filter((v) => v.estado === EstadoContenido.PUBLICADO)
+        .map((v) => ({
+        id: v.id,
+        tipo: v.tipo,
+        lenguaSenas: v.lenguaSenas,
+        titulo: v.titulo,
+        descripcion: v.descripcion,
+        urlVideo: v.urlVideo,
+        urlMiniatura: v.urlMiniatura,
+        duracionSegundos: v.duracionSegundos,
+        transcripcion: v.transcripcion,
+        estado: v.estado,
+      })),
+    },
     creadoEn: tramite.fechaCreacion,
   };
 }
