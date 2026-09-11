@@ -1,18 +1,10 @@
 <header class="cabecera">
   <div class="contenedor interna">
-    <a class="marca" routerLink="/">
-      <span class="sigla" aria-hidden="true">GT</span>
-      <span class="texto">
-        <strong>Plataforma Nacional</strong>
-        <small>de Trámites</small>
-      </span>
-    </a>
-
+    <!-- Solo las dos herramientas transversales. La marca y la navegación se
+         fueron a propósito: la pantalla es el buscador y nada compite con él. -->
     <div class="herramientas">
-      <!-- Accesibilidad: el panel se despliega desde su propio botón. -->
       <app-panel-accesibilidad />
 
-      <!-- Tema claro / oscuro -->
       <button
         type="button"
         class="icono"
@@ -36,18 +28,11 @@
           </svg>
         }
       </button>
-
-      <!-- Asistente de IA -->
-      <button
-        type="button"
-        class="asistente"
-        [class.activo]="chat.abierto()"
-        [attr.aria-expanded]="chat.abierto()"
-        (click)="chat.alternar()"
-      >
-        <span class="destello" aria-hidden="true">✦</span>
-        <span class="asistente-texto">Asistente</span>
-      </button>
+      <a class="icono" routerLink="/desarrolladores" aria-label="Documentación para desarrolladores" title="Documentación del API">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m7 7-5 5 5 5m10-10 5 5-5 5m-3-14-4 18" />
+        </svg>
+      </a>
     </div>
   </div>
 </header>

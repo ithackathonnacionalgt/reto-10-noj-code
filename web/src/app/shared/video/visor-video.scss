@@ -1,0 +1,185 @@
+/* El diálogo es un panel oscuro en ambos temas: el video manda. Detrás, el
+   ::backdrop desenfoca la página entera. */
+.visor {
+  width: min(100% - 2 * var(--e-4), var(--ancho-visor));
+  max-width: none;
+  max-height: calc(100dvh - 2 * var(--e-4));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--color-video-control);
+  border-radius: var(--radio-xl);
+  background: var(--color-video-panel);
+  color: var(--color-sobre-video);
+  box-shadow: var(--sombra-visor);
+  overflow: hidden auto;
+
+  /* El navegador enfoca el propio diálogo al abrirlo: el anillo lo marcaría
+     entero. El foco sigue ahí y los botones de adentro sí muestran el suyo. */
+  &:focus-visible {
+    outline: none;
+  }
+
+  &::backdrop {
+    background: var(--velo-visor);
+    backdrop-filter: blur(var(--desenfoque-visor)) saturate(1.15);
+  }
+
+  &[open] {
+    animation: visor-entra var(--transicion-ia) both;
+
+    &::backdrop {
+      animation: velo-entra var(--transicion-ia) both;
+    }
+  }
+
+  &.cerrando {
+    animation: visor-sale var(--transicion) both;
+
+    &::backdrop {
+      animation: velo-sale var(--transicion) both;
+    }
+  }
+}
+
+@keyframes visor-entra {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.96);
+  }
+}
+
+@keyframes visor-sale {
+  to {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.98);
+  }
+}
+
+@keyframes velo-entra {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes velo-sale {
+  to {
+    opacity: 0;
+  }
+}
+
+.contenido {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Cabecera ------------------------------------------------------------- */
+
+.cabeza {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--e-3);
+  padding: var(--e-4) var(--e-4) var(--e-3) var(--e-5);
+}
+
+.textos {
+  flex: 1;
+  min-width: 0;
+}
+
+.tipo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-1);
+  margin-bottom: var(--e-1);
+  color: var(--color-sobre-video-suave);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+}
+
+h2 {
+  color: var(--color-sobre-video);
+  font-size: var(--texto-lg);
+  line-height: 1.35;
+}
+
+.cerrar {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: var(--radio-full);
+  background: var(--color-video-control);
+  color: var(--color-sobre-video);
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-video-control-hover);
+    color: var(--color-sobre-video);
+  }
+}
+
+/* --- Pantalla ------------------------------------------------------------- */
+
+/* La proporción la da el video al cargar; el alto se topa para que un video
+   vertical no empuje el diálogo fuera de la pantalla (queda con franjas). */
+.pantalla {
+  width: 100%;
+  max-height: 72dvh;
+  background: var(--color-video-fondo);
+
+  video,
+  iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: contain;
+  }
+}
+
+/* --- Pie ------------------------------------------------------------------ */
+
+.pie {
+  display: flex;
+  flex-direction: column;
+  gap: var(--e-2);
+  padding: var(--e-4) var(--e-5) var(--e-5);
+  color: var(--color-sobre-video-suave);
+  font-size: var(--texto-sm);
+}
+
+.transcripcion {
+  summary {
+    color: var(--color-sobre-video);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  p {
+    margin-top: var(--e-2);
+    white-space: pre-line;
+  }
+}
+
+/* En teléfono el visor ocupa casi toda la pantalla. */
+@media (max-width: 36rem) {
+  .visor {
+    width: calc(100% - 2 * var(--e-2));
+    border-radius: var(--radio-lg);
+  }
+
+  .cabeza {
+    padding: var(--e-3) var(--e-3) var(--e-2) var(--e-4);
+  }
+}

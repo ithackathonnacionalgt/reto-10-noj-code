@@ -1,0 +1,172 @@
+:host {
+  display: block;
+  border-radius: inherit;
+}
+
+:host(.compacto) {
+  height: 100%;
+}
+
+/* Fondo oscuro detrás del video: si la proporción no calza con el cuadro,
+   quedan franjas de cine en vez de un video recortado. En lengua de señas
+   recortar puede dejar las manos fuera de cuadro. */
+.marco {
+  position: relative;
+  width: 100%;
+  max-height: 75dvh;
+  overflow: hidden;
+  border-radius: inherit;
+  background: var(--color-video-fondo);
+  color: var(--color-sobre-video);
+}
+
+:host(.compacto) .marco {
+  height: 100%;
+  max-height: none;
+}
+
+video,
+iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+}
+
+video {
+  cursor: pointer;
+}
+
+/* En la tarjeta el iframe no recibe el puntero: si lo tomara, la tarjeta
+   creería que el cursor se fue y cerraría la vista previa. */
+:host(.compacto) iframe {
+  pointer-events: none;
+}
+
+/* --- Cargando ------------------------------------------------------------- */
+
+/* Anillo que gira al centro hasta el primer cuadro; después se desvanece. */
+.cargador {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin: -1.125rem 0 0 -1.125rem;
+  border: 2px solid var(--color-video-control);
+  border-top-color: var(--color-sobre-video);
+  border-radius: var(--radio-full);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transicion);
+  animation: girar 0.8s linear infinite;
+}
+
+:host(.cargando) .cargador {
+  opacity: 1;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+/* El video aparece con un fundido cuando ya tiene imagen. */
+video,
+iframe {
+  transition: opacity var(--transicion-lenta);
+}
+
+:host(.cargando) :is(video, iframe) {
+  opacity: 0;
+}
+
+/* --- Insignia ------------------------------------------------------------- */
+
+.insignia {
+  position: absolute;
+  top: var(--e-3);
+  left: var(--e-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-1);
+  padding: var(--e-1) var(--e-2);
+  border-radius: var(--radio-full);
+  background: var(--color-video-insignia);
+  backdrop-filter: blur(var(--desenfoque-control));
+  color: var(--color-sobre-video);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+  pointer-events: none;
+
+  svg {
+    width: 0.9rem;
+    height: 0.9rem;
+  }
+}
+
+/* --- Controles ------------------------------------------------------------ */
+
+/* Sobre un degradado que oscurece el borde de abajo: se leen sobre cualquier
+   cuadro del video. Aparecen al pasar el cursor, con foco, en pausa y
+   siempre en pantallas táctiles, donde no hay cursor que los descubra. */
+.controles {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: var(--e-6) var(--e-3) var(--e-3);
+  background: var(--velo-video);
+  opacity: 0;
+  transition: opacity var(--transicion);
+}
+
+.marco:hover .controles,
+.marco:focus-within .controles,
+:host(.pausado) .controles,
+:host(.compacto) .controles {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .controles {
+    opacity: 1;
+  }
+}
+
+.control {
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: var(--radio-full);
+  background: var(--color-video-control);
+  backdrop-filter: blur(var(--desenfoque-control));
+  color: var(--color-sobre-video);
+
+  svg {
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-video-control-hover);
+    color: var(--color-sobre-video);
+  }
+}
+
+.ampliar {
+  margin-left: auto;
+}
+
+/* En la tarjeta «Ampliar» es la única acción: va con texto, no solo ícono. */
+:host(.compacto) .ampliar {
+  width: auto;
+  gap: var(--e-1);
+  padding-inline: var(--e-3);
+  font-size: var(--texto-sm);
+  font-weight: 600;
+}

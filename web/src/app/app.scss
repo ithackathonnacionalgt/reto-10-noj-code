@@ -6,9 +6,6 @@
 
 .principal {
   flex: 1;
-  /* Zona franca para los botones flotantes (accesibilidad y chat): sin esto
-     tapan el final del contenido en páginas cortas. */
-  padding-bottom: var(--e-7);
 }
 
 // Enlace de salto: oculto hasta que recibe foco por teclado.

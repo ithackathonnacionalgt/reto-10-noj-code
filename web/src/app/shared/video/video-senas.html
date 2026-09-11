@@ -1,0 +1,98 @@
+@let v = video();
+@let f = fuente();
+
+<div class="marco" [style.aspect-ratio]="variante() === 'panel' ? proporcion() : null">
+  @if (f.tipo === 'archivo') {
+    <video
+      #reproductor
+      [src]="f.url"
+      [attr.poster]="v.urlMiniatura"
+      [muted]="silenciado()"
+      [attr.aria-label]="v.titulo"
+      loop
+      playsinline
+      preload="metadata"
+      (loadedmetadata)="alCargar($event)"
+      (loadeddata)="cargado.set(true)"
+      (play)="reproduciendo.set(true)"
+      (pause)="reproduciendo.set(false)"
+      (emptied)="reproduciendo.set(false); cargado.set(false)"
+      (click)="alternarReproduccion()"
+    ></video>
+  } @else {
+    <iframe
+      [src]="urlIncrustada()"
+      [title]="v.titulo"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      referrerpolicy="strict-origin-when-cross-origin"
+      (load)="cargado.set(true)"
+    ></iframe>
+  }
+
+  <span class="cargador" aria-hidden="true"></span>
+
+  <span class="insignia" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8" />
+      <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+    </svg>
+    {{ etiqueta() }}
+  </span>
+
+  <div class="controles">
+    @if (f.tipo === 'archivo' && variante() === 'panel') {
+      <button
+        type="button"
+        class="control"
+        [attr.aria-label]="reproduciendo() ? 'Pausar video' : 'Reproducir video'"
+        (click)="alternarReproduccion()"
+      >
+        @if (reproduciendo()) {
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="6.5" y="5" width="3.8" height="14" rx="1.2" />
+            <rect x="13.7" y="5" width="3.8" height="14" rx="1.2" />
+          </svg>
+        } @else {
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.2-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6Z" />
+          </svg>
+        }
+      </button>
+
+      <button
+        type="button"
+        class="control"
+        [attr.aria-pressed]="!silenciado()"
+        [attr.aria-label]="silenciado() ? 'Activar sonido' : 'Silenciar'"
+        (click)="alternarSonido()"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 5 6 9H3v6h3l5 4V5Z" fill="currentColor" />
+          @if (silenciado()) {
+            <path d="m16 9 5 6M21 9l-5 6" />
+          } @else {
+            <path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" />
+          }
+        </svg>
+      </button>
+    }
+
+    <button
+      type="button"
+      class="control ampliar"
+      aria-label="Ampliar video"
+      title="Ampliar"
+      (click)="ampliar()"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+      </svg>
+      @if (variante() === 'vista-previa') {
+        <span>Ampliar</span>
+      }
+    </button>
+  </div>
+</div>

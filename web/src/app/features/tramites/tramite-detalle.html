@@ -1,9 +1,13 @@
 @let e = estado();
 
 <div class="contenedor pagina">
-  <p class="volver">
-    <a routerLink="/"><span aria-hidden="true">←</span> Volver al listado</a>
-  </p>
+  <nav class="volver" aria-label="Ruta de navegación">
+    <a [href]="urlListado" (click)="volver($event)" aria-label="Volver al listado" title="Volver al listado">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m12 5-7 7 7 7M5 12h14" />
+      </svg>
+    </a>
+  </nav>
 
   @if (e.fase === 'cargando') {
     <div class="esqueleto-ficha" aria-hidden="true">
@@ -21,18 +25,12 @@
   } @else {
     @let t = e.tramite;
 
-    <article class="ficha">
+    <!-- Tres bloques hermanos para que la rejilla los acomode: en escritorio
+         los videos van a la derecha, fijos al hacer scroll; en tablet y
+         teléfono, entre el encabezado y los datos. -->
+    <article class="ficha" [class.con-videos]="hayVideos()">
       <header class="encabezado">
-        <span class="institucion">
-          <span class="avatar" aria-hidden="true">{{ inicial() }}</span>
-          <span class="institucion-texto">
-            <strong>{{ t.institucion.siglas ?? t.institucion.nombre }}</strong>
-            @if (t.institucion.siglas) {
-              <small>{{ t.institucion.nombre }}</small>
-            }
-          </span>
-        </span>
-
+        <app-visual-tramite class="emblema" [tramite]="t" aria-hidden="true" />
         <h1>{{ t.nombre }}</h1>
 
         @if (t.descripcionCorta) {
@@ -48,80 +46,99 @@
           @if (etiquetaModalidad(); as m) {
             <span class="pastilla">{{ m }}</span>
           }
-          @for (c of t.categorias; track c.id) {
-            <span class="pastilla">{{ c.nombre }}</span>
-          }
         </div>
       </header>
 
+      @if (hayVideos()) {
+        @let vs = videos();
+        <aside class="videos" aria-labelledby="titulo-videos">
+          <div class="videos-cabeza">
+            <h2 id="titulo-videos">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8" />
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+              </svg>
+              En lengua de señas
+            </h2>
+          </div>
+
+          @if (vs.pasos && vs.descripcion) {
+            <div class="selector" role="group" aria-label="Video a mostrar">
+              <button
+                type="button"
+                [attr.aria-pressed]="pestana() === 'pasos'"
+                (click)="pestana.set('pasos')"
+              >
+                Paso a paso
+              </button>
+              <button
+                type="button"
+                [attr.aria-pressed]="pestana() === 'descripcion'"
+                (click)="pestana.set('descripcion')"
+              >
+                Descripción
+              </button>
+            </div>
+          }
+
+          @if (videoActivo(); as v) {
+            <app-video-senas
+              class="reproductor"
+              [video]="v"
+              [etiqueta]="v.tipo === 'pasos' ? 'Paso a paso' : 'Descripción'"
+            />
+          }
+        </aside>
+      }
+
+      <div class="cuerpo">
       <!-- Datos clave, arriba de todo: es lo que la gente vino a saber. -->
+      <section class="resumen" aria-label="Datos del trámite">
       <dl class="datos">
         <div class="dato">
-          <dt>Costo</dt>
+          <dt><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M7 15h3"/></svg>Costo</dt>
           <dd>{{ t.costo | costo: t.tipoCosto : t.moneda }}</dd>
         </div>
         <div class="dato">
-          <dt>Tiempo de respuesta</dt>
+          <dt><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tiempo de respuesta</dt>
           <dd>{{ t.tiempoRespuesta | tiempoRespuesta }}</dd>
         </div>
         <div class="dato">
-          <dt>Cómo se realiza</dt>
-          <dd>{{ etiquetaModo() }}</dd>
-        </div>
-        <div class="dato">
-          <dt>Código</dt>
-          <dd class="mono">{{ t.publicId }}</dd>
+          <dt><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Modalidad</dt>
+          <dd>{{ t.modalidad ? etiquetaModalidadCompleta[t.modalidad] : 'No especificada' }}</dd>
         </div>
       </dl>
+      </section>
 
-      @if (t.urlExterna) {
-        <p class="accion">
-          <a class="boton" [href]="t.urlExterna" target="_blank" rel="noopener noreferrer">
-            Ir al trámite en línea <span aria-hidden="true">↗</span>
-          </a>
-        </p>
-      } @else {
-        <app-aviso icono="🏢" titulo="Este trámite no se hace en línea">
-          <p>Consultá directamente con la institución responsable.</p>
-        </app-aviso>
-      }
+      <section class="siguiente-paso" aria-label="Continuar el trámite">
+        <div class="continuar-contenido">
+          @if (t.urlExterna) {
+            <a class="boton" [href]="t.urlExterna" target="_blank" rel="noopener noreferrer">
+              {{ t.disponibleEnLinea ? 'Ir al trámite en línea' : 'Visitar el sitio del trámite' }} <span aria-hidden="true">↗</span>
+            </a>
+            <small>En el sitio de la institución · Nueva pestaña</small>
+          } @else if (t.urlFuenteOficial) {
+            <a class="boton" [href]="t.urlFuenteOficial" target="_blank" rel="noopener noreferrer">
+              Consultar la ficha oficial <span aria-hidden="true">↗</span>
+            </a>
+            <small>Requisitos e indicaciones · Nueva pestaña</small>
+          } @else {
+            <p>Consultá los requisitos con la institución responsable.</p>
+          }
+        </div>
+      </section>
 
       <!-- Calidad del dato: el reto pide medirla y mostrarla, no esconderla. -->
       @if (datosIncompletos()) {
-        <app-aviso icono="◍" titulo="Información incompleta">
-          <p>
-            Esta ficha está marcada como
-            <strong>{{ etiquetaCalidad[t.calidadDatos].toLowerCase() }}</strong> en el
-            catálogo. Algunos campos pueden faltar o estar sin verificar contra la
-            fuente oficial.
-          </p>
-        </app-aviso>
+        <details class="nota-calidad">
+          <summary>Algunos datos requieren confirmación</summary>
+          <p>La información está incompleta o sin verificar. Confirmala con la institución responsable.</p>
+        </details>
       }
 
-      <!-- Atribución a la fuente: requisito del reto, no un detalle. -->
-      <footer class="atribucion">
-        <p class="epigrafe">Fuente</p>
-        <p>
-          Catálogo Nacional de Trámites.
-          @if (t.urlFuenteOficial) {
-            <a [href]="t.urlFuenteOficial" target="_blank" rel="noopener noreferrer">
-              Ver ficha oficial <span aria-hidden="true">↗</span>
-            </a>
-          }
-        </p>
-        <p>
-          Publicado bajo
-          <a
-            href="https://creativecommons.org/licenses/by/4.0/deed.es"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Creative Commons Atribución 4.0</a
-          >.
-        </p>
-        @if (t.actualizadoEn) {
-          <p>Actualizado el {{ t.actualizadoEn | date: 'longDate' : '' : 'es-GT' }}.</p>
-        }
-      </footer>
+
+      </div>
     </article>
   }
 </div>

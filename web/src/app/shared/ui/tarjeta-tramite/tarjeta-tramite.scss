@@ -1,6 +1,127 @@
 :host {
+  position: relative; /* ancla de la vista previa */
   display: block;
   height: 100%;
+}
+
+/* Con la vista previa abierta la tarjeta sube de capa: el panel pasa por
+   encima de las tarjetas vecinas en vez de quedar tapado por ellas. */
+:host(.con-vista-previa) {
+  z-index: var(--z-flotante);
+}
+
+/* --- Vista previa en LENSEGUA -------------------------------------------- */
+
+/* Mismo tamaño que la tarjeta, al lado y a su misma altura. `--desde` es el
+   lado del que llega: siempre sale desde la tarjeta. */
+.vista-previa {
+  --desde: calc(-1 * var(--e-3));
+
+  position: absolute;
+  top: 0;
+  left: calc(100% + var(--e-4));
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radio-lg);
+  background: var(--color-video-fondo);
+  box-shadow: var(--sombra-visor);
+  transform-origin: left center;
+
+  /* Puente invisible sobre el hueco entre tarjeta y panel: el cursor lo
+     cruza sin salir de la zona y la vista previa no parpadea. */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: var(--e-4);
+    height: 100%;
+  }
+
+  &.izquierda {
+    --desde: var(--e-3);
+
+    right: calc(100% + var(--e-4));
+    left: auto;
+    transform-origin: right center;
+
+    &::before {
+      right: auto;
+      left: 100%;
+    }
+  }
+
+  &.encima {
+    --desde: 0;
+
+    left: 0;
+    transform-origin: center;
+  }
+}
+
+.entrando {
+  animation: vista-entra var(--transicion-flotante) both;
+}
+
+.saliendo {
+  animation: vista-sale var(--transicion) both;
+}
+
+@keyframes vista-entra {
+  from {
+    opacity: 0;
+    transform: translateX(var(--desde)) scale(0.96);
+  }
+}
+
+@keyframes vista-sale {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* --- Botón LENSEGUA ------------------------------------------------------- */
+
+/* Encima del enlace que cubre la tarjeta (z-index 1), así el clic es suyo. */
+.boton-senas {
+  position: absolute;
+  z-index: 1;
+  top: var(--e-3);
+  right: var(--e-3);
+  gap: var(--e-1);
+  padding: var(--e-1) var(--e-2);
+  border-radius: var(--radio-full);
+  background: var(--color-superficie);
+  color: var(--color-texto);
+  box-shadow: var(--sombra-2);
+  font-size: var(--texto-xs);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+
+  svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--color-acento);
+    color: var(--color-sobre-acento);
+  }
+}
+
+@media (max-width: 48rem), (hover: none), (pointer: coarse) {
+  .boton-senas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+
+    svg { width: 1.25rem; height: 1.25rem; }
+    span { display: none; }
+  }
 }
 
 .tarjeta {

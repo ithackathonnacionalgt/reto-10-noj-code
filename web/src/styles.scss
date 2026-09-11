@@ -11,6 +11,12 @@
    externo, sin salto de layout y sin filtrar visitas a un tercero. */
 @use '@fontsource-variable/inter/index.css';
 
+/* Tipografía del ajuste «Legible» (baja visión y dislexia). Solo declara las
+   fuentes: el navegador descarga los archivos recién cuando alguien activa
+   el ajuste y el texto la usa. */
+@use '@fontsource/atkinson-hyperlegible/400.css' as atkinson-regular;
+@use '@fontsource/atkinson-hyperlegible/700.css' as atkinson-bold;
+
 :root {
   color-scheme: light dark;
 
@@ -40,6 +46,8 @@
   --color-acento-borde: #cddfff;
   --color-acento-texto: #1d4ed8;
   --color-sobre-acento: #ffffff;
+  /* Perilla de los interruptores: blanca en ambos temas, como en iOS. */
+  --color-perilla: #ffffff;
 
   /* Secundario: celeste de la bandera. Solo decorativo (fondos, degradados);
      nunca lleva texto encima, porque no alcanza contraste AA. */
@@ -104,15 +112,94 @@
   --sombra-3: 0 2px 6px rgb(26 35 51 / 6%), 0 14px 36px rgb(26 35 51 / 12%);
   --sombra-acento: 0 4px 14px rgb(37 99 235 / 22%);
 
+  /* ---------------------------------------------------------------------
+     Modo IA
+     Degradado del buscador cuando la IA está encendida: azul y violeta al
+     frente, con un toque de magenta y celeste para que la luz «gire». Es
+     solo decorativo — nunca lleva texto encima.
+     `--ia-paleta` es una lista de colores lista para meter en cualquier
+     gradiente: `conic-gradient(from 0deg, var(--ia-paleta))`.
+     --------------------------------------------------------------------- */
+  --ia-azul: #2f6bff;
+  --ia-indigo: #5b5bff;
+  --ia-violeta: #9b4dff;
+  --ia-magenta: #d946ef;
+  --ia-celeste: #3cb4ff;
+  --ia-paleta:
+    var(--ia-azul), var(--ia-violeta), var(--ia-magenta), var(--ia-indigo),
+    var(--ia-celeste), var(--ia-azul);
+  --ia-lineal: linear-gradient(120deg, var(--ia-azul), var(--ia-violeta) 60%, var(--ia-magenta));
+  /* Intensidad del resplandor difuso alrededor del buscador. */
+  --ia-brillo: 0.45;
+  --ia-velo: 9%;
+  /* Texto de la respuesta de la IA: el violeta de la paleta, oscurecido hasta
+     pasar AA sobre la superficie (6,9:1). */
+  --ia-texto: #5a3bd8;
+  /* Aro base atenuado: el destello que lo recorre tiene que destacar sobre él.
+     A intensidad completa los dos tienen el mismo color y el destello se pierde. */
+  --ia-aro: 0.35;
+
+  /* ---------------------------------------------------------------------
+     Video LENSEGUA
+     El reproductor es oscuro en ambos temas, como una sala de cine: el
+     video es lo que tiene que brillar. El visor ampliado desenfoca la
+     página detrás.
+     --------------------------------------------------------------------- */
+  --color-video-fondo: #05070d;
+  --color-video-panel: #0e1320;
+  --color-sobre-video: #ffffff;
+  --color-sobre-video-suave: rgb(255 255 255 / 72%);
+  --color-video-control: rgb(255 255 255 / 14%);
+  --color-video-control-hover: rgb(255 255 255 / 26%);
+  /* Rótulo sobre el video: oscuro, porque arriba no hay degradado y muchos
+     videos se graban contra una pared clara. */
+  --color-video-insignia: rgb(5 7 13 / 58%);
+  --velo-video: linear-gradient(to top, rgb(5 7 13 / 78%), transparent);
+  --velo-visor: rgb(10 14 24 / 38%);
+  --desenfoque-visor: 14px;
+  --desenfoque-control: 8px;
+  --sombra-visor: 0 12px 28px rgb(10 14 24 / 18%), 0 32px 80px rgb(10 14 24 / 28%);
+  --ancho-visor: 60rem;
+  --ancho-panel-video: 24rem;
+
+  /* ---------------------------------------------------------------------
+     Herramientas de accesibilidad
+     --------------------------------------------------------------------- */
+  --ancho-panel-a11y: 25rem;
+  --alto-guia: 3.25rem;
+  --velo-guia: rgb(10 14 24 / 48%);
+  --ancho-lupa: 32rem;
+  /* Foco resaltado: anillo oscuro con halo ámbar, se ve sobre cualquier
+     fondo y en ambos temas. */
+  --color-foco-borde: #111827;
+  --color-foco-halo: #fbbf24;
+  /* Cursor grande: flecha oscura con borde blanco (se ve sobre cualquier
+     fondo); sobre algo clicable, la misma flecha en azul. Los colores van
+     dentro del SVG porque un data URI no puede leer tokens. */
+  --cursor-grande: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24'%3E%3Cpath d='M4 2.5 19.5 10l-6.8 1.9-2.4 6.6z' fill='%23111827' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 7 5, auto;
+  --cursor-grande-accion: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24'%3E%3Cpath d='M4 2.5 19.5 10l-6.8 1.9-2.4 6.6z' fill='%232563eb' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 7 5, pointer;
+
   --ancho-max: 78rem;
   --ancho-texto: 42rem;
+  --ancho-buscador: 46rem;
+  /* La portada lo descuenta del alto de pantalla para centrar el buscador. */
+  --alto-cabecera: 3.5rem;
 
   /* Capas: numeradas acá para que nadie invente un z-index de 9999. */
   --z-cabecera: 10;
   --z-flotante: 40;
+  /* Guía de lectura y lupa: por encima de todo lo de la página. */
+  --z-superior: 60;
 
   /* Transición base. Se anula sola con "reducir movimiento". */
   --transicion: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* Para cambios de escena (la portada que sube, la luz del modo IA). */
+  --transicion-lenta: 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Encendido y apagado del modo IA: más larga y con salida muy suave, para
+     que la luz se note llegar en vez de aparecer de golpe. */
+  --transicion-ia: 750ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* Paneles que aparecen al lado de algo (la vista previa de video). */
+  --transicion-flotante: 280ms cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Intensidad de la imagen generada de cada trámite (ver visual-tramite).
      En claro basta un tinte muy leve; en oscuro hace falta más cuerpo. */
@@ -181,6 +268,14 @@
   --sombra-2: 0 2px 4px rgb(0 0 0 / 35%), 0 8px 20px rgb(0 0 0 / 45%);
   --sombra-3: 0 4px 10px rgb(0 0 0 / 40%), 0 18px 44px rgb(0 0 0 / 60%);
   --sombra-acento: 0 4px 16px rgb(37 99 235 / 40%);
+
+  /* Sobre fondo oscuro la luz tiene que tener más cuerpo para leerse. */
+  --ia-brillo: 0.55;
+  --ia-velo: 15%;
+  --ia-texto: #b9a4ff;
+  --velo-visor: rgb(0 0 0 / 55%);
+  --sombra-visor: 0 12px 28px rgb(0 0 0 / 40%), 0 32px 80px rgb(0 0 0 / 55%);
+  --ia-aro: 0.5;
 }
 
 /* Preferencia del sistema, salvo que se haya elegido claro a mano. */
@@ -200,6 +295,16 @@
 
 :root[data-tema='claro'] {
   color-scheme: light;
+}
+
+/* Ángulo animable del degradado del modo IA. Tiene que registrarse con
+   @property para que el navegador sepa interpolarlo: una custom property sin
+   tipo salta de 0deg a 360deg sin pasar por el medio. Va acá y no en el
+   componente porque @property es global por naturaleza. */
+@property --angulo-ia {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
 }
 
 /* ==========================================================================
@@ -300,6 +405,12 @@ p {
   @media (min-width: 48rem) {
     padding-inline: var(--e-5);
   }
+}
+
+/* Con el visor de video abierto la página de atrás no se desplaza: el
+   desenfoque la presenta como fondo quieto. */
+:root:has(dialog[open]) {
+  overflow: hidden;
 }
 
 .sr-only {
@@ -479,10 +590,11 @@ a.boton {
 
 /* ==========================================================================
    Preferencias de accesibilidad
-   AccesibilidadStore marca <html> con estos atributos.
+   AccesibilidadStore marca <html> con estos atributos. Van con `:root` para
+   ganarle al tema oscuro, que también se aplica sobre `:root`.
    ========================================================================== */
 
-[data-alto-contraste] {
+:root[data-alto-contraste] {
   --color-fondo: #ffffff;
   --color-fondo-alt: #ffffff;
   --color-superficie: #ffffff;
@@ -512,22 +624,97 @@ a.boton {
   }
 }
 
+/* En oscuro, el contraste alto es negro puro con texto blanco y acento
+   amarillo: la combinación de más contraste que existe (19:1 y 17:1). */
+@mixin contraste-oscuro {
+  --color-fondo: #000000;
+  --color-fondo-alt: #000000;
+  --color-superficie: #000000;
+  --color-superficie-alt: #000000;
+  --color-borde: #ffffff;
+  --color-borde-fuerte: #ffffff;
+  --color-texto: #ffffff;
+  --color-texto-medio: #ffffff;
+  --color-texto-suave: #e5e5e5;
+  --color-acento: #ffd400;
+  --color-acento-hover: #ffe45c;
+  --color-acento-suave: #000000;
+  --color-acento-borde: #ffffff;
+  --color-acento-texto: #ffd400;
+  --color-sobre-acento: #000000;
+  --color-celeste-suave: #000000;
+}
+
+:root[data-alto-contraste][data-tema='oscuro'] {
+  @include contraste-oscuro;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-alto-contraste]:not([data-tema='claro']) {
+    @include contraste-oscuro;
+  }
+}
+
+/* En la raíz, `filter` no rompe los elementos fijos (sí lo haría en
+   cualquier otro nivel). */
+:root[data-escala-grises] {
+  filter: grayscale(1);
+}
+
 [data-subrayar-enlaces] a {
   text-decoration: underline;
-  text-underline-offset: 0.15em;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.18em;
+}
+
+[data-resaltar-titulos] :is(h1, h2, h3) {
+  outline: 2px dashed var(--color-acento);
+  outline-offset: 0.25em;
+  border-radius: var(--radio-sm);
 }
 
 [data-fuente-legible] body {
   font-family: 'Atkinson Hyperlegible', Verdana, Tahoma, sans-serif;
   font-feature-settings: normal;
-  letter-spacing: 0.03em;
-  word-spacing: 0.12em;
-  line-height: 1.8;
+}
+
+/* Los valores mínimos que pide WCAG 1.4.12 (espaciado de texto). */
+[data-espaciado-texto] body {
+  line-height: 1.9;
+  letter-spacing: 0.12em;
+  word-spacing: 0.16em;
+}
+
+[data-cursor-grande],
+[data-cursor-grande] * {
+  cursor: var(--cursor-grande) !important;
+}
+
+[data-cursor-grande] :is(a, button, label, summary, select, [role='button'], [role='switch']),
+[data-cursor-grande] :is(a, button, label, summary, [role='button'], [role='switch']) * {
+  cursor: var(--cursor-grande-accion) !important;
+}
+
+[data-resaltar-foco] :focus-visible {
+  outline: 3px solid var(--color-foco-borde) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 6px var(--color-foco-halo) !important;
+}
+
+/* Lo que la lectura en voz alta está leyendo en este momento. */
+.a11y-leyendo {
+  outline: 3px solid var(--color-foco-halo);
+  outline-offset: 3px;
+  border-radius: var(--radio-sm);
+  background: color-mix(in oklab, var(--color-foco-halo) 22%, transparent);
 }
 
 /* Se respeta tanto el ajuste manual como la preferencia del sistema. */
 [data-reducir-movimiento] {
   --transicion: 0ms;
+  --transicion-lenta: 0ms;
+  --transicion-ia: 0ms;
+  --transicion-flotante: 0ms;
 
   *,
   *::before,
@@ -542,6 +729,9 @@ a.boton {
 @media (prefers-reduced-motion: reduce) {
   :root {
     --transicion: 0ms;
+    --transicion-lenta: 0ms;
+    --transicion-ia: 0ms;
+    --transicion-flotante: 0ms;
   }
 
   *,

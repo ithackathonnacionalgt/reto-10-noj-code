@@ -1,0 +1,70 @@
+// Sin caja propia: las capas son fijas a la pantalla. Las variables del
+// puntero se ponen en el host y las heredan.
+:host {
+  display: contents;
+}
+
+/* --- Guía de lectura ------------------------------------------------------ */
+
+.guia {
+  --mitad: calc(var(--alto-guia) / 2);
+  --y: var(--puntero-y, 50vh);
+
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-superior);
+  pointer-events: none;
+}
+
+.velo {
+  position: absolute;
+  right: 0;
+  left: 0;
+  background: var(--velo-guia);
+}
+
+.arriba {
+  top: 0;
+  height: max(0px, calc(var(--y) - var(--mitad)));
+}
+
+.abajo {
+  top: calc(var(--y) + var(--mitad));
+  bottom: 0;
+}
+
+.ventana {
+  position: absolute;
+  top: calc(var(--y) - var(--mitad));
+  right: 0;
+  left: 0;
+  height: var(--alto-guia);
+  border-block: 2px solid var(--color-acento);
+}
+
+/* --- Lupa de texto -------------------------------------------------------- */
+
+// Colores invertidos respecto de la página: se despega de lo que tiene abajo
+// en cualquier tema.
+.lupa {
+  position: fixed;
+  top: var(--puntero-y, 50vh);
+  left: clamp(
+    var(--e-3),
+    calc(var(--puntero-x, 50vw) - var(--ancho-lupa) / 2),
+    calc(100vw - var(--ancho-lupa) - var(--e-3))
+  );
+  z-index: var(--z-superior);
+  width: max-content;
+  max-width: min(var(--ancho-lupa), calc(100vw - 2 * var(--e-3)));
+  padding: var(--e-3) var(--e-4);
+  border-radius: var(--radio-lg);
+  background: var(--color-texto);
+  color: var(--color-fondo);
+  box-shadow: var(--sombra-visor);
+  font-size: var(--texto-2xl);
+  font-weight: 600;
+  line-height: 1.35;
+  pointer-events: none;
+  transform: translateY(var(--lupa-desvio, 1.5rem));
+}

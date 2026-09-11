@@ -54,6 +54,26 @@ export interface CategoriaDeTramite {
   esPrincipal: boolean;
 }
 
+/** Que explica el video en LENSEGUA: la descripcion corta o el paso a paso. */
+export type TipoVideoSenas = 'descripcion' | 'pasos';
+
+/** Video en lengua de senas de Guatemala (LENSEGUA). Solo llegan los publicados. */
+export interface VideoSenas {
+  id: string;
+  tipo: TipoVideoSenas;
+  lenguaSenas: string;
+  titulo: string;
+  descripcion: string | null;
+  urlVideo: string;
+  urlMiniatura: string | null;
+  duracionSegundos: number | null;
+  transcripcion: string | null;
+}
+
+export interface AccesibilidadTramite {
+  videosSenas: VideoSenas[];
+}
+
 /** Item del listado publico de tramites. */
 export interface Tramite {
   id: string;
@@ -72,9 +92,16 @@ export interface Tramite {
   tiempoRespuesta: TiempoRespuesta;
   calidadDatos: CalidadDatos;
   urlExterna: string | null;
+  urlImagen?: string | null;
   urlFuenteOficial: string | null;
   institucion: InstitucionResumen;
   categorias: CategoriaDeTramite[];
+  etiquetas?: string[];
+  /**
+   * Siempre en la ficha. En el listado, solo si el backend ya lo incluye: si
+   * falta, la tarjeta pide la ficha para saber si hay video (ver VideosLensegua).
+   */
+  accesibilidad?: AccesibilidadTramite;
   publicadoEn: string | null;
   actualizadoEn: string | null;
 }

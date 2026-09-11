@@ -1,0 +1,14 @@
+<!-- Guía de lectura: una ventana a la altura del cursor y el resto velado. -->
+@if (a11y.guiaLectura()) {
+  <div class="guia" aria-hidden="true">
+    <div class="velo arriba"></div>
+    <div class="ventana"></div>
+    <div class="velo abajo"></div>
+  </div>
+}
+
+<!-- Lupa: repite en grande el texto bajo el cursor. Es solo visual; el
+     lector de pantalla ya lee el original. -->
+@if (textoLupa(); as texto) {
+  <div class="lupa" aria-hidden="true">{{ texto }}</div>
+}

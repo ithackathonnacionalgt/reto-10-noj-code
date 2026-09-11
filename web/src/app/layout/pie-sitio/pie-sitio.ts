@@ -37,9 +37,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }
 
     .interna {
-      padding-block: 1.5rem;
-      /* Deja aire para que los botones flotantes no tapen el texto. */
-      padding-bottom: 4.5rem;
+      padding-block: var(--e-5);
     }
 
     p {

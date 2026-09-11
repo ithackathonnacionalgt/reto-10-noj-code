@@ -1,19 +1,29 @@
+/* `isolation` crea el contexto de apilamiento donde viven las capas de luz
+   del modo IA (z-index -1): quedan detrás de la barra pero no se escapan por
+   detrás del fondo de la página. */
 :host {
+  position: relative;
   display: block;
+  isolation: isolate;
 }
 
+/* ==========================================================================
+   Barra
+   ========================================================================== */
+
 .barra {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--e-2);
-  padding: 0.3rem 0.3rem 0.3rem 0.9rem;
+  gap: var(--e-1);
+  padding: var(--e-2) var(--e-2) var(--e-2) var(--e-4);
   border: 1px solid var(--color-borde-fuerte);
   border-radius: var(--radio-full);
   background: var(--color-superficie);
-  box-shadow: var(--sombra-1);
+  box-shadow: var(--sombra-2);
   transition:
-    box-shadow var(--transicion),
-    border-color var(--transicion);
+    border-color var(--transicion),
+    box-shadow var(--transicion);
 
   &:hover {
     border-color: var(--color-acento-borde);
@@ -22,28 +32,289 @@
   &:focus-within {
     border-color: var(--color-acento);
     box-shadow:
-      var(--sombra-2),
+      var(--sombra-3),
       0 0 0 4px var(--color-acento-suave);
   }
+
+  /* Dos capas con el mismo degradado cónico:
+     ::before es el aro nítido que bordea la barra,
+     ::after es el mismo aro desenfocado — la luz que se derrama alrededor.
+     Apagadas por defecto; el modo IA las enciende y las hace girar. */
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(from var(--angulo-ia), var(--ia-paleta));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transicion-ia);
+  }
+
+  &::before {
+    inset: -2px;
+  }
+
+  /* Resplandor contenido: acompaña al borde sin volverse una nube. */
+  &::after {
+    inset: -2px;
+    filter: blur(0.6rem);
+  }
 }
+
+/* --- Modo IA encendido ---------------------------------------------------- */
+
+:host(.con-ia) .barra {
+  /* El borde lo pinta el aro de luz: el gris de siempre ensuciaría el borde. */
+  border-color: transparent;
+
+  &:focus-within {
+    box-shadow: var(--sombra-3);
+  }
+
+  &::before,
+  &::after {
+    animation: girar-ia 6s linear infinite;
+  }
+
+  &::before {
+    opacity: var(--ia-aro);
+  }
+
+  &::after {
+    opacity: var(--ia-brillo);
+  }
+}
+
+/* Mientras escucha, la luz se acelera: la barra «respira» con la voz. */
+:host(.con-ia.escuchando) .barra {
+  &::before,
+  &::after {
+    animation-duration: 2.2s;
+  }
+}
+
+@keyframes girar-ia {
+  to {
+    --angulo-ia: 360deg;
+  }
+}
+
+/* Un respiro de la barra al encenderse: se agranda apenas y vuelve. Es lo
+   que hace que el cambio de modo se sienta como un evento. Va en el host y
+   no en .barra: un `transform` en .barra la volvería contexto de apilamiento
+   y las capas de luz (z-index -1) se pintarían encima de su fondo. */
+:host(.con-ia) {
+  animation: encender var(--transicion-ia);
+}
+
+@keyframes encender {
+  35% {
+    transform: scale(1.015);
+  }
+}
+
+/* --- Onda de encendido ---------------------------------------------------- */
+
+/* Un aro del mismo degradado que sale de la barra y se desvanece, una sola
+   vez por encendido. Se anima `inset` y no `scale`: en una barra tan ancha,
+   escalar abriría mucho más a los lados que arriba y abajo. */
+.onda {
+  position: absolute;
+  z-index: -1;
+  inset: -2px;
+  padding: 2px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angulo-ia), var(--ia-paleta));
+  mask:
+    linear-gradient(black 0 0) content-box,
+    linear-gradient(black 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  pointer-events: none;
+}
+
+:host(.con-ia) .onda {
+  animation: onda 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes onda {
+  from {
+    inset: -2px;
+    opacity: 0.9;
+  }
+  to {
+    inset: -1.1rem;
+    opacity: 0;
+  }
+}
+
+/* --- Destello que recorre el contorno ------------------------------------- */
+
+/* La chispa viaja por el borde con `offset-path: border-box`, no girando un
+   degradado cónico: en una barra 12 veces más ancha que alta, el ángulo de un
+   cónico barre las puntas redondeadas en un parpadeo y se arrastra por los
+   lados largos. Recorrer el contorno como camino da velocidad pareja en todo
+   el perímetro, rectas y curvas. */
+.contorno,
+.contorno-halo {
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transicion-ia);
+}
+
+/* Aro de 3px, uno más que el que pinta ::before: el destello tiene que leerse
+   como una luz que pasa por encima del borde, no como parte de él. La máscara
+   deja ver solo la franja entre el borde exterior y el relleno. */
+.contorno,
+.aro-halo {
+  padding: 3px;
+  mask:
+    linear-gradient(black 0 0) content-box,
+    linear-gradient(black 0 0);
+  mask-composite: exclude;
+}
+
+.contorno {
+  z-index: 1;
+}
+
+/* El halo es el mismo aro recortado, desenfocado desde afuera: el brillo
+   queda pegado al borde. Desenfocar la chispa suelta no sirve: en las puntas
+   su cola sale recta por la tangente y deja una mancha fuera de la barra.
+   Va detrás, así el fondo de la barra tapa la mitad interior. */
+.contorno-halo {
+  z-index: -1;
+  filter: blur(0.4rem);
+}
+
+.aro-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+/* Un cometa: cola que se desvanece y cabeza casi blanca adelante.
+   `offset-rotate: auto` lo alinea con la dirección de avance, así en las
+   curvas gira con el borde en vez de cruzarlo. */
+.chispa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 15rem;
+  height: 1.25rem;
+  border-radius: var(--radio-full);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ia-azul) 35%,
+    var(--ia-violeta) 60%,
+    var(--ia-magenta) 80%,
+    var(--color-perilla) 93%,
+    transparent
+  );
+  offset-path: border-box;
+  offset-anchor: 85% 50%;
+  offset-rotate: auto;
+  /* Pausada mientras el modo IA está apagado: al apagarlo se desvanece
+     quieta, sin saltar al punto de partida. */
+  animation: recorrer-contorno 4.2s linear infinite paused;
+}
+
+:host(.con-ia) {
+  .contorno,
+  .contorno-halo {
+    opacity: 1;
+  }
+
+  .chispa {
+    animation-play-state: running;
+  }
+}
+
+@keyframes recorrer-contorno {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+
+/* Sin movimiento no hay destello: una chispa congelada en una esquina se lee
+   como un defecto. El aro de color sigue ahí. Tampoco en navegadores que no
+   saben recorrer un contorno. */
+@media (prefers-reduced-motion: reduce) {
+  .contorno,
+  .contorno-halo {
+    display: none;
+  }
+}
+
+:host-context([data-reducir-movimiento]) {
+  .contorno,
+  .contorno-halo {
+    display: none;
+  }
+}
+
+@supports not (offset-path: border-box) {
+  .contorno,
+  .contorno-halo {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Contenido de la barra
+   ========================================================================== */
 
 .icono {
   flex: none;
   display: grid;
   place-items: center;
   color: var(--color-texto-suave);
-  line-height: 1;
+
+  /* Cada ícono entra girando al cambiar de modo: lupa ↔ destellos. */
+  svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    animation: icono-entra var(--transicion-ia) both;
+  }
+
+  .parada-1 {
+    stop-color: var(--ia-azul);
+  }
+  .parada-2 {
+    stop-color: var(--ia-violeta);
+  }
+  .parada-3 {
+    stop-color: var(--ia-magenta);
+  }
+}
+
+@keyframes icono-entra {
+  from {
+    opacity: 0;
+    transform: scale(0.4) rotate(-60deg);
+  }
 }
 
 input {
   flex: 1;
   min-width: 0; /* sin esto el input desborda el contenedor flex */
-  padding: 0.5rem 0;
+  padding: var(--e-3) var(--e-2);
   border: none;
   background: none;
+  font-size: var(--texto-lg);
 
   &::placeholder {
     color: var(--color-texto-suave);
+    text-overflow: ellipsis;
   }
 
   /* El foco lo pinta .barra:focus-within, no el input suelto. */
@@ -60,15 +331,27 @@ input {
   }
 }
 
-.limpiar {
+.acciones {
   flex: none;
-  width: 1.75rem;
-  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: var(--e-1);
+}
+
+/* Botones redondos de solo icono: limpiar y micrófono. */
+.boton-icono {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
   padding: 0;
-  border-radius: 50%;
+  border-radius: var(--radio-full);
   background: none;
   color: var(--color-texto-suave);
-  font-size: var(--texto-xs);
+
+  svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
 
   &:hover:not(:disabled) {
     background: var(--color-fondo-alt);
@@ -76,79 +359,192 @@ input {
   }
 }
 
-.enviar {
-  flex: none;
-  border-radius: var(--radio-full);
-  padding-inline: 1.2rem;
+.microfono.activo {
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+  animation: latido 1.4s ease-out infinite;
+
+  &:hover:not(:disabled) {
+    background: var(--color-acento-hover);
+    color: var(--color-sobre-acento);
+  }
 }
 
-/* --- Variante grande: portada -------------------------------------------- */
+:host(.con-ia) .microfono.activo {
+  background: var(--ia-lineal);
+  color: var(--color-perilla);
+}
 
-:host([data-variante='grande']) {
-  .barra {
-    padding: 0.45rem 0.45rem 0.45rem 1.25rem;
-    /* Anillo de acento permanente: es el elemento principal de la página y
-       tiene que verse como tal, no como un input más del formulario. */
-    border-color: var(--color-acento-borde);
-    box-shadow:
-      var(--sombra-2),
-      0 0 0 5px var(--color-acento-suave);
+/* Onda que sale del micrófono mientras graba: se entiende sin leer nada. */
+@keyframes latido {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-acento) 45%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 0.6rem transparent;
+  }
+}
 
-    &:hover {
-      border-color: var(--color-acento);
-    }
+.separador {
+  width: 1px;
+  height: 1.5rem;
+  margin-inline: var(--e-1);
+  background: var(--color-borde);
+}
 
-    &:focus-within {
-      border-color: var(--color-acento);
-      box-shadow:
-        var(--sombra-3),
-        0 0 0 5px color-mix(in oklab, var(--color-acento) 20%, transparent);
-    }
+/* --- Interruptor de modo IA ----------------------------------------------- */
+
+.interruptor {
+  flex: none;
+  gap: var(--e-2);
+  padding: var(--e-2) var(--e-3);
+  border-radius: var(--radio-full);
+  background: none;
+  color: var(--color-texto-medio);
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: var(--color-fondo-alt);
+    color: var(--color-texto);
   }
 
-  .icono {
-    color: var(--color-acento);
+  &[aria-checked='true'] {
+    color: var(--color-texto);
 
-    svg {
-      width: 20px;
-      height: 20px;
+    .pista::after {
+      opacity: 1;
     }
+
+    .perilla {
+      transform: translateX(0.95rem);
+    }
+  }
+}
+
+.pista {
+  position: relative;
+  flex: none;
+  width: 2.25rem;
+  height: 1.3rem;
+  border-radius: var(--radio-full);
+  background: var(--color-borde-fuerte);
+
+  /* El degradado va en una capa aparte porque `background-image` no se
+     interpola: así el paso de gris a color es un fundido y no un salto. */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--ia-lineal);
+    opacity: 0;
+    transition: opacity var(--transicion-ia);
+  }
+}
+
+.perilla {
+  position: absolute;
+  z-index: 1;
+  top: 0.15rem;
+  left: 0.15rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--radio-full);
+  background: var(--color-perilla);
+  box-shadow: var(--sombra-2);
+  transition: transform var(--transicion-lenta);
+}
+
+/* --- Enviar --------------------------------------------------------------- */
+
+/* El degradado va en una capa aparte (como en la pista del interruptor):
+   así el botón pasa de color sólido a degradado con un fundido. */
+.enviar {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border-radius: var(--radio-full);
+  box-shadow: var(--sombra-acento);
+  transition:
+    color var(--transicion-ia),
+    filter var(--transicion);
+
+  &::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: var(--ia-lineal);
+    opacity: 0;
+    transition: opacity var(--transicion-ia);
+  }
+
+  svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+}
+
+/* Ícono blanco en ambos temas: `--color-sobre-acento` es casi negro en
+   oscuro y sobre el degradado no se vería. */
+:host(.con-ia) .enviar {
+  color: var(--color-perilla);
+
+  &::before {
+    opacity: 1;
+  }
+
+  &:hover:not(:disabled) {
+    color: var(--color-perilla);
+    filter: brightness(1.1);
+  }
+}
+
+/* --- Aviso del micrófono (permiso negado, sin conexión) ------------------- */
+
+.aviso-voz {
+  margin-top: var(--e-3);
+  color: var(--color-error-texto);
+  font-size: var(--texto-sm);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Pantallas angostas
+   El campo pasa a su propia línea y los controles a una fila de abajo, como
+   un compositor de mensajes: sin esto el input quedaría con 40px útiles.
+   ========================================================================== */
+
+@media (max-width: 36rem) {
+  .barra {
+    flex-wrap: wrap;
+    padding: var(--e-2) var(--e-2) var(--e-2) var(--e-3);
+    border-radius: var(--radio-xl);
   }
 
   input {
-    padding-block: 0.75rem;
-    font-size: var(--texto-lg);
-  }
-
-  .enviar {
-    padding-block: 0.75rem;
-    padding-inline: 1.7rem;
+    flex-basis: calc(100% - 2rem);
     font-size: var(--texto-base);
-    box-shadow: var(--sombra-acento);
   }
 
-  /* En pantallas angostas el input pasa a su propia línea para no quedar
-     con 40px de ancho útil. */
-  @media (max-width: 34rem) {
-    .barra {
-      flex-wrap: wrap;
-      border-radius: var(--radio-lg);
-      padding: 0.6rem;
-    }
+  .acciones {
+    flex-basis: 100%;
+    padding-top: var(--e-2);
+    border-top: 1px solid var(--color-borde);
+  }
 
-    input {
-      flex-basis: 100%;
-      order: -1;
-      padding-inline: 0.4rem;
-      font-size: var(--texto-base);
-    }
+  /* El interruptor queda a la izquierda y las acciones a la derecha. */
+  .interruptor {
+    order: -1;
+    margin-right: auto;
+    padding-left: var(--e-1);
+  }
 
-    .icono {
-      display: none;
-    }
-
-    .enviar {
-      margin-left: auto;
-    }
+  .separador {
+    display: none;
   }
 }

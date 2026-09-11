@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import type { Tramite } from '../../../core/models/catalogo.model';
 
 /** Slugs de categoría que tienen ilustración propia. */
@@ -35,6 +35,11 @@ const CON_ICONO = new Set([
 })
 export class VisualTramite {
   readonly tramite = input.required<Tramite>();
+  protected readonly imagenFallida = signal<string | null>(null);
+  protected readonly imagen = computed(() => {
+    const url = this.tramite().urlImagen;
+    return url && url !== this.imagenFallida() ? url : null;
+  });
 
   protected readonly logo = computed(() => this.tramite().institucion.urlLogo);
 

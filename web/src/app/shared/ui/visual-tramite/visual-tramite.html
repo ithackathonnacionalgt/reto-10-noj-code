@@ -1,7 +1,9 @@
 <!-- Decorativa: el nombre de la categoría ya está en el texto de la tarjeta,
      así que para un lector de pantalla esto es ruido. -->
 <div class="lienzo" aria-hidden="true">
-  @if (logo(); as url) {
+  @if (imagen(); as url) {
+    <img class="foto-tramite" [src]="url" alt="" loading="lazy" decoding="async" (error)="imagenFallida.set(url)" />
+  } @else if (logo(); as url) {
     <img [src]="url" [alt]="siglas()" loading="lazy" decoding="async" />
   } @else {
     <svg

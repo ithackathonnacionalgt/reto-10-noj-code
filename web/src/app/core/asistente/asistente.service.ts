@@ -2,24 +2,28 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, of, type Observable } from 'rxjs';
 import { CatalogoApi } from '../api/catalogo-api';
-import type { Sobre } from '../models/catalogo.model';
-import type { Mensaje } from './asistente.model';
+import type { Sobre, Tramite } from '../models/catalogo.model';
 
-/** Respuesta del asistente, ya lista para pintarse. */
+/** Respuesta del modo IA, ya lista para pintarse. */
 export interface RespuestaAsistente {
   texto: string;
-  tramites: Mensaje['tramites'];
+  tramites: Tramite[];
+  /**
+   * `ia` si respondió el modelo; `directa` si se cayó a la búsqueda por texto.
+   * La interfaz lo distingue para no rotular como «IA» algo que no lo es.
+   */
+  origen: 'ia' | 'directa';
 }
 
 interface CuerpoAsistente {
   respuesta: string;
-  tramites: NonNullable<Mensaje['tramites']>;
+  tramites: Tramite[];
 }
 
 const RUTA = '/api/asistente';
 
 /**
- * Asistente del catálogo.
+ * Modo IA del buscador.
  *
  * Habla con `POST /api/asistente`, que resuelve el Worker de Cloudflare. El
  * modelo de lenguaje vive allá y no acá por seguridad: la llave de OpenAI es un
@@ -37,20 +41,16 @@ export class AsistenteService {
   private readonly http = inject(HttpClient);
   private readonly api = inject(CatalogoApi);
 
-  private static readonly LIMITE = 4;
+  private static readonly LIMITE = 6;
 
-  preguntar(consulta: string, historial: Mensaje[] = []): Observable<RespuestaAsistente> {
+  preguntar(consulta: string): Observable<RespuestaAsistente> {
     return this.http
-      .post<Sobre<CuerpoAsistente>>(RUTA, {
-        pregunta: consulta,
-        // Solo lo necesario para entender un «¿y cuánto cuesta?». El Worker
-        // vuelve a recortar: no confiamos en el cliente para limitar el gasto.
-        historial: historial.slice(-6).map((m) => ({ autor: m.autor, texto: m.texto })),
-      })
+      .post<Sobre<CuerpoAsistente>>(RUTA, { pregunta: consulta })
       .pipe(
         map(({ data }): RespuestaAsistente => ({
           texto: data.respuesta,
           tramites: data.tramites,
+          origen: 'ia',
         })),
         catchError(() => this.busquedaDirecta(consulta)),
       );
@@ -68,6 +68,7 @@ export class AsistenteService {
         texto:
           'Contame qué trámite buscás. Por ejemplo: «licencia de conducir» o «registro de empresa».',
         tramites: [],
+        origen: 'directa',
       });
     }
 
@@ -75,8 +76,9 @@ export class AsistenteService {
       map(({ data, meta }): RespuestaAsistente => {
         if (data.length === 0) {
           return {
-            texto: `No encontré trámites que coincidan con «${termino}». Probá con otras palabras o revisá el listado completo con los filtros.`,
+            texto: `No encontré trámites que coincidan con «${termino}». Probá con otras palabras.`,
             tramites: [],
+            origen: 'directa',
           };
         }
 
@@ -87,13 +89,14 @@ export class AsistenteService {
               ? `Encontré ${meta.total} trámites. Estos son los más relevantes:`
               : `Encontré ${meta.total} trámites:`;
 
-        return { texto: encabezado, tramites: data };
+        return { texto: encabezado, tramites: data, origen: 'directa' };
       }),
       catchError(() =>
-        of({
+        of<RespuestaAsistente>({
           texto:
             'No pude consultar el catálogo en este momento. Intentá de nuevo en un rato.',
           tramites: [],
+          origen: 'directa',
         }),
       ),
     );

@@ -1,0 +1,504 @@
+<!-- Contenido generado desde docs/API-PUBLICA.md. -->
+<div class="contenedor documentacion"><a class="volver" routerLink="/" aria-label="Volver al inicio"><span aria-hidden="true">&#8592;</span> Catálogo</a><div class="distribucion"><nav aria-label="Secciones de la documentación" ngNonBindable><strong>API PÚBLICA</strong><a href="#1-url-base">1. URL base</a><a href="#2-autenticacion">2. Autenticación</a><a href="#3-formato-de-respuesta">3. Formato de respuesta</a><a href="#4-errores">4. Errores</a><a href="#5-paginacion">5. Paginación</a><a href="#6-limite-de-tasa-rate-limiting">6. Límite de tasa (rate limiting)</a><a href="#7-referencia-de-endpoints">7. Referencia de endpoints</a><a href="#8-ejemplos">8. Ejemplos</a><a href="#9-buenas-practicas">9. Buenas prácticas</a><a href="#10-changelog">10. Changelog</a></nav><article ngNonBindable><h1 id="api-de-la-plataforma-nacional-de-tramites">API de la Plataforma Nacional de Trámites</h1>
+<p>Documentación para desarrolladores. Esta API permite consultar el catálogo
+nacional de trámites del Estado de Guatemala (instituciones, categorías,
+trámites, requisitos, pasos, ubicaciones) desde cualquier aplicación.</p>
+<ul>
+<li><strong>Estado:</strong> beta. Los contratos pueden cambiar; se avisará en el changelog.</li>
+<li><strong>Formato:</strong> JSON en todas las respuestas.</li>
+<li><strong>Zona horaria:</strong> todas las fechas son UTC en formato ISO 8601.</li>
+</ul>
+<hr />
+<h2 id="1-url-base">1. URL base</h2>
+<pre><code>https://&lt;tu-dominio&gt;/api/v1
+</code></pre>
+<p>En desarrollo local: <code>http://localhost:3001/api/v1</code></p>
+<p>La versión va en la ruta (<code>/api/v1</code>). Una nueva versión mayor se publicará como
+<code>/api/v2</code> sin romper <code>/api/v1</code>.</p>
+<hr />
+<h2 id="2-autenticacion">2. Autenticación</h2>
+<h3 id="21-endpoints-abiertos-sin-credenciales">2.1 Endpoints abiertos (sin credenciales)</h3>
+<p>Todo el <strong>catálogo público</strong> se puede leer sin API key:</p>
+<pre><code>GET /api/v1/procedures
+GET /api/v1/procedures/&#123;slug&#125;
+GET /api/v1/institutions
+GET /api/v1/categories
+GET /api/v1/departments
+</code></pre>
+<p>Enviar una API key es <strong>opcional</strong> en estos endpoints. Si la envías, se aplica
+tu límite de tasa y podés usar tus scopes; si no, la petición es anónima.</p>
+<h3 id="22-obtener-una-api-key">2.2 Obtener una API key</h3>
+<p>Recomendado para producción: identifica tu aplicación, te da un límite de tasa
+propio y podés revocarla si se filtra.</p>
+<p><strong>Paso 1 — Crear una cuenta de desarrollador</strong></p>
+<pre><code class="language-bash">curl -X POST https://&lt;dominio&gt;/api/v1/auth/registro \
+  -H 'Content-Type: application/json' \
+  -d '&#123;
+    &quot;email&quot;: &quot;dev&#64;ejemplo.com&quot;,
+    &quot;password&quot;: &quot;una-clave-segura&quot;,
+    &quot;nombres&quot;: &quot;Nombre&quot;,
+    &quot;apellidos&quot;: &quot;Apellido&quot;
+  &#125;'
+</code></pre>
+<p>Devuelve un <code>accessToken</code> (JWT, dura 15 min) y un <code>refreshToken</code>.</p>
+<p><strong>Paso 2 — Iniciar sesión</strong> (si ya tenés cuenta)</p>
+<pre><code class="language-bash">curl -X POST https://&lt;dominio&gt;/api/v1/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '&#123; &quot;email&quot;: &quot;dev&#64;ejemplo.com&quot;, &quot;password&quot;: &quot;una-clave-segura&quot; &#125;'
+</code></pre>
+<pre><code class="language-json">&#123;
+  &quot;data&quot;: &#123;
+    &quot;accessToken&quot;: &quot;eyJhbGciOi...&quot;,
+    &quot;refreshToken&quot;: &quot;aVeryLongRandomString&quot;,
+    &quot;tokenType&quot;: &quot;Bearer&quot;,
+    &quot;expiresIn&quot;: 900
+  &#125;
+&#125;
+</code></pre>
+<p>Renovar el access token cuando expire:</p>
+<pre><code class="language-bash">curl -X POST https://&lt;dominio&gt;/api/v1/auth/refrescar \
+  -H 'Content-Type: application/json' \
+  -d '&#123; &quot;refreshToken&quot;: &quot;aVeryLongRandomString&quot; &#125;'
+</code></pre>
+<p><strong>Paso 3 — Crear la API key</strong> (usando el <code>accessToken</code>)</p>
+<pre><code class="language-bash">curl -X POST https://&lt;dominio&gt;/api/v1/api-keys \
+  -H 'Authorization: Bearer &lt;accessToken&gt;' \
+  -H 'Content-Type: application/json' \
+  -d '&#123;
+    &quot;nombre&quot;: &quot;Mi aplicacion&quot;,
+    &quot;nombreDesarrollador&quot;: &quot;Equipo X&quot;,
+    &quot;scopes&quot;: [&quot;procedures:read&quot;, &quot;institutions:read&quot;, &quot;categories:read&quot;]
+  &#125;'
+</code></pre>
+<pre><code class="language-json">&#123;
+  &quot;data&quot;: &#123;
+    &quot;id&quot;: &quot;8f3b...-...&quot;,
+    &quot;nombre&quot;: &quot;Mi aplicacion&quot;,
+    &quot;prefijo&quot;: &quot;pnt_vWe_ICmO&quot;,
+    &quot;scopes&quot;: [&quot;categories:read&quot;, &quot;institutions:read&quot;, &quot;procedures:read&quot;],
+    &quot;estado&quot;: &quot;activa&quot;,
+    &quot;limiteTasa&quot;: 120,
+    &quot;expiraEn&quot;: null,
+    &quot;creadaEn&quot;: &quot;2026-09-10T18:00:00.000Z&quot;,
+    &quot;llaveCompleta&quot;: &quot;pnt_vWe_ICmO2u...clave-secreta-completa...&quot;
+  &#125;
+&#125;
+</code></pre>
+<blockquote>
+<p>⚠️ <strong><code>llaveCompleta</code> se muestra una sola vez.</strong> Guardala en un lugar seguro.
+La plataforma solo almacena un hash; si la perdés, regenerá la key.</p>
+</blockquote>
+<h3 id="23-usar-la-api-key">2.3 Usar la API key</h3>
+<p>Enviá la key en el header <strong><code>X-API-Key</code></strong> en cada petición:</p>
+<pre><code class="language-bash">curl https://&lt;dominio&gt;/api/v1/procedures \
+  -H 'X-API-Key: pnt_vWe_ICmO2u...'
+</code></pre>
+<p>Verificar que tu key funciona:</p>
+<pre><code class="language-bash">curl https://&lt;dominio&gt;/api/v1/api-keys/uso -H 'X-API-Key: pnt_...'
+</code></pre>
+<pre><code class="language-json">&#123;
+  &quot;data&quot;: &#123;
+    &quot;nombre&quot;: &quot;Mi aplicacion&quot;,
+    &quot;scopes&quot;: [&quot;procedures:read&quot;, &quot;institutions:read&quot;],
+    &quot;limiteTasa&quot;: 120
+  &#125;
+&#125;
+</code></pre>
+<h3 id="24-scopes">2.4 Scopes</h3>
+<p>Consultá el catálogo actualizado en <code>GET /api/v1/api-keys/scopes</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Permite</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>procedures:read</code></td>
+<td>Leer el catálogo de trámites y su detalle</td>
+</tr>
+<tr>
+<td><code>institutions:read</code></td>
+<td>Leer instituciones</td>
+</tr>
+<tr>
+<td><code>categories:read</code></td>
+<td>Leer categorías</td>
+</tr>
+<tr>
+<td><code>translations:read</code></td>
+<td>Leer traducciones publicadas</td>
+</tr>
+<tr>
+<td><code>accessibility:read</code></td>
+<td>Leer recursos de accesibilidad (LENSEGUA, etc.)</td>
+</tr>
+<tr>
+<td><code>statistics:read</code></td>
+<td>Leer estadísticas agregadas del catálogo</td>
+</tr>
+<tr>
+<td><code>submissions:write</code></td>
+<td>Crear solicitudes en nombre de un ciudadano</td>
+</tr>
+</tbody>
+</table>
+<p>Si no indicás <code>scopes</code> al crear la key, se asignan todos los de <strong>solo lectura</strong>
+(nunca <code>submissions:write</code> por defecto).</p>
+<h3 id="25-gestionar-tus-api-keys">2.5 Gestionar tus API keys</h3>
+<p>Todas requieren <code>Authorization: Bearer &lt;accessToken&gt;</code> (JWT), no la API key.</p>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Ruta</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/api-keys</code></td>
+<td>Lista tus keys (sin el secreto ni el hash)</td>
+</tr>
+<tr>
+<td><code>GET</code></td>
+<td><code>/api/v1/api-keys/&#123;id&#125;</code></td>
+<td>Detalle de una key</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/api-keys/&#123;id&#125;/regenerar</code></td>
+<td>Nuevo secreto; el anterior deja de funcionar al instante</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><code>/api/v1/api-keys/&#123;id&#125;/revocar</code></td>
+<td>Desactiva la key (queda en el historial)</td>
+</tr>
+<tr>
+<td><code>DELETE</code></td>
+<td><code>/api/v1/api-keys/&#123;id&#125;</code></td>
+<td>Elimina la key por completo</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-formato-de-respuesta">3. Formato de respuesta</h2>
+<p><strong>Recurso único:</strong></p>
+<pre><code class="language-json">&#123; &quot;data&quot;: &#123; ... &#125; &#125;
+</code></pre>
+<p><strong>Colección (paginada):</strong></p>
+<pre><code class="language-json">&#123;
+  &quot;data&quot;: [ &#123; ... &#125;, &#123; ... &#125; ],
+  &quot;meta&quot;: &#123; &quot;page&quot;: 1, &quot;limit&quot;: 20, &quot;total&quot;: 137, &quot;totalPaginas&quot;: 7 &#125;
+&#125;
+</code></pre>
+<hr />
+<h2 id="4-errores">4. Errores</h2>
+<pre><code class="language-json">&#123;
+  &quot;error&quot;: &#123;
+    &quot;code&quot;: &quot;NOT_FOUND&quot;,
+    &quot;message&quot;: &quot;Tramite no encontrado&quot;,
+    &quot;requestId&quot;: &quot;c7cefc97-cfb6-4ec9-9d85-4ebd5a8fa196&quot;
+  &#125;
+&#125;
+</code></pre>
+<p>Incluí el <code>requestId</code> si reportás un problema.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP</th>
+<th><code>code</code></th>
+<th>Cuándo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>400</td>
+<td><code>BAD_REQUEST</code></td>
+<td>Parámetro con formato inválido (UUID, enum, rango)</td>
+</tr>
+<tr>
+<td>401</td>
+<td><code>UNAUTHORIZED</code></td>
+<td>Falta el JWT o es inválido</td>
+</tr>
+<tr>
+<td>401</td>
+<td><code>API_KEY_INVALIDA</code></td>
+<td>La API key no existe, fue revocada o expiró</td>
+</tr>
+<tr>
+<td>403</td>
+<td><code>FORBIDDEN</code></td>
+<td>La API key no tiene el scope necesario</td>
+</tr>
+<tr>
+<td>404</td>
+<td><code>NOT_FOUND</code></td>
+<td>El recurso no existe</td>
+</tr>
+<tr>
+<td>409</td>
+<td><code>CONFLICT</code></td>
+<td>Conflicto de estado (ej. slug duplicado)</td>
+</tr>
+<tr>
+<td>429</td>
+<td><code>RATE_LIMIT_EXCEDIDO</code></td>
+<td>Superaste el límite de peticiones</td>
+</tr>
+<tr>
+<td>500</td>
+<td><code>INTERNAL_ERROR</code></td>
+<td>Error del servidor</td>
+</tr>
+</tbody>
+</table>
+<p>Los parámetros de query <strong>no reconocidos se ignoran</strong> (no producen 400).</p>
+<hr />
+<h2 id="5-paginacion">5. Paginación</h2>
+<p>Colecciones: <code>?page=&lt;n&gt;&amp;limit=&lt;n&gt;</code> — <code>page</code> empieza en 1, <code>limit</code> máximo 100
+(por defecto 20). El bloque <code>meta</code> trae <code>total</code> y <code>totalPaginas</code>.</p>
+<pre><code>GET /api/v1/procedures?page=2&amp;limit=50
+</code></pre>
+<hr />
+<h2 id="6-limite-de-tasa-rate-limiting">6. Límite de tasa (rate limiting)</h2>
+<p>Solo aplica cuando enviás una API key. Ventana de <strong>60 segundos</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X-RateLimit-Limit</code></td>
+<td>Máximo de peticiones por minuto de tu key</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Remaining</code></td>
+<td>Peticiones restantes en la ventana actual</td>
+</tr>
+<tr>
+<td><code>X-RateLimit-Reset</code></td>
+<td>Epoch (segundos) en que se reinicia la ventana</td>
+</tr>
+</tbody>
+</table>
+<p>Al superarlo: <code>429</code> con header <code>Retry-After</code> (segundos a esperar).
+Límite por defecto: <strong>120 req/min</strong>. Las peticiones anónimas no tienen límite
+por ahora (puede cambiar).</p>
+<hr />
+<h2 id="7-referencia-de-endpoints">7. Referencia de endpoints</h2>
+<h3 id="71-tramites">7.1 Trámites</h3>
+<h4 id="get-apiv1procedures"><code>GET /api/v1/procedures</code></h4>
+<p>Listado de trámites <strong>publicados</strong>, paginado.</p>
+<p><strong>Parámetros de query</strong> (todos opcionales):</p>
+<table>
+<thead>
+<tr>
+<th>Parámetro</th>
+<th>Tipo</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>q</code></td>
+<td>string</td>
+<td>Búsqueda por texto (nombre, descripción, código). Tolera coincidencias parciales</td>
+</tr>
+<tr>
+<td><code>institucionId</code></td>
+<td>uuid</td>
+<td>Filtrar por institución</td>
+</tr>
+<tr>
+<td><code>categoriaId</code></td>
+<td>uuid</td>
+<td>Filtrar por categoría</td>
+</tr>
+<tr>
+<td><code>modalidad</code></td>
+<td>enum</td>
+<td><code>en_linea</code> | <code>presencial</code> | <code>mixto</code></td>
+</tr>
+<tr>
+<td><code>modoEjecucion</code></td>
+<td>enum</td>
+<td><code>solo_informacion</code> | <code>enlace_externo</code> | <code>formulario_en_linea</code> | <code>totalmente_digital</code> | <code>hibrido</code></td>
+</tr>
+<tr>
+<td><code>tipoCosto</code></td>
+<td>enum</td>
+<td><code>gratuito</code> | <code>fijo</code> | <code>variable</code> | <code>desconocido</code></td>
+</tr>
+<tr>
+<td><code>disponibleEnLinea</code></td>
+<td>bool</td>
+<td><code>true</code> / <code>false</code></td>
+</tr>
+<tr>
+<td><code>departamentoId</code></td>
+<td>uuid</td>
+<td>Filtrar por departamento</td>
+</tr>
+<tr>
+<td><code>municipioId</code></td>
+<td>uuid</td>
+<td>Filtrar por municipio</td>
+</tr>
+<tr>
+<td><code>orden</code></td>
+<td>enum</td>
+<td><code>recientes</code> (default) | <code>nombre</code> | <code>populares</code></td>
+</tr>
+<tr>
+<td><code>page</code>, <code>limit</code></td>
+<td>int</td>
+<td>Paginación</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Ejemplo de item (<code>data[i]</code>):</strong></p>
+<pre><code class="language-json">&#123;
+  &quot;id&quot;: &quot;e8c97c8f-...&quot;,
+  &quot;publicId&quot;: &quot;TR-82DC658AC3&quot;,
+  &quot;slug&quot;: &quot;registro-de-empresa-mercantil&quot;,
+  &quot;codigo&quot;: null,
+  &quot;nombre&quot;: &quot;Registro de empresa mercantil&quot;,
+  &quot;descripcionCorta&quot;: &quot;Inscripción de una empresa mercantil individual.&quot;,
+  &quot;estado&quot;: &quot;publicado&quot;,
+  &quot;modoEjecucion&quot;: &quot;enlace_externo&quot;,
+  &quot;modalidad&quot;: &quot;en_linea&quot;,
+  &quot;disponibleEnLinea&quot;: true,
+  &quot;tipoCosto&quot;: &quot;fijo&quot;,
+  &quot;costo&quot;: 50,
+  &quot;moneda&quot;: &quot;GTQ&quot;,
+  &quot;tiempoRespuesta&quot;: &#123; &quot;valor&quot;: 3, &quot;unidad&quot;: &quot;dias_habiles&quot;, &quot;texto&quot;: null &#125;,
+  &quot;calidadDatos&quot;: &quot;parcial&quot;,
+  &quot;urlExterna&quot;: &quot;https://minegocio.gt/registro&quot;,
+  &quot;urlFuenteOficial&quot;: &quot;https://www.mineco.gob.gt/...&quot;,
+  &quot;institucion&quot;: &#123;
+    &quot;id&quot;: &quot;01c40736-...&quot;,
+    &quot;slug&quot;: &quot;ministerio-de-economia&quot;,
+    &quot;nombre&quot;: &quot;Ministerio de Economia&quot;,
+    &quot;siglas&quot;: &quot;MINECO&quot;,
+    &quot;urlLogo&quot;: null
+  &#125;,
+  &quot;categorias&quot;: [
+    &#123; &quot;id&quot;: &quot;cc93...&quot;, &quot;slug&quot;: &quot;economia&quot;, &quot;nombre&quot;: &quot;Economia&quot;, &quot;esPrincipal&quot;: true &#125;
+  ],
+  &quot;publicadoEn&quot;: &quot;2026-09-10T18:11:08.497Z&quot;,
+  &quot;actualizadoEn&quot;: &quot;2026-09-10T18:25:11.542Z&quot;
+&#125;
+</code></pre>
+<blockquote>
+<p><strong><code>urlExterna</code></strong> es la página oficial donde se realiza el trámite fuera de esta
+plataforma. <strong><code>urlFuenteOficial</code></strong> es la página institucional que lo describe.
+Cualquiera de las dos puede ser <code>null</code>.</p>
+</blockquote>
+<h4 id="get-apiv1proceduresslug"><code>GET /api/v1/procedures/&#123;slug&#125;</code></h4>
+<p>Detalle de un trámite. Acepta el <code>slug</code> o el <code>publicId</code> (<code>TR-XXXXXXXX</code>).
+Devuelve todo lo del listado <strong>más</strong>: <code>descripcion</code>, <code>resultado</code>, <code>dirigidoA</code>,
+<code>vigencia</code>, <code>fuente</code>, <code>vistas</code>, y los arreglos <code>requisitos</code>, <code>pasos</code>,
+<code>normativas</code>, <code>enlaces</code>, <code>costos</code>, <code>tiempos</code>.</p>
+<pre><code class="language-bash">curl https://&lt;dominio&gt;/api/v1/procedures/registro-de-empresa-mercantil
+</code></pre>
+<p>Devuelve <code>404 NOT_FOUND</code> si no existe o no está publicado.</p>
+<h3 id="72-instituciones">7.2 Instituciones</h3>
+<pre><code>GET /api/v1/institutions?q=&amp;page=&amp;limit=
+GET /api/v1/institutions/&#123;slug&#125;
+</code></pre>
+<h3 id="73-categorias">7.3 Categorías</h3>
+<pre><code>GET /api/v1/categories?q=&amp;page=&amp;limit=
+GET /api/v1/categories/&#123;slug&#125;
+</code></pre>
+<h3 id="74-ubicaciones">7.4 Ubicaciones</h3>
+<pre><code>GET /api/v1/departments
+GET /api/v1/departments/&#123;id&#125;/municipalities
+GET /api/v1/municipalities?departmentId=&#123;id&#125;
+</code></pre>
+<p>Devuelven un arreglo simple: <code>&#123; "data": [ &#123; "id": "...", "nombre": "..." &#125; ] &#125;</code>.</p>
+<h3 id="75-metadatos-de-la-api">7.5 Metadatos de la API</h3>
+<pre><code>GET /api/v1/health              # estado del servicio
+GET /api/v1/api-keys/scopes     # scopes disponibles (público)
+</code></pre>
+<hr />
+<h2 id="8-ejemplos">8. Ejemplos</h2>
+<h3 id="curl">cURL</h3>
+<pre><code class="language-bash">API=&quot;https://&lt;dominio&gt;/api/v1&quot;
+KEY=&quot;pnt_...&quot;
+
+# Buscar trámites de una institución, disponibles en línea
+curl -s &quot;$API/procedures?q=licencia&amp;disponibleEnLinea=true&quot; -H &quot;X-API-Key: $KEY&quot;
+
+# Detalle
+curl -s &quot;$API/procedures/licencia-de-caza&quot; -H &quot;X-API-Key: $KEY&quot;
+</code></pre>
+<h3 id="javascript-fetch">JavaScript (fetch)</h3>
+<pre><code class="language-js">const API = &quot;https://&lt;dominio&gt;/api/v1&quot;;
+const KEY = process.env.PNT_API_KEY;
+
+async function buscarTramites(params = &#123;&#125;) &#123;
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(`$&#123;API&#125;/procedures?$&#123;qs&#125;`, &#123;
+    headers: &#123; &quot;X-API-Key&quot;: KEY &#125;,
+  &#125;);
+  if (!res.ok) &#123;
+    const &#123; error &#125; = await res.json();
+    throw new Error(`$&#123;error.code&#125;: $&#123;error.message&#125;`);
+  &#125;
+  return res.json(); // &#123; data: [...], meta: &#123;...&#125; &#125;
+&#125;
+
+const &#123; data, meta &#125; = await buscarTramites(&#123; q: &quot;pasaporte&quot;, limit: 10 &#125;);
+console.log(`$&#123;meta.total&#125; resultados`, data);
+</code></pre>
+<h3 id="python-requests">Python (requests)</h3>
+<pre><code class="language-python">import os, requests
+
+API = &quot;https://&lt;dominio&gt;/api/v1&quot;
+HEADERS = &#123;&quot;X-API-Key&quot;: os.environ[&quot;PNT_API_KEY&quot;]&#125;
+
+def buscar_tramites(**params):
+    r = requests.get(f&quot;&#123;API&#125;/procedures&quot;, headers=HEADERS, params=params)
+    r.raise_for_status()
+    return r.json()
+
+resp = buscar_tramites(q=&quot;registro&quot;, modalidad=&quot;en_linea&quot;, limit=20)
+print(resp[&quot;meta&quot;][&quot;total&quot;], &quot;resultados&quot;)
+for t in resp[&quot;data&quot;]:
+    print(&quot;-&quot;, t[&quot;nombre&quot;], &quot;-&gt;&quot;, t[&quot;urlExterna&quot;] or &quot;sin enlace&quot;)
+</code></pre>
+<hr />
+<h2 id="9-buenas-practicas">9. Buenas prácticas</h2>
+<ul>
+<li>Guardá la API key en variables de entorno, <strong>nunca</strong> en el código ni en el
+  frontend/cliente. Si vas a consumir la API desde un navegador, hacelo a través
+  de tu propio backend.</li>
+<li>Cacheá el catálogo: cambia con poca frecuencia. Respetá <code>X-RateLimit-*</code>.</li>
+<li>Manejá el <code>429</code> con reintento respetando <code>Retry-After</code>.</li>
+<li>Un trámite puede tener información incompleta (<code>calidadDatos</code>, campos <code>null</code>).
+  No asumas que todos los campos vienen llenos.</li>
+</ul>
+<hr />
+<h2 id="10-changelog">10. Changelog</h2>
+<table>
+<thead>
+<tr>
+<th>Fecha</th>
+<th>Cambio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2026-09-10</td>
+<td>Versión inicial: catálogo (trámites, instituciones, categorías, ubicaciones), búsqueda, cuentas de desarrollador y API keys con scopes y límite de tasa.</td>
+</tr>
+</tbody>
+</table></article></div></div>

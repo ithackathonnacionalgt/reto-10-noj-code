@@ -1,108 +1,174 @@
 <!-- ---------------------------------------------------------------------- -->
-<!-- Buscador: lo primero y lo único que compite por la atención           -->
+<!-- Escena: en reposo ocupa toda la pantalla con el buscador al centro;    -->
+<!-- con una búsqueda se encoge y el buscador sube.                          -->
 <!-- ---------------------------------------------------------------------- -->
-<section class="cabecera">
-  <div class="contenedor cabecera-interna">
-    <h1>¿Qué trámite necesitás?</h1>
-    <p class="bajada">
-      Buscá en el Catálogo Nacional de Trámites: qué necesitás, cuánto cuesta y
-      cuánto tarda.
-    </p>
+<section class="escena" [class.en-reposo]="enReposo()" [class.con-ia]="modoIa()">
+  <!-- Halo detrás del buscador. Con el modo IA se tiñe de azul y violeta. -->
+  <div class="aura" aria-hidden="true"></div>
 
-    <!-- Buscador y filtros avanzados en la misma fila: filtrar está a un clic,
-         pero plegado para no abrumar a quien solo quiere buscar. -->
-    <div class="fila-busqueda">
-      <app-buscador
-        variante="grande"
-        etiqueta="Buscar trámites del catálogo"
-        marcador="Buscá por nombre, institución o código…"
-        [valorInicial]="termino()"
-        (buscar)="buscar($event)"
-      />
-
-      <app-filtros-avanzados
-        [filtros]="filtros()"
-        [instituciones]="instituciones()"
-        [departamentos]="departamentos()"
-        [conDepartamento]="conDepartamento()"
-        (cambiar)="aplicar($event)"
-        (limpiar)="limpiar()"
-      />
+  <div class="contenedor escena-interna">
+    <!-- Se pliega al buscar, pero sigue en el árbol de accesibilidad: es el
+         título de la página para quien usa lector de pantalla. -->
+    <div class="encabezado">
+      <div class="encabezado-interno">
+        <h1>¿Qué trámite necesitás?</h1>
+        <p class="bajada">
+          Consultá todos los trámites de Guatemala en un solo lugar: requisitos,
+          costos, tiempos y pasos a seguir.
+        </p>
+      </div>
     </div>
 
-    <!-- Etiquetas de categoría: filtro rápido, sin abrir nada. -->
-    @if (categorias().length > 0) {
-      <app-chips-categorias
-        [categorias]="categorias()"
-        [seleccionada]="filtros().categoriaId"
-        [totalTramites]="totalCatalogo()"
-        (elegir)="elegirCategoria($event)"
-      />
-    }
+    <app-buscador
+      etiqueta="Buscar trámites del catálogo"
+      [valorInicial]="termino()"
+      [modoIa]="modoIa()"
+      (modoIaChange)="cambiarModoIa($event)"
+      (buscar)="buscar($event)"
+    />
+
+    <!-- Siempre en el DOM (solo cambia la opacidad): así ocupa lo mismo
+         encendida o apagada y el buscador no se mueve al alternar. -->
+    <p class="pista-ia" [class.visible]="modoIa()" [attr.aria-hidden]="!modoIa()">
+      La IA interpreta tu pregunta y te muestra los trámites que mejor encajan.
+    </p>
   </div>
 </section>
 
 <!-- ---------------------------------------------------------------------- -->
-<!-- Resultados: visibles de inmediato, sin paso intermedio                 -->
+<!-- Resultados                                                             -->
 <!-- ---------------------------------------------------------------------- -->
-<section class="contenedor resultados" aria-live="polite">
-  @let e = estado();
+@if (!enReposo()) {
+  <section class="contenedor resultados" aria-live="polite">
+    @let e = estado();
 
-  @switch (e.fase) {
-    @case ('cargando') {
-      <ul class="rejilla" aria-hidden="true">
-        @for (_ of esqueletos; track $index) {
-          <li class="esqueleto"></li>
+    @switch (e.fase) {
+      @case ('cargando') {
+        @if (e.ia) {
+          <div class="respuesta pensando">
+            <ng-container [ngTemplateOutlet]="destellos" />
+            <p class="analizando">Analizando tu consulta…</p>
+          </div>
         }
-      </ul>
-      <p class="sr-only">Cargando trámites…</p>
-    }
-
-    @case ('error') {
-      <app-aviso tono="error" icono="⚠️" titulo="No se pudo cargar el catálogo">
-        <p>{{ e.mensaje }}</p>
-      </app-aviso>
-    }
-
-    @case ('listo') {
-      <div class="barra">
-        <p class="conteo">
-          <strong>{{ e.pagina.meta.total }}</strong>
-          {{ e.pagina.meta.total === 1 ? 'trámite' : 'trámites' }}
-          @if (hayFiltros()) {
-            <span class="filtrado">· filtrado</span>
-          }
-        </p>
-
-        @if (hayFiltros()) {
-          <button type="button" class="enlace" (click)="limpiar()">
-            Quitar filtros
-          </button>
-        }
-      </div>
-
-      @if (e.pagina.data.length === 0) {
-        <app-aviso icono="🔍" titulo="Sin resultados">
-          <p>No hay trámites que coincidan con esa búsqueda.</p>
-          @if (hayFiltros()) {
-            <p>
-              <button type="button" class="enlace" (click)="limpiar()">
-                Ver todo el catálogo
-              </button>
-            </p>
-          }
-        </app-aviso>
-      } @else {
-        <ul class="rejilla">
-          @for (t of e.pagina.data; track t.id) {
-            <li>
-              <app-tarjeta-tramite [tramite]="t" />
-            </li>
+        <ul class="rejilla" aria-hidden="true">
+          @for (_ of e.ia ? esqueletosIa : esqueletos; track $index) {
+            <li class="esqueleto"></li>
           }
         </ul>
+        <p class="sr-only">Cargando trámites…</p>
+      }
 
-        <app-paginacion [meta]="e.pagina.meta" (ir)="irAPagina($event)" />
+      @case ('error') {
+        <app-aviso tono="error" icono="⚠️" titulo="No se pudo cargar el catálogo">
+          <p>{{ e.mensaje }}</p>
+        </app-aviso>
+      }
+
+      @case ('ia') {
+        @let r = e.respuesta;
+
+        <!-- Una línea, sin recuadro: la respuesta presenta las tarjetas, no
+             compite con ellas. El rótulo queda para el lector de pantalla. -->
+        <div class="respuesta" [class.directa]="r.origen === 'directa'">
+          @if (r.origen === 'ia') {
+            <ng-container [ngTemplateOutlet]="destellos" />
+          } @else {
+            <span class="icono-respuesta" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                   stroke-linecap="round">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+            </span>
+          }
+
+          <p class="respuesta-texto">
+            <span class="sr-only">
+              {{ r.origen === 'ia' ? 'Respuesta con IA:' : 'Búsqueda directa:' }}
+            </span>
+            @for (palabra of r.texto.split(' '); track $index) {
+              <span class="palabra" [style.--i]="$index">{{ palabra }} </span>
+            }
+            @if (r.origen === 'directa') {
+              <span class="respuesta-nota">
+                La IA no está disponible ahora; son resultados de la búsqueda por texto.
+              </span>
+            }
+          </p>
+        </div>
+
+        @if (r.tramites.length > 0) {
+          <ul class="rejilla">
+            @for (t of r.tramites; track t.id) {
+              <li>
+                <app-tarjeta-tramite [tramite]="t" />
+              </li>
+            }
+          </ul>
+
+          <p class="descargo">
+            Los trámites salen del catálogo oficial; la IA solo elige cuáles mostrarte.
+            Confirmá los requisitos en la ficha de cada uno.
+          </p>
+        }
+      }
+
+      @case ('listo') {
+        <div class="barra">
+          <p class="conteo">
+            <strong>{{ e.pagina.meta.total }}</strong>
+            {{ e.pagina.meta.total === 1 ? 'trámite' : 'trámites' }}
+            @if (termino()) {
+              para «{{ termino() }}»
+            }
+          </p>
+
+          @if (hayFiltrosExtra()) {
+            <button type="button" class="enlace" (click)="limpiar()">
+              Quitar filtros
+            </button>
+          }
+        </div>
+
+        @if (e.pagina.data.length === 0) {
+          <app-aviso icono="🔍" titulo="Sin resultados">
+            <p>No hay trámites que coincidan con esa búsqueda.</p>
+            @if (!modoIa()) {
+              <p>Probá activar el <strong>Modo IA</strong> y contá en tus palabras qué necesitás.</p>
+            }
+          </app-aviso>
+        } @else {
+          <ul class="rejilla">
+            @for (t of e.pagina.data; track t.id) {
+              <li>
+                <app-tarjeta-tramite [tramite]="t" />
+              </li>
+            }
+          </ul>
+
+          <app-paginacion [meta]="e.pagina.meta" (ir)="irAPagina($event)" />
+        }
       }
     }
-  }
-</section>
+  </section>
+}
+
+<!-- Ícono de la IA con el degradado de la marca. Uno solo a la vez en la
+     página (cargando o respuesta), así que el id del degradado no se repite. -->
+<ng-template #destellos>
+  <span class="icono-respuesta" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+      <defs>
+        <linearGradient id="degradado-respuesta" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" class="parada-1" />
+          <stop offset="60%" class="parada-2" />
+          <stop offset="100%" class="parada-3" />
+        </linearGradient>
+      </defs>
+      <g fill="url(#degradado-respuesta)">
+        <path d="M11 2.5c.55 4.3 2.7 6.45 7 7-4.3.55-6.45 2.7-7 7-.55-4.3-2.7-6.45-7-7 4.3-.55 6.45-2.7 7-7Z" />
+        <path d="M18.5 14c.3 1.95 1.25 2.9 3.2 3.2-1.95.3-2.9 1.25-3.2 3.2-.3-1.95-1.25-2.9-3.2-3.2 1.95-.3 2.9-1.25 3.2-3.2Z" />
+      </g>
+    </svg>
+  </span>
+</ng-template>

@@ -9,6 +9,11 @@ import type { Routes } from '@angular/router';
  */
 export const routes: Routes = [
   {
+    path: 'desarrolladores',
+    title: 'Desarrolladores · API pública',
+    loadComponent: () => import('./features/desarrolladores/desarrolladores').then((m) => m.Desarrolladores),
+  },
+  {
     path: '',
     pathMatch: 'full',
     title: 'Catálogo Nacional de Trámites de Guatemala',

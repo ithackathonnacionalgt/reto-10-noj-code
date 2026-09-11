@@ -1,66 +1,139 @@
 /* ==========================================================================
-   Cabecera de búsqueda
-
-   Sin línea divisoria ni cambio de fondo: la búsqueda y los resultados son
-   una sola cosa continua. Lo que separa las dos zonas es el aire, no un borde.
+   Escena
    ========================================================================== */
 
-/* Halo detrás del buscador: lo señala como el centro de la página sin un
-   bloque de color con bordes duros. Se desvanece hacia abajo, así que no hay
-   costura con los resultados.
-
-   Va como `background` de la sección y no como un `::before` con z-index
-   negativo: eso obligaba a `isolation: isolate`, que creaba un contexto de
-   apilamiento y dejaba el panel de filtros por debajo de las tarjetas. */
-.cabecera {
+.escena {
   position: relative;
+}
+
+/* Halo detrás del buscador: lo señala como el centro de la página sin un
+   bloque de color con bordes duros. Dos capas para poder fundir de una a
+   otra: `background-image` no se interpola, `opacity` sí. */
+.aura {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* Bajo y ancho, pegado a la línea del buscador. La máscara desvanece arriba
+     y abajo: con resultados la escena es baja y, sin ella, el halo quedaría
+     cortado en un rectángulo. */
+  mask: linear-gradient(transparent, black 30%, black 70%, transparent);
   background: radial-gradient(
-    ellipse 40rem 22rem at 50% 38%,
+    ellipse 36rem 9rem at 50% 50%,
     var(--color-acento-suave),
     transparent 68%
   );
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse 22rem 6rem at 38% 52%,
+        color-mix(in oklab, var(--ia-azul) var(--ia-velo), transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 22rem 6rem at 62% 48%,
+        color-mix(in oklab, var(--ia-violeta) var(--ia-velo), transparent),
+        transparent 70%
+      );
+    opacity: 0;
+    transition: opacity var(--transicion-ia);
+  }
 }
 
-.cabecera-interna {
+.con-ia .aura::after {
+  opacity: 1;
+}
+
+/* En reposo ocupa toda la pantalla (menos la cabecera) y centra el
+   buscador. Al buscar, `min-height` baja a 0 con transición: el bloque se
+   encoge y el buscador sube suave en vez de saltar. */
+.escena-interna {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding-block: var(--e-2) var(--e-5);
+  text-align: center;
+  transition:
+    min-height var(--transicion-lenta),
+    padding var(--transicion-lenta);
+
+  app-buscador {
+    width: 100%;
+    max-width: var(--ancho-buscador);
+  }
+}
+
+.en-reposo .escena-interna {
+  min-height: calc(100dvh - var(--alto-cabecera));
+  /* Más aire abajo que arriba: el centro óptico queda un poco por encima
+     del centro geométrico. */
+  padding-block: var(--e-6) 14vh;
+}
+
+/* Título y bajada: se pliegan al buscar. La rejilla de 1fr → 0fr es la forma
+   de animar una altura automática sin medirla con JavaScript. */
+.encabezado {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows var(--transicion-lenta),
+    opacity var(--transicion-lenta);
+}
+
+.en-reposo .encabezado {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.encabezado-interno {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--e-3);
-  padding-block: clamp(var(--e-6), 6vw, var(--e-8)) var(--e-5);
-  text-align: center;
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: var(--e-6);
 
   h1 {
-    font-size: clamp(1.7rem, 1.2rem + 2.4vw, 2.6rem);
+    font-size: var(--texto-4xl);
+    font-weight: 750;
+    letter-spacing: -0.035em;
   }
 }
 
-/* Sin `max-width`: con 36rem la frase partía en dos renglones. Va en una sola
-   línea mientras quepa y recién se acomoda sola en pantallas angostas —
-   forzar `nowrap` provocaría desbordamiento horizontal en móvil. */
 .bajada {
   color: var(--color-texto-suave);
-  font-size: var(--texto-base);
+  font-size: var(--texto-lg);
   text-wrap: pretty;
 }
 
-/* Buscador y botón de filtros en la misma fila. */
-.fila-busqueda {
-  display: flex;
-  align-items: stretch;
-  gap: var(--e-2);
-  width: 100%;
-  max-width: 46rem;
-  margin-top: var(--e-3);
+/* Explica el modo IA recién encendido. Reserva su alto siempre: si
+   apareciera de la nada empujaría el buscador hacia arriba. */
+.pista-ia {
+  margin-top: var(--e-4);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+  opacity: 0;
+  transform: translateY(-0.4rem);
+  transition:
+    opacity var(--transicion-ia),
+    transform var(--transicion-ia);
 
-  app-buscador {
-    flex: 1;
-    min-width: 0;
+  &.visible {
+    opacity: 1;
+    transform: none;
   }
 }
 
-app-chips-categorias {
-  width: 100%;
-  margin-top: var(--e-2);
+.escena:not(.en-reposo) .pista-ia {
+  display: none;
 }
 
 /* ==========================================================================
@@ -68,7 +141,15 @@ app-chips-categorias {
    ========================================================================== */
 
 .resultados {
-  padding-block: var(--e-5) var(--e-7);
+  padding-block: var(--e-2) var(--e-7);
+  animation: subir var(--transicion-lenta) both;
+}
+
+@keyframes subir {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
 }
 
 .barra {
@@ -89,11 +170,6 @@ app-chips-categorias {
     font-weight: 700;
     font-variant-numeric: tabular-nums;
   }
-}
-
-.filtrado {
-  color: var(--color-acento-texto);
-  font-weight: 600;
 }
 
 .rejilla {
@@ -126,4 +202,126 @@ app-chips-categorias {
   to {
     background-position: -200% 0;
   }
+}
+
+/* --- Respuesta del modo IA ------------------------------------------------ */
+
+/* Una línea de texto con el ícono delante, centrada bajo el buscador: sin
+   caja, sin borde, sin sombra. El degradado vive solo en el ícono. */
+.respuesta {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--e-2);
+  max-width: var(--ancho-buscador);
+  margin: 0 auto var(--e-5);
+  animation: subir var(--transicion-lenta) both;
+}
+
+/* Alto de una línea: el ícono queda alineado con la primera línea del texto
+   aunque este ocupe dos. */
+.icono-respuesta {
+  display: grid;
+  place-items: center;
+  flex: none;
+  height: 1lh;
+  font-size: var(--texto-lg);
+  color: var(--color-texto-suave);
+
+  svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .parada-1 {
+    stop-color: var(--ia-azul);
+  }
+  .parada-2 {
+    stop-color: var(--ia-violeta);
+  }
+  .parada-3 {
+    stop-color: var(--ia-magenta);
+  }
+
+  .pensando & {
+    animation: pulso 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes pulso {
+  50% {
+    transform: scale(0.8) rotate(15deg);
+    opacity: 0.6;
+  }
+}
+
+.respuesta-texto {
+  min-width: 0;
+  color: var(--color-texto);
+  font-size: var(--texto-base);
+  line-height: 1.5;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+/* La respuesta de la IA en su color: se distingue de un vistazo del resto
+   de la página. La búsqueda de respaldo queda en el color de texto normal. */
+.respuesta:not(.directa) .respuesta-texto {
+  color: var(--ia-texto);
+  font-weight: 550;
+}
+
+/* Las palabras aparecen una tras otra, como si la respuesta se estuviera
+   escribiendo. `--i` es la posición de la palabra, la pone la plantilla. */
+.palabra {
+  animation: palabra-entra 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 40ms);
+}
+
+@keyframes palabra-entra {
+  from {
+    opacity: 0;
+    filter: blur(0.25rem);
+  }
+}
+
+.respuesta-nota {
+  display: block;
+  margin-top: var(--e-1);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-sm);
+}
+
+/* Texto con un brillo que lo recorre mientras la IA piensa. El texto base
+   es el color normal: el degradado solo pasa por encima, así nunca queda
+   ilegible en ningún punto de la animación. */
+.analizando {
+  background: linear-gradient(
+      100deg,
+      transparent 30%,
+      color-mix(in oklab, var(--ia-violeta) 70%, var(--color-texto)) 50%,
+      transparent 70%
+    )
+    0 0 / 250% 100%,
+    linear-gradient(var(--color-texto-medio), var(--color-texto-medio));
+  background-clip: text;
+  color: transparent;
+  font-weight: 600;
+  animation: recorrer 1.8s linear infinite;
+}
+
+@keyframes recorrer {
+  from {
+    background-position: 150% 0, 0 0;
+  }
+  to {
+    background-position: -150% 0, 0 0;
+  }
+}
+
+.descargo {
+  margin-top: var(--e-5);
+  color: var(--color-texto-suave);
+  font-size: var(--texto-xs);
+  text-align: center;
 }
