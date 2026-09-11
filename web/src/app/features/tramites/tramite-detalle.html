@@ -1,13 +1,6 @@
 @let e = estado();
 
 <div class="contenedor pagina">
-  <nav class="volver" aria-label="Ruta de navegación">
-    <a [href]="urlListado" (click)="volver($event)" aria-label="Volver al listado" title="Volver al listado">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="m12 5-7 7 7 7M5 12h14" />
-      </svg>
-    </a>
-  </nav>
 
   @if (e.fase === 'cargando') {
     <div class="esqueleto-ficha" aria-hidden="true">
@@ -30,7 +23,19 @@
          teléfono, entre el encabezado y los datos. -->
     <article class="ficha" [class.con-videos]="hayVideos()">
       <header class="encabezado">
-        <app-visual-tramite class="emblema" [tramite]="t" aria-hidden="true" />
+        <div class="cabecera-visual">
+          <app-visual-tramite class="emblema" [tramite]="t" aria-hidden="true" />
+          @if (videoDescripcion(); as video) {
+            <button type="button" class="acceso-senas" (click)="visor.abrir(video)"
+              [attr.aria-label]="video.tipo === 'descripcion' ? 'Reproducir descripción del trámite en LENSEGUA' : 'Reproducir paso a paso en LENSEGUA'" title="Ver en lengua de señas">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 11V6a2 2 0 0 0-4 0v5M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8" />
+                <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" />
+              </svg>
+              <span>LENSEGUA</span>
+            </button>
+          }
+        </div>
         <h1>{{ t.nombre }}</h1>
 
         @if (t.descripcionCorta) {

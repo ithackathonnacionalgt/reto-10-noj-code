@@ -19,6 +19,12 @@
   gap: var(--e-2);
 }
 
+.volver { margin-right: auto; }
+
+@media (pointer: coarse), (max-width: 48rem) {
+  .icono { min-width: 2.75rem; min-height: 2.75rem; }
+}
+
 /* Botón redondo de solo icono: accesibilidad y tema comparten forma para
    que se lean como un grupo. */
 .icono {

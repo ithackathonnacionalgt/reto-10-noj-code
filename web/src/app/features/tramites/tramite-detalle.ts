@@ -7,8 +7,8 @@ import {
   linkedSignal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Router, RouterLink } from '@angular/router';
-import { Location } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { VisorVideo } from '../../shared/video/visor-video.service';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { CatalogoApi } from '../../core/api/catalogo-api';
 import { ErrorApi } from '../../core/api/error-api.interceptor';
@@ -39,21 +39,7 @@ type Estado =
 })
 export class TramiteDetalle {
   private readonly api = inject(CatalogoApi);
-  private readonly router = inject(Router);
-  private readonly location = inject(Location);
-  private readonly anterior = this.router.currentNavigation()?.previousNavigation?.finalUrl;
-  protected readonly urlListado = this.anterior &&
-    (this.anterior.root.children['primary']?.segments.length ?? 0) === 0
-    ? this.router.serializeUrl(this.anterior)
-    : '/';
-
-  protected volver(event: MouseEvent): void {
-    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
-    if (this.anterior && (this.anterior.root.children['primary']?.segments.length ?? 0) === 0) {
-      event.preventDefault();
-      this.location.back();
-    }
-  }
+  protected readonly visor = inject(VisorVideo);
 
   /** Viene de la ruta gracias a `withComponentInputBinding()`. */
   readonly slug = input.required<string>();
@@ -125,6 +111,8 @@ export class TramiteDetalle {
     const r = this.resultado();
     return r.fase === 'listo' ? agruparVideos(r.tramite.accesibilidad?.videosSenas) : SIN_VIDEOS;
   });
+
+  protected readonly videoDescripcion = computed(() => this.videos().descripcion ?? this.videos().pasos);
 
   protected readonly hayVideos = computed(() => {
     const v = this.videos();
