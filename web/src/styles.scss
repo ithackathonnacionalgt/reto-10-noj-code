@@ -184,6 +184,11 @@
   --ancho-buscador: 46rem;
   /* La portada lo descuenta del alto de pantalla para centrar el buscador. */
   --alto-cabecera: 3.5rem;
+  /* Botones redondos de la barra superior (volver, accesibilidad, tema,
+     API). Uno solo para todos: viven en componentes distintos y así no se
+     desparejan. En táctil sube a 2.75rem (44 px, el mínimo cómodo). */
+  --tam-boton-barra: 2.25rem;
+  --tam-icono-barra: 1.125rem;
 
   /* Capas: numeradas acá para que nadie invente un z-index de 9999. */
   --z-cabecera: 10;
@@ -411,6 +416,12 @@ p {
    desenfoque la presenta como fondo quieto. */
 :root:has(dialog[open]) {
   overflow: hidden;
+}
+
+@media (pointer: coarse), (max-width: 48rem) {
+  :root {
+    --tam-boton-barra: 2.75rem;
+  }
 }
 
 .sr-only {
