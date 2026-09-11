@@ -30,12 +30,12 @@ const PREFIJO_API = '/api/';
 const RUTA_ASISTENTE = '/api/asistente';
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
     // Antes del proxy: esta ruta la resuelve el Worker, no el backend.
     if (url.pathname === RUTA_ASISTENTE) {
-      return manejarAsistente(request, env);
+      return manejarAsistente(request, env, ctx);
     }
 
     if (!url.pathname.startsWith(PREFIJO_API)) {

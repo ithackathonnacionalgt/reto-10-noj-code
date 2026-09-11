@@ -12,17 +12,26 @@ npm install
 npm start           # http://localhost:4200
 ```
 
-No hace falta levantar el backend: por defecto `ng serve` redirige `/api` a la API
-desplegada. Para trabajar contra el backend local:
+Por defecto `ng serve` redirige `/api` al backend local en el puerto 3001.
+Iniciá el backend en otra terminal para probar los cambios actuales de la API:
 
 ```bash
 cd ../backend && npm run start:dev      # en otra terminal
 API_PROXY=http://localhost:3001 npm start
 ```
 
+Para usar la API publicada, establecé `API_PROXY=https://reto-10-noj-code-api.onrender.com`
+antes de iniciar Angular. Reiniciá `ng serve` cuando cambies el destino del proxy.
+
 En ambos casos el navegador habla siempre con su mismo origen — igual que en
 producción — así que no hay peticiones cross-origin ni que tocar `CORS_ORIGINS`.
 Ver `proxy.conf.mjs`.
+
+El **modo IA funciona en local con el modelo real**: `/api/asistente` se reenvía
+al Worker desplegado, que es quien tiene la llave de OpenAI. La llave nunca pasa
+por tu máquina. Para probar cambios del propio Worker, levantalo con
+`npm run preview` y apuntá el proxy ahí:
+`ASISTENTE_PROXY=http://localhost:8787 npm start`.
 
 | Script | Qué hace |
 |---|---|
@@ -44,26 +53,38 @@ src/app/
 │   ├── models/      Interfaces y enumerados del contrato de la API
 │   ├── config/      Token de entorno
 │   ├── accesibilidad/  Store de preferencias
-│   └── asistente/   Servicio del chat
-├── layout/        Cascarón: cabecera (accesibilidad + tema + asistente), pie, chat
+│   └── asistente/   Servicio del modo IA
+├── layout/        Cascarón: cabecera (accesibilidad + tema) y pie
 ├── shared/        Piezas reutilizables y sin estado de negocio
 │   ├── ui/          buscador, tarjeta-tramite, paginacion, aviso
+│   ├── voz/         dictado por voz (Web Speech API)
 │   └── formato/     pipes de costo y tiempo
 └── features/      Una carpeta por funcionalidad, con carga diferida
-    ├── catalogo/     pantalla principal + chips de categoría y filtros avanzados
+    ├── catalogo/     pantalla principal: buscador y resultados
     ├── tramites/     ficha de detalle
     └── no-encontrado/
 ```
 
-**La raíz es el catálogo.** No hay portada de bienvenida: buscador arriba,
-etiquetas de categoría debajo y los trámites de inmediato. `/tramites` redirige
-a `/` porque quedaron enlaces publicados apuntando ahí.
+**La raíz es el buscador.** Al entrar solo se ve el título y el buscador,
+centrados en la pantalla: sin resultados, sin categorías, sin filtros. Al buscar,
+el título se pliega, el buscador sube y aparecen las tarjetas. Borrar la búsqueda
+vuelve al reposo. `/tramites` redirige a `/` porque quedaron enlaces publicados
+apuntando ahí.
 
-**Los filtros están en dos niveles.** Las categorías son etiquetas siempre
-visibles (un clic); el resto —institución, departamento, modalidad, costo,
-disponibilidad en línea y orden— vive plegado en un panel al lado del buscador,
-con un contador de filtros activos para que nunca queden puestos sin que la
-persona lo sepa.
+**El buscador tiene tres piezas:**
+
+- **Texto.** Búsqueda directa contra `GET /procedures?q=…`, paginada.
+- **Modo IA.** Un interruptor (`role="switch"`) dentro de la barra. Encendido,
+  la barra se bordea con una luz azul-violeta que gira y la consulta la
+  interpreta el asistente (ver «El asistente de IA»): arriba va su respuesta en
+  una o dos oraciones y abajo las tarjetas de los trámites que eligió.
+- **Micrófono.** Transcribe mientras la persona habla (`Dictado`, sobre la Web
+  Speech API del navegador) y busca solo al terminar la frase. En navegadores sin
+  soporte —Firefox— el botón no aparece.
+
+Todo vive en la URL (`?q=…&ia=1`). Los filtros de la versión anterior
+(`categoriaId`, `institucionId`, etc.) ya no tienen controles, pero se siguen
+respetando porque hay enlaces publicados con ellos.
 
 **Regla de dependencias:** `features` → `shared` → `core`. Nunca al revés, y una
 feature no importa de otra. Si dos features necesitan lo mismo, sube a `shared`
@@ -102,6 +123,59 @@ archivo, no recorrer 20 SCSS.
 | Forma | `--radio-sm/-/-lg/-xl/-full` |
 | Elevación | `--sombra-1/2/3`, `--sombra-acento` |
 | Capas | `--z-cabecera`, `--z-flotante` |
+| Modo IA | `--ia-azul/-indigo/-violeta/-magenta/-celeste`, `--ia-paleta`, `--ia-lineal`, `--ia-brillo` |
+
+La luz del modo IA es un `conic-gradient` que gira animando `--angulo-ia`,
+registrada con `@property` en `styles.scss` para que el navegador pueda
+interpolar el ángulo. Son dos capas: un aro nítido de 2px y el mismo aro
+desenfocado, que es el resplandor. Con «reducir movimiento» queda quieta.
+
+Encima corre un **destello**: un cometa con el mismo degradado que da una vuelta
+al contorno cada 4,2 s con `offset-path: border-box`. Se usa un camino y no otro cónico porque
+en una barra tan ancha el ángulo barre las puntas en un parpadeo y se arrastra en
+los lados; el camino da velocidad pareja en todo el perímetro. Con «reducir
+movimiento», o en un navegador sin `offset-path`, el destello no aparece.
+
+Al **encender** el modo IA la barra hace un leve respiro (`scale` 1.015) y
+sale una onda del mismo degradado que se abre y se desvanece una sola vez.
+Lupa y destellos se cruzan girando, y el botón de enviar funde a degradado
+por una capa aparte. Todo usa `--transicion-ia` (750 ms, salida suave), que
+también se anula con «reducir movimiento».
+
+La respuesta de la IA es una sola oración (el prompt pide un máximo de 15
+palabras) en una línea sin recuadro, con el ícono de destellos delante, en
+`--ia-texto` y con las palabras apareciendo una tras otra.
+
+### Videos en lengua de señas (LENSEGUA)
+
+Cada trámite puede tener dos videos (`accesibilidad.videosSenas`, campo
+`tipo`): la **descripción corta** y el **paso a paso**. Solo llegan los
+publicados.
+
+- **Tarjeta** — con mouse o trackpad, dejar el cursor 350 ms sobre la tarjeta
+  abre al lado un cuadro del mismo tamaño con la descripción, en silencio y en
+  bucle. Va a la derecha si entra en la pantalla, si no a la izquierda, y si no
+  entra en ninguno, encima de la tarjeta. Si el trámite todavía no tiene la
+  descripción, muestra el paso a paso. En pantallas táctiles no hay hover:
+  la tarjeta muestra un botón «LENSEGUA» que abre el video en el visor.
+- **Ficha** — el paso a paso va en una columna a la derecha que acompaña el
+  scroll (`position: sticky`), con un selector para pasar a la descripción.
+  En tablet y teléfono queda entre el encabezado y los datos.
+- **Visor** — «Ampliar» abre el video al centro con la página desenfocada
+  detrás. Es un `<dialog>` nativo (`showModal()`): foco atrapado, `Esc` y el
+  `::backdrop` los da el navegador. Retoma desde el segundo en que iba.
+
+Los videos arrancan solos y mudos (la única forma en que los navegadores
+dejan reproducir sin un clic). Con «reducir movimiento» esperan al play, y
+fuera de la pantalla se pausan.
+
+La URL puede ser un archivo (se reproduce con `<video>`) o un enlace de
+YouTube, Vimeo o Google Drive (se incrusta su reproductor): ver
+`shared/video/fuente-video.ts`.
+
+Si el listado no trae los videos, la tarjeta pide la ficha la primera vez que
+se le pasa el cursor y la guarda en memoria (`core/videos/videos-lensegua.ts`).
+El backend los incluye en el listado desde `aResumen`, sin consultas extra.
 
 ### Tema claro y oscuro
 
@@ -157,28 +231,15 @@ Reglas que conviene no romper:
 - Los **datos que faltan se atenúan**, no se muestran con el mismo peso que un
   dato real: señalar la información incompleta es parte del reto.
 
-### Conteos y cobertura
-
-Las categorías y las instituciones se muestran **con su conteo real**, y las que
-están vacías aparecen apagadas en vez de desaparecer: la brecha entre lo que el
-catálogo declara y lo que publica es parte de lo que el reto pide hacer visible.
-Las categorías vacías van plegadas tras un botón para no ensuciar la pantalla.
-
-Los conteos se calculan **en el cliente**, leyendo una vez el catálogo publicado.
-Es un puente: la API todavía no expone facetas y esto no escala más allá de unos
-cientos de trámites. Debe moverse a un endpoint de agregados en el backend.
-
-> **Filtro de departamento.** Hoy ningún trámite tiene `departamento_id`
-> asignado y la tabla `tramites_disponibilidad` está vacía, así que el filtro
-> devuelve cero para cualquier valor. El panel lo avisa explícitamente en vez de
-> dejar que la persona crea que la búsqueda está rota.
-
 Contraste verificado (texto normal exige 4.5:1 en AA):
 
-| Tema | Cuerpo | Título tarjeta | Texto suave | Chip | Botón asistente |
-|---|---|---|---|---|---|
-| Claro | 15.76 | 15.76 | 5.74 | 7.75 | 6.23 |
-| Oscuro | 16.97 | 15.55 | 6.13 | 10.79 | 9.34 |
+| Tema | Cuerpo | Título tarjeta | Texto suave |
+|---|---|---|---|
+| Claro | 15.76 | 15.76 | 5.74 |
+| Oscuro | 16.97 | 15.55 | 6.13 |
+
+El degradado del modo IA nunca lleva texto encima: solo íconos blancos
+(interruptor, enviar, insignia), que como elemento gráfico exigen 3:1.
 
 ---
 
@@ -205,8 +266,8 @@ desactiva, `aria-live` en los resultados y respeto de `prefers-reduced-motion`.
 
 ## El asistente de IA
 
-El chat lateral responde con un modelo de OpenAI, pero **solo puede hablar del
-catálogo**. Cómo se garantiza eso:
+El modo IA del buscador responde con un modelo de OpenAI, pero **solo puede
+hablar del catálogo**. Cómo se garantiza eso:
 
 ```
 Angular  ──POST /api/asistente──▶  Worker  ──▶  GET /procedures?limit=100
@@ -220,9 +281,9 @@ Angular  ──POST /api/asistente──▶  Worker  ──▶  GET /procedures?
 
 **El modelo nunca redacta datos de un trámite.** Recibe el índice como contexto,
 responde en una o dos oraciones y devuelve `slugs`. Los trámites que la interfaz
-pinta como botones se resuelven en el Worker contra ese índice, así que siempre
+pinta como tarjetas se resuelven en el Worker contra ese índice, así que siempre
 son filas de la base. Si el modelo inventara un slug, no encuentra nada y no
-aparece ningún botón — no hay forma de que un trámite falso llegue a la pantalla.
+aparece ninguna tarjeta — no hay forma de que un trámite falso llegue a la pantalla.
 
 Se usa *structured outputs* (`response_format: json_schema`, `strict: true`), de
 modo que la salida no puede salirse del esquema y no hay que parsear texto libre.
@@ -253,15 +314,15 @@ El modelo se elige con la variable `OPENAI_MODELO` de `wrangler.jsonc`
 ### Cuando el asistente no está disponible
 
 `AsistenteService` cae a una búsqueda directa contra `GET /procedures` si el
-endpoint responde error — falta la llave, se cayó OpenAI, o se está corriendo
-`ng serve`, que no tiene Worker. La respuesta pierde naturalidad, pero la persona
-igual encuentra su trámite. El chat nunca queda mudo.
+endpoint responde error — falta la llave, se cayó OpenAI o el Worker no responde. La respuesta pierde naturalidad, pero la persona
+igual encuentra su trámite. En ese caso la respuesta se rotula «Búsqueda
+directa» y no «Respuesta con IA»: la interfaz no se atribuye una IA que no usó.
 
 ### Límites
 
 El endpoint es público, así que el Worker acota el gasto antes de llamar al
-modelo: pregunta de 500 caracteres, 6 mensajes de historial, 220 tokens de
-salida y como mucho 3 trámites por respuesta. No se confía en el cliente para
+modelo: pregunta de 500 caracteres, 6 mensajes de historial, 300 tokens de
+salida y como mucho 6 trámites por respuesta. No se confía en el cliente para
 esto.
 
 ## Despliegue en Cloudflare
