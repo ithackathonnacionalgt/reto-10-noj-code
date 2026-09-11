@@ -45,9 +45,11 @@ Con la API corriendo:
 ./scripts/smoke.sh https://reto10-api.onrender.com/api/v1
 ```
 
-Debe terminar con `TODO OK (22 checks)` y código de salida 0.
+Debe terminar con `TODO OK (33 checks)` y código de salida 0.
 Cubre: health, listado y búsqueda de trámites (full-text + trigram), filtros,
-validación (400/404), catálogos, y auth (login, perfil, RBAC 401/200).
+validación (400/404), catálogos, auth (login, perfil, RBAC 401/200) y **API keys**
+(crear, listar sin exponer el hash, usar con `X-API-Key`, headers de rate limit,
+`/api-keys/uso`, key inválida/revocada → 401, anónimo sigue funcionando).
 
 ---
 
@@ -120,6 +122,9 @@ Todo debe pasar.
   de búsqueda + columna generada `busqueda_tsv`). Esta última tiene timestamp alto
   a propósito para correr siempre al final.
 - Re-sembrar datos base (idempotente): `npm run seed`.
+- Catálogo real (1303 trámites, 15 dic 2023): `node src/database/seed/enriquecer-catalogo.mjs`
+  (descarga las páginas oficiales) y luego `npm run import:catalogo`. Detalle en
+  `docs/CATALOGO-2023.md`. Esperado en BD: ~1131 `completo`, ~172 sin pasos completos.
 
 ---
 
@@ -166,6 +171,24 @@ Ver `render.yaml` en la raíz. Resumen:
 
 ---
 
+## 9.b API para desarrolladores
+
+Ver **`docs/API-PUBLICA.md`** (documentación completa para publicar en una página).
+Flujo: `POST /auth/registro` → `POST /auth/login` → `POST /api-keys` (con JWT) →
+usar `X-API-Key` en las llamadas. Scopes en `GET /api-keys/scopes`.
+
+Verificar a mano:
+```bash
+TOK=$(curl -s -X POST $B/auth/login -H 'Content-Type: application/json' \
+  -d '{"email":"admin@tramites.gob.gt","password":"CambiaEstaClave123!"}' | jq -r .data.accessToken)
+K=$(curl -s -X POST $B/api-keys -H "Authorization: Bearer $TOK" -H 'Content-Type: application/json' \
+  -d '{"nombre":"prueba"}' | jq -r .data.llaveCompleta)
+curl -s -D - -o /dev/null $B/procedures -H "X-API-Key: $K" | grep -i x-ratelimit
+curl -s $B/api-keys/uso -H "X-API-Key: $K" | jq
+```
+
+---
+
 ## 10. Limitaciones conocidas (deuda técnica, no bugs)
 
 - **Rotación de refresh token** no es transaccional: dos requests de refresh
@@ -179,3 +202,8 @@ Ver `render.yaml` en la raíz. Resumen:
 - **`/institutions` y `/categories` públicos** devuelven algunos campos internos
   (`creadoPor`, `fechaCreacion`…). No expone secretos; conviene un mapper público.
 - **`page` sin tope**: `?page=9999` devuelve lista vacía (no error).
+- **Rate limiter de API keys en memoria** (fixed window): no se comparte entre
+  instancias (OK con 1 instancia en Render Free) y el `Map` no se purga.
+- **Validación de API key = 1 query por petición con key** (lookup por hash). Sin
+  caché por ahora.
+- **Petición anónima sin límite de tasa.** Solo se limita cuando hay `X-API-Key`.

@@ -5,6 +5,8 @@ import { AppService } from './app.service.js';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware.js';
 import { configuration } from './config/configuration.js';
 import { DatabaseModule } from './database/database.module.js';
+import { ApiKeysModule } from './modules/api-keys/api-keys.module.js';
+import { ApiKeyContextMiddleware } from './modules/api-keys/api-keys.middleware.js';
 import { AuthModule } from './modules/auth/auth.module.js';
 import { CategoriasModule } from './modules/categorias/categorias.module.js';
 import { InstitucionesModule } from './modules/instituciones/instituciones.module.js';
@@ -21,6 +23,7 @@ import { UbicacionesModule } from './modules/ubicaciones/ubicaciones.module.js';
     }),
     DatabaseModule,
     AuthModule,
+    ApiKeysModule,
     InstitucionesModule,
     CategoriasModule,
     TramitesModule,
@@ -31,6 +34,9 @@ import { UbicacionesModule } from './modules/ubicaciones/ubicaciones.module.js';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(RequestIdMiddleware).forRoutes('*');
+    // RequestId primero (lo usa el manejo de errores), luego el contexto de API key.
+    consumer
+      .apply(RequestIdMiddleware, ApiKeyContextMiddleware)
+      .forRoutes('*');
   }
 }

@@ -41,6 +41,11 @@ check "health responde ok" "ok" "$(curl -s "$BASE/health" | j "d['data']['estado
 LISTA="$(curl -s "$BASE/procedures")"
 check "procedures: tiene data[]" "list" "$(echo "$LISTA" | j "type(d['data']).__name__")"
 check "procedures: meta tiene total" "True" "$(echo "$LISTA" | j "'total' in d['meta']")"
+check "catalogo importado: > 1000 tramites publicados" "True" \
+  "$(echo "$LISTA" | j "d['meta']['total'] > 1000")"
+DET_SLUG="$(echo "$LISTA" | j "d['data'][0]['slug']")"
+check "detalle trae requisitos[] y pasos[]" "True" \
+  "$(curl -s "$BASE/procedures/$DET_SLUG" | j "isinstance(d['data'].get('requisitos'),list) and isinstance(d['data'].get('pasos'),list)")"
 check "procedures: item trae urlExterna" "True" \
   "$(echo "$LISTA" | j "'urlExterna' in d['data'][0]" 2>/dev/null || echo True)"
 
@@ -78,6 +83,32 @@ check "admin sin token -> 401" "401" "$(code "$BASE/admin/procedures")"
 check "admin con token -> 200" "200" "$(code -H "Authorization: Bearer $TOK" "$BASE/admin/procedures")"
 check "login mal password -> 401" "401" \
   "$(code -X POST "$BASE/auth/login" -H 'Content-Type: application/json' -d '{"email":"x@x.com","password":"mal"}')"
+
+# 8. API keys para desarrolladores
+check "GET /api-keys/scopes (publico) trae scopes" "True" \
+  "$(curl -s "$BASE/api-keys/scopes" | j "len(d['data']) >= 5")"
+KEYRESP="$(curl -s -X POST "$BASE/api-keys" -H "Authorization: Bearer $TOK" \
+  -H 'Content-Type: application/json' \
+  -d '{"nombre":"smoke test key","scopes":["procedures:read"]}')"
+APIKEY="$(echo "$KEYRESP" | j "d['data']['llaveCompleta']")"
+KEYID="$(echo "$KEYRESP" | j "d['data']['id']")"
+check "POST /api-keys devuelve llaveCompleta una vez" "True" \
+  "$([ -n "$APIKEY" ] && [ "$APIKEY" != "None" ] && echo True || echo False)"
+check "listado de api-keys NO expone el hash" "True" \
+  "$(curl -s "$BASE/api-keys" -H "Authorization: Bearer $TOK" \
+     | j "all('hashLlave' not in k and 'hash_llave' not in k for k in d['data'])")"
+check "GET /procedures con API key -> 200" "200" \
+  "$(code -H "X-API-Key: $APIKEY" "$BASE/procedures")"
+check "respuesta con API key trae X-RateLimit-Limit" "True" \
+  "$(curl -s -D - -o /dev/null -H "X-API-Key: $APIKEY" "$BASE/procedures" \
+     | grep -qi '^x-ratelimit-limit:' && echo True || echo False)"
+check "GET /api-keys/uso con API key -> 200" "200" \
+  "$(code -H "X-API-Key: $APIKEY" "$BASE/api-keys/uso")"
+check "API key invalida -> 401" "401" "$(code -H 'X-API-Key: pnt_noexiste123' "$BASE/procedures")"
+check "sin API key sigue funcionando -> 200" "200" "$(code "$BASE/procedures")"
+curl -s -o /dev/null -X POST "$BASE/api-keys/$KEYID/revocar" -H "Authorization: Bearer $TOK"
+check "API key revocada -> 401" "401" "$(code -H "X-API-Key: $APIKEY" "$BASE/procedures")"
+curl -s -o /dev/null -X DELETE "$BASE/api-keys/$KEYID" -H "Authorization: Bearer $TOK"
 
 echo
 if [ "$FAIL" -eq 0 ]; then

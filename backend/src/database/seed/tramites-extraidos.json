@@ -1,0 +1,1486 @@
+{
+  "metadata": {
+    "total_tramites": 83,
+    "total_instituciones": 25,
+    "fecha_extraccion": "2026-09-10T17:14:01.385145",
+    "formato_version": "2.0",
+    "descripcion": "Catálogo estructurado y unificado de trámites gubernamentales"
+  },
+  "tramites": [
+    {
+      "id": "renap_emisi_n_de_primer_dpi__documento_personal_de_identific",
+      "institucion": "RENAP",
+      "tramite": "Emisión de Primer DPI (Documento Personal de Identificación)",
+      "descripcion": "Trámite obligatorio para todo ciudadano guatemalteco al cumplir la mayoría de edad para obtener su documento de identidad oficial.",
+      "costo": "Gratuito al cumplir 18 años",
+      "requisitos": [
+        "Por favor, prepara tu es importante haber cumplido 18 años de edad.",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Certificado de Nacimiento emitido por RENAP (vigencia máxima 6 meses)..",
+        "Por favor, prepara tu asegúrate de contar con: Presencia física del solicitante para captura biométrica (huellas, firma y fotografía)..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Boleto de ornato del año en curso si la municipalidad lo requiere..."
+      ],
+      "url_mas_info": "https://www.renap.gob.gt/servicios/que-es-el-dpi",
+      "tiempo_estimado": "15 a 30 días hábiles",
+      "modalidad": "Presencial",
+      "categoria": "Identificación y Registro Civil"
+    },
+    {
+      "id": "renap_renovaci_n_de_dpi_por_vencimiento",
+      "institucion": "RENAP",
+      "tramite": "Renovación de DPI por Vencimiento",
+      "descripcion": "Renovación obligatoria del DPI tras cumplir su vigencia de 10 años.",
+      "costo": "Q. 100.00 (Tarifa estándar) + Q. 15.00 servicios bancarios",
+      "requisitos": [
+        "Asegúrate de contar con: Asegúrate de contar con: DPI vencido o por vencer...",
+        "Asegúrate de contar con: Asegúrate de contar con: Comprobante de pago bancario en Banrural o Banco Industrial...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Certificado de Nacimiento reciente emitido por RENAP...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Actualización de datos biométricos y dirección actual..."
+      ],
+      "url_mas_info": "https://www.renap.gob.gt/servicios/renovacion-de-dpi",
+      "tiempo_estimado": "15 a 30 días hábiles",
+      "modalidad": "Presencial / Cita en Línea",
+      "categoria": "Identificación y Registro Civil"
+    },
+    {
+      "id": "renap_reposici_n_de_dpi_por_p_rdida__robo_o_deterioro",
+      "institucion": "RENAP",
+      "tramite": "Reposición de DPI por Pérdida, Robo o Deterioro",
+      "descripcion": "Solicitud de nuevo plástico de DPI en caso de pérdida, sustracción o daño grave.",
+      "costo": "Q. 100.00",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Denuncia de extravío o robo emitida por la PNC o Ministerio Público (o declaración jurada de deterioro)...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu comprobante de pago en agencias autorizadas o banca en línea..",
+        "Por favor, prepara tu asegúrate de contar con: Certificado de nacimiento vigente..",
+        "Asegúrate de contar con: Asegúrate de contar con: Presencia en oficina de RENAP para cotejo biométrico..."
+      ],
+      "url_mas_info": "https://www.renap.gob.gt/servicios/reposicion-de-dpi",
+      "tiempo_estimado": "15 a 20 días hábiles",
+      "modalidad": "Presencial o Portal Web e-RENAP",
+      "categoria": "Identificación y Registro Civil"
+    },
+    {
+      "id": "renap_certificado_de_nacimiento_en_l_nea_y_presencial",
+      "institucion": "RENAP",
+      "tramite": "Certificado de Nacimiento en Línea y Presencial",
+      "descripcion": "Emisión del certificado con firma electrónica avanzada y código QR de validación.",
+      "costo": "Q. 25.00 (Portal web o ventanilla)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Número de CUI (Código Único de Identificación) de la persona...",
+        "Por favor, prepara tu por favor, prepara tu nombres y apellidos completos.",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Fecha y lugar de nacimiento...",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente pago con tarjeta de crédito/débito o en bancos del sistema.."
+      ],
+      "url_mas_info": "https://e-servicios.renap.gob.gt/",
+      "tiempo_estimado": "Inmediato en línea / Mismo día en oficina",
+      "modalidad": "En Línea (e-RENAP) / Presencial",
+      "categoria": "Certificados Registrales"
+    },
+    {
+      "id": "renap_certificado_de_matrimonio",
+      "institucion": "RENAP",
+      "tramite": "Certificado de Matrimonio",
+      "descripcion": "Constancia oficial del acto matrimonial celebrado bajo leyes guatemaltecas.",
+      "costo": "Q. 25.00",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Número de Código Único de Identificación (CUI) de uno o ambos cónyuges..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fecha de celebración del matrimonio civil...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Número de partida registral si se conoce..",
+        "Asegúrate de contar con: Por favor, prepara tu comprobante de pago electrónico o bancario.."
+      ],
+      "url_mas_info": "https://e-servicios.renap.gob.gt/",
+      "tiempo_estimado": "Inmediato en línea",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Certificados Registrales"
+    },
+    {
+      "id": "renap_certificado_de_defunci_n",
+      "institucion": "RENAP",
+      "tramite": "Certificado de Defunción",
+      "descripcion": "Acreditación legal del fallecimiento de un ciudadano guatemalteco o residente.",
+      "costo": "Q. 25.00",
+      "requisitos": [
+        "Por favor, prepara tu por favor, prepara tu código Único de Identificación (Código Único de Identificación (CUI)) o nombre completo del fallecido.",
+        "Asegúrate de contar con: Por favor, prepara tu fecha de defunción..",
+        "Asegúrate de contar con: Por favor, prepara tu informe médico o acta de inscripción previa de defunción..",
+        "Asegúrate de contar con: Te pedimos amablemente pago de la tarifa registral oficial.."
+      ],
+      "url_mas_info": "https://e-servicios.renap.gob.gt/",
+      "tiempo_estimado": "Inmediato en línea / 1 día en oficina",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Certificados Registrales"
+    },
+    {
+      "id": "contralor_a_general_de_cuentas_constancia_transitoria_de_ine",
+      "institucion": "Contraloría General de Cuentas",
+      "tramite": "Constancia Transitoria de Inexistencia de Reclamación de Cargos (Finiquito)",
+      "descripcion": "Documento legal indispensable emitido por la CGC para optar a cargos públicos y contrataciones con el Estado.",
+      "costo": "Q. 75.00 (Pago en línea o Banrural)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Usuario activo en el portal web de la Contraloría General de Cuentas...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Fotocopia digitalizada legible de ambos lados del Documento Personal de Identificación (DPI)..",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente estar al día con la Declaración Jurada Patrimonial si aplica..",
+        "Por favor, prepara tu por favor, prepara tu no tener juicios de cuentas ni sanciones administrativas pendientes.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Comprobante de pago correspondiente..."
+      ],
+      "url_mas_info": "https://portal.contraloria.gob.gt/portal/servicios-al-ciudadano/finiquito/",
+      "tiempo_estimado": "24 a 48 horas hábiles",
+      "modalidad": "En Línea",
+      "categoria": "Transparencia y Gestión Pública"
+    },
+    {
+      "id": "contralor_a_general_de_cuentas_declaraci_n_jurada_patrimonia",
+      "institucion": "Contraloría General de Cuentas",
+      "tramite": "Declaración Jurada Patrimonial (Inicial, Periódica y Final)",
+      "descripcion": "Rendición de cuentas obligatoria según la Ley de Probidad para funcionarios y servidores públicos.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Nombramiento o acta de toma de posesión del cargo público...",
+        "Asegúrate de contar con: Por favor, prepara tu detalle exhaustivo de bienes muebles, inmuebles, cuentas bancarias y deudas..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Formulario electrónico de Probidad completado y firmado digitalmente...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Presentación obligatoria dentro de los 30 días posteriores a la toma o entrega de cargo..."
+      ],
+      "url_mas_info": "https://portal.contraloria.gob.gt/probidad/",
+      "tiempo_estimado": "Inmediato al entregar formulario digital",
+      "modalidad": "En Línea / Entrega Presencial de soporte",
+      "categoria": "Probidad y Fiscalización"
+    },
+    {
+      "id": "contralor_a_general_de_cuentas_consulta_y_validaci_n_de_fini",
+      "institucion": "Contraloría General de Cuentas",
+      "tramite": "Consulta y Validación de Finiquito Electrónico",
+      "descripcion": "Servicio en línea para que instituciones y ciudadanos verifiquen la autenticidad del finiquito emitido.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Número de correlativo o código de verificación del finiquito...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Número de DPI o CUI del interesado...",
+        "Por favor, prepara tu por favor, prepara tu acceso al portal oficial de verificación pública."
+      ],
+      "url_mas_info": "https://portal.contraloria.gob.gt/verificacion/",
+      "tiempo_estimado": "Consulta inmediata",
+      "modalidad": "En Línea",
+      "categoria": "Validación Pública"
+    },
+    {
+      "id": "contralor_a_general_de_cuentas_carn__de_identificaci_n_para_",
+      "institucion": "Contraloría General de Cuentas",
+      "tramite": "Carné de Identificación para Auditores y Contadores",
+      "descripcion": "Registro y carné habilitante para profesionales de la auditoría y contaduría pública.",
+      "costo": "Q. 50.00",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Constancia de colegiado activo emitida por el colegio profesional correspondiente...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Copia de Documento Personal de Identificación (DPI)..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu constancia de carencia de antecedentes penales y policiales..",
+        "Asegúrate de contar con: Asegúrate de contar con: Formulario de registro para el ejercicio de auditoría ante entidades públicas..."
+      ],
+      "url_mas_info": "https://www.contraloria.gob.gt",
+      "tiempo_estimado": "5 días hábiles",
+      "modalidad": "Presencial y En Línea",
+      "categoria": "Registro Profesional"
+    },
+    {
+      "id": "ministerio_de_salud__mspas__constancia_de_manipulaci_n_de_al",
+      "institucion": "Ministerio de Salud (MSPAS)",
+      "tramite": "Constancia de Manipulación de Alimentos",
+      "descripcion": "Acreditación obligatoria para cualquier persona que trabaje en restaurantes, venta de alimentos, hotelería o servicios afines. Requiere contar previamente con la Tarjeta de Salud.",
+      "costo": "Totalmente Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Fotocopia de Documento Personal de Identificación (DPI) legible de ambos lados..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Tarjeta de Salud vigente del solicitante...",
+        "Por favor, prepara tu por favor, prepara tu fotografía reciente tamaño cédula.",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Asistir y aprobar la charla de buenas prácticas impartida en el Centro de Salud..."
+      ],
+      "url_mas_info": "https://tramites.mspas.gob.gt",
+      "tiempo_estimado": "1 a 3 días hábiles",
+      "modalidad": "Presencial en Centro de Salud (Gestión inicial en línea)",
+      "categoria": "Salud y Seguridad Alimentaria"
+    },
+    {
+      "id": "ministerio_de_salud__mspas__tarjeta_de_salud",
+      "institucion": "Ministerio de Salud (MSPAS)",
+      "tramite": "Tarjeta de Salud",
+      "descripcion": "Certificación médica básica que comprueba que el solicitante no padece enfermedades infectocontagiosas.",
+      "costo": "Totalmente Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Documento Personal de Identificación (DPI) o Certificado de Nacimiento..",
+        "Asegúrate de contar con: Asegúrate de contar con: Exámenes de laboratorio clínicos recientes (Heces, Orina, Sangre - VDRL)...",
+        "Por favor, prepara tu por favor, prepara tu constancia médica de buena salud general."
+      ],
+      "url_mas_info": "https://tramites.mspas.gob.gt",
+      "tiempo_estimado": "Mismo día al entregar requisitos",
+      "modalidad": "Presencial en Centro de Salud",
+      "categoria": "Salud y Bienestar"
+    },
+    {
+      "id": "ministerio_de_salud__mspas__licencia_sanitaria_de_funcionami",
+      "institucion": "Ministerio de Salud (MSPAS)",
+      "tramite": "Licencia Sanitaria de Funcionamiento para Establecimientos",
+      "descripcion": "Autorización sanitaria que garantiza que un negocio o clínica cumple las condiciones higiénicas y sanitarias legales.",
+      "costo": "Según arancel por categoría (Q. 200.00 a Q. 1,500.00)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu formulario oficial de solicitud debidamente firmado por propietario o representante legal..",
+        "Asegúrate de contar con: Por favor, prepara tu copia de Documento Personal de Identificación (DPI) y Registro Tributario Unificado (RTU) de la SAT actualizado..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu plano o croquis de distribución del local comercial con áreas sanitarias..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Tarjeta de salud vigente de todo el personal que labora en el lugar...",
+        "Asegúrate de contar con: Por favor, prepara tu copia de la Patente de Comercio y Certificación de Agua Potable.."
+      ],
+      "url_mas_info": "https://tramites.mspas.gob.gt",
+      "tiempo_estimado": "15 a 30 días hábiles",
+      "modalidad": "En Línea (Plataforma Simpl-Trámites)",
+      "categoria": "Regulación Sanitaria"
+    },
+    {
+      "id": "ministerio_de_salud__mspas__registro_sanitario_de_medicament",
+      "institucion": "Ministerio de Salud (MSPAS)",
+      "tramite": "Registro Sanitario de Medicamentos y Productos Afines",
+      "descripcion": "Aprobación y autorización de comercialización de productos farmacéuticos y cosméticos en territorio nacional.",
+      "costo": "Q. 1,000.00 a Q. 3,500.00 según tipo de molécula",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu dossier farmacéutico con especificaciones técnicas y métodos de análisis..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Certificado de Buenas Prácticas de Manufactura (BPM) del fabricante...",
+        "Por favor, prepara tu por favor, prepara tu fórmula cuali-cuantitativa completa.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Muestras del producto en envase comercial para análisis del Laboratorio Nacional de Salud (LNS)...",
+        "Asegúrate de contar con: Te pedimos amablemente firma de Regente Farmacéutico colegiado activo.."
+      ],
+      "url_mas_info": "https://medicamentos.mspas.gob.gt/",
+      "tiempo_estimado": "60 a 90 días hábiles",
+      "modalidad": "En Línea / Entrega de muestras en LNS",
+      "categoria": "Control Farmacéutico"
+    },
+    {
+      "id": "ministerio_de_salud__mspas__certificado_de_vacunaci_n_intern",
+      "institucion": "Ministerio de Salud (MSPAS)",
+      "tramite": "Certificado de Vacunación Internacional (Fiebre Amarilla / COVID-19)",
+      "descripcion": "Emisión del carné amarillo de la OMS o certificación digital para viajes internacionales.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: DPI o Pasaporte vigente...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Carné original de vacunación donde conste lote, fecha y vacuna administrada...",
+        "Asegúrate de contar con: Por favor, prepara tu comprobante emitido por puesto o centro de salud autorizado.."
+      ],
+      "url_mas_info": "https://www.mspas.gob.gt",
+      "tiempo_estimado": "Mismo día o descarga inmediata con código QR",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Salud Internacional"
+    },
+    {
+      "id": "sat_inscripci_n_al_rtu_digital_y_obtenci_n_de_nit",
+      "institucion": "SAT",
+      "tramite": "Inscripción al RTU Digital y Obtención de NIT",
+      "descripcion": "Inscripción en el Registro Tributario Unificado para obtener el Número de Identificación Tributaria.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Documento Personal de Identificación (DPI) escaneado de ambos lados...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Fotografía tipo selfie sosteniendo el DPI frente al rostro...",
+        "Asegúrate de contar con: Por favor, prepara tu factura reciente de servicios básicos (agua, luz o teléfono) del domicilio fiscal..",
+        "Por favor, prepara tu por favor, prepara tu correo electrónico personal activo y número de teléfono móvil.",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente completar la solicitud en el portal SAT en línea.."
+      ],
+      "url_mas_info": "https://portal.sat.gob.gt/portal/",
+      "tiempo_estimado": "24 horas hábiles",
+      "modalidad": "En Línea 100%",
+      "categoria": "Tributos e Impuestos"
+    },
+    {
+      "id": "sat_traspaso_electr_nico_de_veh_culos",
+      "institucion": "SAT",
+      "tramite": "Traspaso Electrónico de Vehículos",
+      "descripcion": "Cambio de propietario de vehículos terrestres de forma totalmente digital sin acudir a oficinas.",
+      "costo": "Q. 120.00 (Certificado de propiedad y emisión de tarjeta) + Impuesto de transferencias de dominio",
+      "requisitos": [
+        "Asegúrate de contar con: Te pedimos amablemente estar registrado en Agencia Virtual tanto comprador como vendedor..",
+        "Asegúrate de contar con: Asegúrate de contar con: Vehículo solvente del Impuesto Sobre Circulación de Vehículos (ISCV) del año en curso...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: No tener multas de tránsito pendientes de pago en las distintas PMT..",
+        "Por favor, prepara tu te pedimos amablemente firma electrónica o validación biométrica autorizada por notario registrado.",
+        "Asegúrate de contar con: Por favor, prepara tu aceptación del traspaso en Agencia Virtual por ambas partes.."
+      ],
+      "url_mas_info": "https://portal.sat.gob.gt/portal/",
+      "tiempo_estimado": "Inmediato tras aprobación notarial",
+      "modalidad": "En Línea (Agencia Virtual)",
+      "categoria": "Registro Fiscal de Vehículos"
+    },
+    {
+      "id": "sat_pago_del_impuesto_sobre_circulaci_n_de_veh_culos__iscv__",
+      "institucion": "SAT",
+      "tramite": "Pago del Impuesto Sobre Circulación de Vehículos (ISCV) y Calcomanía",
+      "descripcion": "Cumplimiento anual de pago de rodaje para vehículos terrestres en Guatemala.",
+      "costo": "Variable según modelo, marca y línea del vehículo (Formulario Declaraguate SAT-4091)",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu número de placa de circulación y NIT del propietario..",
+        "Asegúrate de contar con: Por favor, prepara tu no tener infracciones de tránsito pendientes con municipalidades conectadas a SAT..",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes pago por banca en línea o agencias bancarias autorizadas..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Descarga e impresión del distintivo electrónico (calcomanía con código QR)..."
+      ],
+      "url_mas_info": "https://portal.sat.gob.gt/portal/",
+      "tiempo_estimado": "Inmediato",
+      "modalidad": "En Línea (Declaraguate)",
+      "categoria": "Vehículos e Impuestos"
+    },
+    {
+      "id": "sat_habilitaci_n_como_emisor_de_factura_electr_nica_en_l_nea",
+      "institucion": "SAT",
+      "tramite": "Habilitación como Emisor de Factura Electrónica en Línea (FEL)",
+      "descripcion": "Autorización para emitir facturas, notas de crédito, recibos y notas de débito electrónicas.",
+      "costo": "Gratuito (a través de la Agencia Virtual SAT)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu NIT activo en el Registro Tributario Unificado (RTU) con datos debidamente actualizados durante el año en curso..",
+        "Asegúrate de contar con: Asegúrate de contar con: Usuario activo de Agencia Virtual...",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente estar al día en la presentación de declaraciones tributarias..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Aceptación de los términos y generación de firma electrónica con par de llaves en el portal..."
+      ],
+      "url_mas_info": "https://portal.sat.gob.gt/portal/",
+      "tiempo_estimado": "Inmediato",
+      "modalidad": "En Línea",
+      "categoria": "Facturación y Contabilidad"
+    },
+    {
+      "id": "maga_permiso_fitosanitario_de_importaci_n_de_productos_veget",
+      "institucion": "MAGA",
+      "tramite": "Permiso Fitosanitario de Importación de Productos Vegetales",
+      "descripcion": "Autorización técnica para ingresar material vegetal libre de plagas cuarentenarias al territorio nacional.",
+      "costo": "Q. 150.00",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Formulario electrónico del Sistema de Información de Sanidad Agropecuaria (SISA)..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Factura proforma o comercial del proveedor internacional..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu certificado de origen de las plantas, semillas o insumos agrícolas..",
+        "Por favor, prepara tu recuerda que debes estar registrado como importador ante la Dirección de Sanidad Vegetal del MAGA."
+      ],
+      "url_mas_info": "https://visar.maga.gob.gt/",
+      "tiempo_estimado": "3 a 5 días hábiles",
+      "modalidad": "En Línea (SISA)",
+      "categoria": "Sanidad Agropecuaria"
+    },
+    {
+      "id": "maga_certificado_fitosanitario_de_exportaci_n_de_productos_a",
+      "institucion": "MAGA",
+      "tramite": "Certificado Fitosanitario de Exportación de Productos Agrícolas",
+      "descripcion": "Documento oficial exigido en aduanas de destino que avala la inocuidad y sanidad de las exportaciones agrícolas.",
+      "costo": "Q. 100.00 más costo de inspección en campo/puerto",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Solicitud de inspección con al menos 48 horas de anticipación al embarque..",
+        "Por favor, prepara tu asegúrate de contar con: Constancia de registro de finca y planta empacadora autorizada..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Dictamen favorable del inspector de sanidad vegetal del MAGA...",
+        "Asegúrate de contar con: Por favor, prepara tu cumplimiento de los requisitos fitosanitarios del país de destino.."
+      ],
+      "url_mas_info": "https://visar.maga.gob.gt/",
+      "tiempo_estimado": "24 a 48 horas",
+      "modalidad": "En Línea y Muestra en Puerto",
+      "categoria": "Comercio Agrícola y Exportaciones"
+    },
+    {
+      "id": "maga_registro_de_plaguicidas__fertilizantes_e_insumos_agr_co",
+      "institucion": "MAGA",
+      "tramite": "Registro de Plaguicidas, Fertilizantes e Insumos Agrícolas",
+      "descripcion": "Homologación y registro legal indispensable para la distribución y venta de agroquímicos en el país.",
+      "costo": "Arancel fijado por el VISAR según tipo de producto químico o biológico",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Hoja de datos de seguridad (MSDS) y etiqueta del producto según formato SGA..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Estudios de eficacia agronómica y toxicología validados..",
+        "Por favor, prepara tu recuerda que debes firma y aval de Regente Agrónomo colegiado activo.",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Póliza de fianza y registro de empresa formuladora/importadora.."
+      ],
+      "url_mas_info": "https://visar.maga.gob.gt/",
+      "tiempo_estimado": "45 a 60 días hábiles",
+      "modalidad": "En Línea y Entrega de Dossier",
+      "categoria": "Insumos Agrícolas"
+    },
+    {
+      "id": "marn_licencia_ambiental_categor_a_c__bajo_impacto_ambiental_",
+      "institucion": "MARN",
+      "tramite": "Licencia Ambiental Categoría C (Bajo Impacto Ambiental Potencial)",
+      "descripcion": "Autorización ambiental para actividades comerciales y de servicios de bajo impacto como oficinas, farmacias o bodegas pequeñas.",
+      "costo": "Q. 50.00 por año de vigencia (hasta 5 años)",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Formulario de solicitud firmado por el proponente o representante legal...",
+        "Por favor, prepara tu asegúrate de contar con: Fotocopia de Documento Personal de Identificación (DPI) del solicitante..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Fotocopia de nombramiento de representante legal y patente de comercio si aplica..",
+        "Por favor, prepara tu por favor, prepara tu plano o croquis de localización del proyecto con coordenadas geográficas.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Resolución o carta de viabilidad municipal de uso de suelo...",
+        "Por favor, prepara tu por favor, prepara tu declaración jurada de compromisos ambientales."
+      ],
+      "url_mas_info": "https://marn.gob.gt/",
+      "tiempo_estimado": "15 días hábiles",
+      "modalidad": "En Línea (Plataforma BIA)",
+      "categoria": "Medio Ambiente y Recursos Naturales"
+    },
+    {
+      "id": "marn_licencia_ambiental_categor_as_a_y_b__alto_y_moderado_im",
+      "institucion": "MARN",
+      "tramite": "Licencia Ambiental Categorías A y B (Alto y Moderado Impacto)",
+      "descripcion": "Requisito legal indispensable para proyectos industriales, urbanizaciones, minería o infraestructura vial de gran escala.",
+      "costo": "Arancel fijado según el monto de inversión del proyecto",
+      "requisitos": [
+        "Por favor, prepara tu por favor, prepara tu evaluación de Impacto Ambiental (Evaluación de Impacto Ambiental (EIA)) elaborada por consultor ambiental registrado en el MARN.",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Plan de Gestión Ambiental con medidas de mitigación y monitoreo...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Póliza de seguro de cumplimiento de compromisos ambientales...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Acta notarial de consulta pública y participación comunitaria...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Acreditación legal del derecho de propiedad o posesión del terreno.."
+      ],
+      "url_mas_info": "https://marn.gob.gt/",
+      "tiempo_estimado": "45 a 60 días hábiles",
+      "modalidad": "En Línea y Presentación de Expediente Técnico",
+      "categoria": "Evaluación Ambiental"
+    },
+    {
+      "id": "marn_inscripci_n_y_renovaci_n_de_consultores_ambientales",
+      "institucion": "MARN",
+      "tramite": "Inscripción y Renovación de Consultores Ambientales",
+      "descripcion": "Certificación habilitante para elaborar y firmar instrumentos ambientales legalmente válidos ante el ministerio.",
+      "costo": "Q. 300.00 anuales",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Título universitario en ingeniería ambiental, agronomía, química o afines..",
+        "Asegúrate de contar con: Asegúrate de contar con: Constancia de colegiado activo vigente...",
+        "Por favor, prepara tu asegúrate de contar con: Hoja de vida con comprobación de experiencia en estudios de impacto ambiental..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Comprobante de pago del arancel de registro..."
+      ],
+      "url_mas_info": "https://marn.gob.gt/",
+      "tiempo_estimado": "10 días hábiles",
+      "modalidad": "En Línea",
+      "categoria": "Registro Profesional"
+    },
+    {
+      "id": "fopavi_subsidio_directo_para_construcci_n_en_lote_propio",
+      "institucion": "FOPAVI",
+      "tramite": "Subsidio Directo para Construcción en Lote Propio",
+      "descripcion": "Aporte no reembolsable del Estado para que familias de escasos recursos construyan una vivienda digna en su terreno.",
+      "costo": "Trámite de postulación gratuito (Subsidio de hasta Q. 35,000.00)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Formulario único de solicitud de subsidio habitacional...",
+        "Por favor, prepara tu por favor, prepara tu fotocopia legalizada del testimonio de escritura pública que acredite la propiedad del lote.",
+        "Asegúrate de contar con: Asegúrate de contar con: Certificación del Registro General de la Propiedad con vigencia máxima de 3 meses...",
+        "Asegúrate de contar con: Asegúrate de contar con: Certificación de carencia de otros bienes inmuebles del solicitante y cónyuge (DICABI)...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Constancia de ingresos familiares o declaración jurada de ingresos menores a 4 salarios mínimos...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Planos constructivos avalados por la entidad desarrolladora calificada por FOPAVI..."
+      ],
+      "url_mas_info": "https://fopavi.gob.gt/formularios-tramites/",
+      "tiempo_estimado": "60 a 90 días hábiles",
+      "modalidad": "Presencial y Entidad Desarrolladora Calificada",
+      "categoria": "Vivienda y Subsidios"
+    },
+    {
+      "id": "fopavi_subsidio_para_mejoramiento__ampliaci_n_o_servicios_b_",
+      "institucion": "FOPAVI",
+      "tramite": "Subsidio para Mejoramiento, Ampliación o Servicios Básicos de Vivienda",
+      "descripcion": "Subsidio destinado a reparaciones estructurales, sustitución de techos de lámina dañados y piso de cemento.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu fotocopia de Documento Personal de Identificación (DPI) del jefe de familia..",
+        "Por favor, prepara tu asegúrate de contar con: Título de posesión o propiedad legítima del inmueble..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Presupuesto de obra y especificaciones técnicas de las mejoras a realizar (techo, piso, muros, letrina)..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Estudio socioeconómico realizado por trabajador social calificado...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Carencia de bienes adicionales..."
+      ],
+      "url_mas_info": "https://fopavi.gob.gt/formularios-tramites/",
+      "tiempo_estimado": "45 a 60 días hábiles",
+      "modalidad": "Presencial a través de Organizaciones Comunitarias",
+      "categoria": "Mejoramiento Habitacional"
+    },
+    {
+      "id": "fopavi_subsidio_extraordinario_para_familias_afectadas_por_d",
+      "institucion": "FOPAVI",
+      "tramite": "Subsidio Extraordinario para Familias Afectadas por Desastres Naturales o Vulnerabilidad",
+      "descripcion": "Atención prioritaria para la reubicación y dotación de vivienda a familias damnificadas por deslaves o inundaciones.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu ficha de Evaluación de Daños y Análisis de Necesidades (EDAN) avalada por CONRED..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Certificado de zona de alto riesgo emitido por la municipalidad correspondiente...",
+        "Por favor, prepara tu asegúrate de contar con: Copia de Documento Personal de Identificación (DPI) de los integrantes del grupo familiar damnificado..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Dictamen técnico del departamento social de FOPAVI..."
+      ],
+      "url_mas_info": "https://fopavi.gob.gt/formularios-tramites/",
+      "tiempo_estimado": "Prioritario ante emergencias declaradas",
+      "modalidad": "Gestión Interinstitucional con CONRED",
+      "categoria": "Emergencia y Vulnerabilidad"
+    },
+    {
+      "id": "udevipo_solicitud_de_plano_de_registro",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de plano de registro",
+      "descripcion": "Este trámite tiene como finalidad que el solicitante obtenga el plano de registro original para continuar con el proceso de adjudicación del bien inmueble.Durante el procedimiento se verifica si el inmueble se encuentra inscrito en el Registro General de la Propiedad. En caso de estar registrado, se proporciona al interesado la información correspondiente, como finca, folio y libro del bien consultado.Si el inmueble no se encuentra registrado, se continúa con el proceso administrativo correspondiente. Asimismo, cuando existan dudas respecto a las medidas físicas del inmueble, se realizará una visita de campo para verificar las dimensiones antes de elaborar el plano de registro.Una vez finalizado el plano de registro, se notificará al interesado para la entrega del documento original. Posteriormente, se archivará el oficio de entrega junto con el plano de registro correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar Documento Personal de Identificación (DPI) vigente..",
+        "Por favor, prepara tu te pedimos amablemente adjuntar Resolución de adjudicación, en caso de poseerla.",
+        "Asegúrate de contar con: Es importante adjuntar copia de plano anterior, si corresponde..",
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar todos los documentos en formato PDF, legibles y en tamaño: carta, legal, oficio o A4, junto al formulario de solicitud de plano de registro..",
+        "Asegúrate de contar con: Es importante adjuntar carta de autorización firmada por el adjudicatario, en caso de que el solicitante no sea el adjudicatario del bien inmueble.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1sYRd1EBvLcCA2HHT_1veNFSt1w-dNBkT/view?usp=sharing",
+      "tiempo_estimado": "de 6 a 8 semanas aproximadamente.",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_adjudicaci_n_de_bien_inmueble",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de adjudicación de bien inmueble",
+      "descripcion": "Es el proceso administrativo gestionado por el Departamento Social mediante el cual se solicita la adjudicación de un bien inmueble que se encuentra en posesión del solicitante y cuyo dominio está inscrito a favor del Estado de Guatemala, adscrito al Ministerio de Comunicaciones, Infraestructura y Vivienda.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu copia del Documento Personal de Identificación (DPI) del solicitante..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu copia del Documento Personal de Identificación (DPI) de los integrantes del núcleo familiar y certificado de nacimiento vigente (no mayor a 6 meses) del solicitante y de los miembros del núcleo familiar, aplicable para mayores y menores de edad..",
+        "Asegúrate de contar con: Por favor, prepara tu constancia de ingresos del solicitante y de los integrantes mayores de edad del núcleo familiar que perciban ingresos. En caso de no percibir ingresos, presentar constancia extendida por Perito Contador que haga constar dicha situación..",
+        "Asegúrate de contar con: Por favor, prepara tu acta Notarial de Declaración Jurada indicando desde qué fecha habita en el inmueble, conforme al artículo 48 literal b) del Acuerdo Gubernativo 312-2012, Reglamento de la Ley de Vivienda..",
+        "Por favor, prepara tu por favor, prepara tu en todos los campos donde se indique entre corchetes “[Documento]”, únicamente deberán cargarse archivos PDF con un tamaño máximo de 2 MB.",
+        "Necesitarás presentar el siguiente requisito: Es importante adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de adjudicación de bien inmueble.."
+      ],
+      "url_mas_info": "https://udevipo.gob.gt/wp-content/uploads/2025/10/SOLICITUD-DE-ADJUDICACION-DE-BIEN-INMUEBLE.pdf",
+      "tiempo_estimado": "8 meses aproximadamente",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_cambio_de_adjudicatario",
+      "institucion": "UDEVIPO",
+      "tramite": "Cambio de adjudicatario",
+      "descripcion": "Procedimiento administrativo mediante el cual se realiza el cambio del titular del bien inmueble adjudicado por el extinto Banco Nacional de la Vivienda o por la Unidad para el Desarrollo de Vivienda Popular –UDEVIPO–, en los casos establecidos por la ley y únicamente entre los integrantes del núcleo familiar declarado oportunamente por el adjudicatario, siempre que el inmueble no se encuentre inscrito ante el Registro General de la Propiedad correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Conforme a la legislación aplicable al procedimiento de cambio de adjudicatario, este trámite únicamente procede entre los integrantes del núcleo familiar declarado oportunamente por el adjudicatario...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Tendrán prioridad en el siguiente orden: Cónyuge o conviviente. Hijo o hijos. Otros familiares que ocupen el inmueble, conforme al artículo 54 del Acuerdo Gubernativo 312-2012...",
+        "Por favor, prepara tu por favor, prepara tu cónyuge o conviviente.",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu hijo o hijos..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Otros familiares que ocupen el inmueble, conforme al artículo 54 del Acuerdo Gubernativo 312-2012..",
+        "Asegúrate de contar con: Asegúrate de contar con: Indicar quién está completando el formulario de solicitud...",
+        "Por favor, prepara tu asegúrate de contar con: Por fallecimiento: presentar certificación de defunción del adjudicatario, extendida por RENAP..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Por abandono del inmueble: presentar acta notarial de declaración jurada donde conste el abandono del inmueble por parte del adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu por cesión de derechos: presentar testimonio de la escritura pública de cesión de derechos, mediante la cual el adjudicatario cede sus derechos a favor de uno o varios integrantes del núcleo familiar..",
+        "Por favor, prepara tu te pedimos amablemente presentar acta notarial de declaración jurada en formato PDF, firmada y fechada, indicando el motivo del cambio de adjudicatario.",
+        "Asegúrate de contar con: Recuerda que debes adjuntar copia del Documento Personal de Identificación (DPI) y certificado de nacimiento vigente para mayores de edad; en el caso de menores de edad, únicamente certificado de nacimiento vigente..",
+        "Asegúrate de contar con: Recuerda que debes adjuntar copia del Documento Personal de Identificación (DPI) de cada uno de los solicitantes..",
+        "Asegúrate de contar con: Recuerda que debes adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de cambio de adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Cuando el trámite sea realizado por un tercero, adjuntar carta de autorización o representación firmada por el adjudicatario...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Cuando un integrante del núcleo familiar solicite el cambio de adjudicatario, deberá constar que los demás integrantes del núcleo familiar han cedido sus derechos a favor del solicitante..."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1b0DU6h-0sQvNb-lTNk210plfV6Q9A7A1/view?usp=sharing",
+      "tiempo_estimado": "6 meses",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_cancelaci_n_de_patrimonio__plazo_vigente_",
+      "institucion": "UDEVIPO",
+      "tramite": "Cancelación de patrimonio (plazo vigente)",
+      "descripcion": "Procedimiento administrativo mediante el cual el propietario o propietarios de un bien inmueble adjudicado por el extinto Banco Nacional de la Vivienda o por la Unidad para el Desarrollo de Vivienda Popular –UDEVIPO–, e inscrito ante el Registro General de la Propiedad correspondiente, solicitan la cancelación de la limitación del patrimonio familiar, aun cuando el plazo establecido en la escritura pública continúe vigente, siempre que todos los integrantes del núcleo familiar sean mayores de edad, legalmente capaces y no hayan sido declarados en estado de interdicción.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Al momento de completar el formulario, los datos consignados deberán corresponder al propietario o a quien realice la solicitud...",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI)..",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes adjuntar testimonio de la escritura pública donde se constituyó el patrimonio familiar, con la respectiva razón registral emitida por el Registro General de la Propiedad; o bien, certificación reciente del historial completo de la finca, donde conste la inscripción del patrimonio familiar..",
+        "Asegúrate de contar con: Es importante adjuntar certificado de nacimiento del propietario y de todos los beneficiarios del patrimonio familiar..",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes adjuntar certificación de defunción del propietario o de integrantes del núcleo familiar, cuando corresponda..",
+        "Por favor, prepara tu recuerda que debes adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de cancelación de patrimonio familiar con plazo vigente.",
+        "Por favor, prepara tu recuerda que debes presentar declaración jurada en formato PDF, debidamente firmada y fechada."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/11CYSlXYCOZ-imF2T5STz8NTX9vBvMnyP/view?usp=sharing",
+      "tiempo_estimado": "2 meses aproxidamente",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_cancelaci_n_de_patrimonio__plazo_vencido_",
+      "institucion": "UDEVIPO",
+      "tramite": "Cancelación de patrimonio (plazo vencido)",
+      "descripcion": "Procedimiento administrativo mediante el cual el propietario o propietarios de un bien inmueble adjudicado por el extinto Banco Nacional de la Vivienda o por la Unidad para el Desarrollo de Vivienda Popular –UDEVIPO–, e inscrito ante el Registro General de la Propiedad correspondiente, solicitan la cancelación de la limitación del patrimonio familiar por vencimiento del plazo establecido en el contrato o escritura pública correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI)..",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes adjuntar testimonio de la escritura pública donde se constituyó el patrimonio familiar, con la respectiva razón registral emitida por el Registro General de la Propiedad; o bien, certificación reciente del historial completo de la finca, donde conste la constitución del patrimonio familiar..",
+        "Asegúrate de contar con: Recuerda que debes adjuntar certificación de defunción del propietario, cuando corresponda..",
+        "Necesitarás presentar el siguiente requisito: Es importante presentar declaración jurada en formato PDF, debidamente firmada y fechada..",
+        "Asegúrate de contar con: Es importante adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de cancelación de patrimonio familiar por plazo vencido.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1P3gPqmw4m8QD0W77E3N3sxb2bjWkRgiU/view?usp=sharing",
+      "tiempo_estimado": "1 mes aproxidamente",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_convenio_de_pago",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de convenio de pago",
+      "descripcion": "Los adjudicatarios que mantengan pagos pendientes sobre el bien inmueble adjudicado y que presenten dificultad para cancelar la deuda al contado, podrán solicitar un convenio de pago con la finalidad de reestructurar la deuda, ampliar el plazo o mejorar las condiciones de pago establecidas.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente completar el formulario con nombre completo y dirección del solicitante..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Indicar número de teléfono de contacto...",
+        "Por favor, prepara tu asegúrate de contar con: Indicar el número de cuenta correspondiente..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Especificar el monto de la primera cuota...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu especificar el monto de las cuotas mensuales propuestas..",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI) del adjudicatario..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Cuando el trámite sea realizado por un tercero, adjuntar carta de representación firmada por el adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de convenio de pago.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1sYRd1EBvLcCA2HHT_1veNFSt1w-dNBkT/view?usp=sharing",
+      "tiempo_estimado": "4-6 semanas",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_modificaci_n_de_cuadro_familiar",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de modificación de cuadro familiar",
+      "descripcion": "Procedimiento administrativo mediante el cual el adjudicatario solicita la modificación del núcleo familiar declarado oportunamente, ya sea por inclusión o exclusión de integrantes, respecto del bien inmueble adjudicado por el extinto Banco Nacional de la Vivienda o por la Unidad para el Desarrollo de Vivienda Popular –UDEVIPO–, siempre que el inmueble no se encuentre inscrito ante el Registro General de la Propiedad correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu únicamente el adjudicatario podrá solicitar la modificación del núcleo familiar, siempre que el inmueble no constituya propiedad privada..",
+        "Por favor, prepara tu te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI) del adjudicatario.",
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar certificación de defunción emitida por RENAP, cuando exista fallecimiento de algún integrante del núcleo familiar..",
+        "Por favor, prepara tu te pedimos amablemente adjuntar certificación de nacimiento de los integrantes del núcleo familiar o acta notarial por abandono de hogar, según corresponda.",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu para solicitudes de inclusión, adjuntar certificaciones de nacimiento vigentes de los nuevos integrantes del núcleo familiar..",
+        "Asegúrate de contar con: Es importante presentar declaración jurada en formato PDF, debidamente firmada y fechada..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Indicar si la persona que completa el formulario corresponde al adjudicatario o a un representante..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Cuando el trámite sea realizado por un tercero, adjuntar carta de representación firmada por el adjudicatario...",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de modificación de cuadro familiar.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1p-LnmdzKnTcqfgWvVrOV5GJ8okLFkaIq/view?usp=sharing",
+      "tiempo_estimado": "1 mes aproxidamente",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_cancelaci_n_de_patrimonio_escritura_p_b",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de cancelación de patrimonio escritura pública",
+      "descripcion": "Instrumento público suscrito por el Director Ejecutivo IV de la Unidad para el Desarrollo de Vivienda Popular –UDEVIPO–, mediante el cual se transcribe la Resolución de Cancelación de Patrimonio Familiar con Plazo Vigente, con el propósito de cancelar la limitación inscrita ante el Registro General de la Propiedad correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente presentar ante el Departamento Jurídico de UDEVIPO el formulario impreso y las hojas de protocolo correspondientes a la Escritura Pública de Cancelación de Patrimonio Familiar con Plazo Vigente..",
+        "Necesitarás presentar el siguiente requisito: Te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI) del propietario..",
+        "Necesitarás presentar el siguiente requisito: Es importante adjuntar la escritura pública que contiene la cancelación del patrimonio familiar..",
+        "Por favor, prepara tu recuerda que debes adjuntar la resolución emitida por la Coordinación General de UDEVIPO, mediante la cual se aprueba la cancelación del patrimonio familiar con plazo vigente.",
+        "Asegúrate de contar con: Es importante adjuntar testimonio de la escritura pública donde se constituyó el patrimonio familiar, con la respectiva razón registral emitida por el Registro General de la Propiedad correspondiente; o bien, certificación reciente del historial completo de la finca, donde conste la inscripción del patrimonio familiar..",
+        "Por favor, prepara tu te pedimos amablemente presentar declaración jurada en formato PDF, debidamente firmada y fechada.",
+        "Necesitarás presentar el siguiente requisito: Recuerda que debes adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de cancelación de patrimonio familiar mediante escritura pública.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1t8FM_T9kcLdI3yRzVfGfvc8XCaGKoNWO/view?usp=sharing",
+      "tiempo_estimado": "Varía según evaluación",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_copia_de_resoluci_n_de_cobro",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de copia de resolución de cobro",
+      "descripcion": "Por medio de este trámite se emite una copia de la resolución de cobro a las personas adjudicatarias que hayan extraviado el documento originalmente entregado por UDEVIPO, con el propósito de que puedan realizar el pago correspondiente y posteriormente gestionar su solvencia para iniciar el trámite de escrituración.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu es importante completar el formulario con nombre completo y dirección del solicitante.",
+        "Por favor, prepara tu asegúrate de contar con: Indicar número de teléfono de contacto..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Indicar el número de cuenta correspondiente..",
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar copia vigente del Documento Personal de Identificación (DPI) del adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Cuando el solicitante sea distinto del adjudicatario, descargar y adjuntar carta de representación debidamente firmada...",
+        "Asegúrate de contar con: Te pedimos amablemente adjuntar todos los documentos en formato PDF, legibles y junto al formulario de solicitud de copia de resolución de cobro..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu los archivos cargados en la plataforma deberán presentarse en tamaño carta, legal, oficio o A4..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Indicar si la persona que completa el formulario corresponde al adjudicatario o a un representante..."
+      ],
+      "url_mas_info": "https://udevipo.gob.gt/tramites-udevipo/",
+      "tiempo_estimado": "1-2 semanas",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "udevipo_solicitud_de_solvencia_de_pago_del_bien_inmueble",
+      "institucion": "UDEVIPO",
+      "tramite": "Solicitud de solvencia de pago del bien inmueble",
+      "descripcion": "Por medio de este trámite se emite la solvencia de pago a las personas que han concluido el pago total del bien inmueble adjudicado. Una vez cancelado el 100% del valor del inmueble, se procede a la elaboración de la solvencia de pago, documento que permitirá iniciar el proceso de escrituración o la liberación de la hipoteca ante el Registro General de la Propiedad correspondiente.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Es importante completar el formulario con nombre completo y dirección del solicitante..",
+        "Por favor, prepara tu por favor, prepara tu indicar número de teléfono de contacto.",
+        "Asegúrate de contar con: Recuerda que debes adjuntar copia vigente del Documento Personal de Identificación (DPI) del adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Es importante adjuntar copia del último recibo de pago, cuando corresponda..",
+        "Asegúrate de contar con: Recuerda que debes adjuntar copia de la resolución de cobro, cuando se posea..",
+        "Asegúrate de contar con: Por favor, prepara tu cuando el trámite sea realizado por un tercero, adjuntar carta de representación firmada por el adjudicatario..",
+        "Necesitarás presentar el siguiente requisito: Es importante adjuntar todos los documentos en formato PDF, legibles y en tamaño carta, legal, oficio o A4, junto al formulario de solicitud de solvencia de pago del bien inmueble..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Indicar si la persona que completa el formulario corresponde al adjudicatario o a un representante.."
+      ],
+      "url_mas_info": "https://drive.google.com/file/d/1sYRd1EBvLcCA2HHT_1veNFSt1w-dNBkT/view?usp=drive_link",
+      "tiempo_estimado": "4-6 semanas",
+      "modalidad": "Presencial / Ventanilla UDEVIPO",
+      "categoria": "Vivienda Popular"
+    },
+    {
+      "id": "direcci_n_general_de_correos_y_tel_grafos_rastreo_y_gesti_n_",
+      "institucion": "Dirección General de Correos y Telégrafos",
+      "tramite": "Rastreo y Gestión de Paquetería Internacional y EMS",
+      "descripcion": "Recepción, desaduanaje y entrega de correspondencia, encomiendas y paquetería internacional.",
+      "costo": "Tarifa de manejo aduanal/postal según peso (Q. 15.00 a Q. 50.00)",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Número de guía internacional o código de seguimiento (tracking number de 13 dígitos)..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia de DPI del destinatario...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Factura comercial o comprobante de compra donde conste el valor CIF de los artículos...",
+        "Por favor, prepara tu es importante pago de arancel e IVA de importación ante la SAT si el valor supera la franquicia."
+      ],
+      "url_mas_info": "https://correos.gob.gt/",
+      "tiempo_estimado": "3 a 5 días hábiles tras arribo al centro de clasificación",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Servicios Postales"
+    },
+    {
+      "id": "direcci_n_general_de_correos_y_tel_grafos_arrendamiento_y_re",
+      "institucion": "Dirección General de Correos y Telégrafos",
+      "tramite": "Arrendamiento y Renovación de Apartados Postales",
+      "descripcion": "Asignación de casillero postal seguro en las agencias postales departamentales y de la capital.",
+      "costo": "Q. 150.00 a Q. 300.00 anuales según tamaño del casillero",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Formulario oficial de solicitud de apartado postal...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu fotocopia legible de Documento Personal de Identificación (DPI)..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Recibo reciente de servicios para comprobar dirección de residencia...",
+        "Asegúrate de contar con: Asegúrate de contar con: Comprobante de pago anual en caja o ventanilla bancaria..."
+      ],
+      "url_mas_info": "https://correos.gob.gt/",
+      "tiempo_estimado": "2 días hábiles",
+      "modalidad": "Presencial y En Línea",
+      "categoria": "Servicios Postales"
+    },
+    {
+      "id": "direcci_n_general_de_correos_y_tel_grafos_certificaci_n_de_c",
+      "institucion": "Dirección General de Correos y Telégrafos",
+      "tramite": "Certificación de Código Postal Oficial de Zona o Municipio",
+      "descripcion": "Verificación del código postal de 5 dígitos para envíos nacionales e internacionales.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Dirección completa con nomenclatura municipal...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Nombre del departamento, municipio, zona y aldea/colonia..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Consulta a través del nomenclador oficial en línea..."
+      ],
+      "url_mas_info": "https://correos.gob.gt/codigo-postal/",
+      "tiempo_estimado": "Inmediato",
+      "modalidad": "En Línea",
+      "categoria": "Información Postal"
+    },
+    {
+      "id": "insivumeh_certificaci_n_meteorol_gica_y_climatol_gica_oficia",
+      "institucion": "INSIVUMEH",
+      "tramite": "Certificación Meteorológica y Climatológica Oficial",
+      "descripcion": "Emisión de certificados técnicos de precipitaciones, temperaturas o eventos climáticos extremos para reclamos de seguros o proyectos de ingeniería.",
+      "costo": "Q. 75.00 a Q. 150.00 por estación y serie temporal",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Llenar formulario de solicitud en línea o presencial...",
+        "Necesitarás presentar el siguiente requisito: Es importante presentar Documento Personal de Identificación (DPI) original y fotocopia del solicitante..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Indicar claramente el período de tiempo (fechas) y variables (lluvia, temperatura, viento) requeridas...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Especificar la estación meteorológica o coordenadas UTM del área de interés...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu boleta de pago en Banrural o banco autorizado..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: En caso de empresas, presentar carta membretada firmada por el representante legal.."
+      ],
+      "url_mas_info": "https://insivumeh.gob.gt/tramites-en-linea/",
+      "tiempo_estimado": "5 a 8 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Ciencia e Información Meteorológica"
+    },
+    {
+      "id": "insivumeh_dictamen_hidrol_gico_y_de_cuencas_para_estudios_de",
+      "institucion": "INSIVUMEH",
+      "tramite": "Dictamen Hidrológico y de Cuencas para Estudios de Impacto",
+      "descripcion": "Evaluación técnica del comportamiento hídrico y riesgo de inundación para urbanizaciones o hidroeléctricas.",
+      "costo": "Q. 250.00",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Formulario de solicitud del departamento de hidrología...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu plano de la cuenca o microcuenca con coordenadas del proyecto..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Estudio preliminar de caudales y escorrentía...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Comprobante de pago bancario..."
+      ],
+      "url_mas_info": "https://insivumeh.gob.gt/hidrologia/",
+      "tiempo_estimado": "10 a 15 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Hidrología y Recursos Hídricos"
+    },
+    {
+      "id": "insivumeh_certificaci_n_de_aceleraci_n_s_smica_y_sismicidad_",
+      "institucion": "INSIVUMEH",
+      "tramite": "Certificación de Aceleración Sísmica y Sismicidad Histórica",
+      "descripcion": "Parámetros sismo-resistentes y acelerogramas de sismos históricos para cálculo estructural según normas AGIES.",
+      "costo": "Q. 100.00",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Solicitud formal indicando departamento, municipio y coordenadas del sitio...",
+        "Asegúrate de contar con: Por favor, prepara tu fotocopia de Documento Personal de Identificación (DPI) del solicitante o ingeniero estructural..",
+        "Asegúrate de contar con: Por favor, prepara tu boleta de depósito bancario del fondo privativo del INSIVUMEH.."
+      ],
+      "url_mas_info": "https://insivumeh.gob.gt/geofisica/",
+      "tiempo_estimado": "5 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Geofísica y Sismología"
+    },
+    {
+      "id": "uncosu_licencia_de_operaci_n_para_empresas_de_televisi_n_por",
+      "institucion": "UNCOSU",
+      "tramite": "Licencia de Operación para Empresas de Televisión por Cable",
+      "descripcion": "Autorización gubernamental para la prestación comercial del servicio de televisión y telecomunicaciones por cable.",
+      "costo": "Arancel fijado por la SIT / UNCOSU según cobertura territorial",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu testimonio de la escritura pública de constitución de sociedad o empresa mercantil..",
+        "Por favor, prepara tu por favor, prepara tu fotocopia legalizada de Documento Personal de Identificación (DPI) del representante legal.",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu dictamen técnico del sistema de distribución de señal por cable coaxial o fibra óptica..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Lista de canales autorizados y contratos vigentes de derechos de retransmisión...",
+        "Asegúrate de contar con: Por favor, prepara tu póliza de fianza de cumplimiento vigente a favor del Estado.."
+      ],
+      "url_mas_info": "https://uncosu.gob.gt/",
+      "tiempo_estimado": "30 a 60 días hábiles",
+      "modalidad": "En Línea y Presentación Física de Expediente",
+      "categoria": "Telecomunicaciones y Medios"
+    },
+    {
+      "id": "uncosu_renovaci_n_anual_de_licencia_de_cable_operador",
+      "institucion": "UNCOSU",
+      "tramite": "Renovación Anual de Licencia de Cable Operador",
+      "descripcion": "Prórroga periódica obligatoria de los títulos habilitantes para sistemas de cable.",
+      "costo": "Según arancel y número de usuarios declarados",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Formulario de actualización de datos de la empresa..",
+        "Por favor, prepara tu por favor, prepara tu declaración jurada de suscriptores activos del último periodo fiscal.",
+        "Por favor, prepara tu asegúrate de contar con: Constancia de estar solvente en pagos ante la SAT y la UNCOSU..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu comprobante de pago de la tarifa de renovación anual.."
+      ],
+      "url_mas_info": "https://uncosu.gob.gt/tutorial-de-tramites-en-linea/",
+      "tiempo_estimado": "15 a 20 días hábiles",
+      "modalidad": "En Línea",
+      "categoria": "Telecomunicaciones y Medios"
+    },
+    {
+      "id": "uncosu_registro_y_actualizaci_n_de_gu_a_de_se_ales_y_canales",
+      "institucion": "UNCOSU",
+      "tramite": "Registro y Actualización de Guía de Señales y Canales",
+      "descripcion": "Notificación legal obligatoria para agregar nuevos canales de entretenimiento o noticias a la parrilla.",
+      "costo": "Gratuito con la licencia vigente",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Listado de señales de televisión nacional e internacional a incorporar o retirar...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Cartas de cesión de derechos o facturas de proveedores internacionales de contenido...",
+        "Asegúrate de contar con: Recuerda que debes firma electrónica del representante legal.."
+      ],
+      "url_mas_info": "https://uncosu.gob.gt/",
+      "tiempo_estimado": "5 a 10 días hábiles",
+      "modalidad": "En Línea",
+      "categoria": "Telecomunicaciones y Medios"
+    },
+    {
+      "id": "radio_tgw__dgrtn__pautas_y_transmisi_n_de_campa_as_estatales",
+      "institucion": "Radio TGW (DGRTN)",
+      "tramite": "Pautas y Transmisión de Campañas Estatales de Información Pública",
+      "descripcion": "Gestión para la difusión de mensajes oficiales, campañas de salud, prevención y cultura en la radio del Estado.",
+      "costo": "Gratuito para entidades del Estado de Guatemala",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Oficio formal firmado por la máxima autoridad o director de comunicación institucional..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Archivo de audio masterizado en formato WAV o MP3 a 320 kbps..",
+        "Asegúrate de contar con: Por favor, prepara tu guion o escaleta del mensaje institucional aprobado legalmente..",
+        "Asegúrate de contar con: Por favor, prepara tu cronograma propuesto de difusión radial en la frecuencia nacional.."
+      ],
+      "url_mas_info": "https://radiotgw.gob.gt/tramites-dgrtn/",
+      "tiempo_estimado": "3 a 5 días hábiles",
+      "modalidad": "En Línea / Entrega de soporte digital",
+      "categoria": "Radiodifusión y Comunicación"
+    },
+    {
+      "id": "radio_tgw__dgrtn__solicitud_de_archivo_sonoro_hist_rico_y_fo",
+      "institucion": "Radio TGW (DGRTN)",
+      "tramite": "Solicitud de Archivo Sonoro Histórico y Fonoteca Nacional",
+      "descripcion": "Acceso al acervo sonoro documental e histórico de transmisiones y música nacional preservada por la DGRTN.",
+      "costo": "Gratuito con fines académicos y de investigación histórica",
+      "requisitos": [
+        "Asegúrate de contar con: Asegúrate de contar con: Formulario de solicitud de material de fonoteca...",
+        "Por favor, prepara tu por favor, prepara tu carta de respaldo universitario o constancia institucional de investigación.",
+        "Asegúrate de contar con: Por favor, prepara tu carta de compromiso de no explotación comercial del material sonoro..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu dispositivo de almacenamiento digital (USB o disco externo).."
+      ],
+      "url_mas_info": "https://radiotgw.gob.gt/",
+      "tiempo_estimado": "5 a 8 días hábiles",
+      "modalidad": "Presencial y Solicitud por Correo",
+      "categoria": "Cultura y Memoria Histórica"
+    },
+    {
+      "id": "radio_tgw__dgrtn__pasant_as_y_pr_cticas_t_cnicas_en_comunica",
+      "institucion": "Radio TGW (DGRTN)",
+      "tramite": "Pasantías y Prácticas Técnicas en Comunicación y Locución",
+      "descripcion": "Programa de formación práctica para jóvenes estudiantes de ciencias de la comunicación y sonido.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Carta de solicitud de práctica emitida por la universidad o centro educativo avalado por MINEDUC...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Hoja de vida del estudiante...",
+        "Asegúrate de contar con: Por favor, prepara tu copia de Documento Personal de Identificación (DPI) o partida de nacimiento..",
+        "Por favor, prepara tu asegúrate de contar con: Aprobación de entrevista técnica en cabina.."
+      ],
+      "url_mas_info": "https://radiotgw.gob.gt/tramites-dgrtn/",
+      "tiempo_estimado": "10 días hábiles antes del ciclo de prácticas",
+      "modalidad": "Presencial",
+      "categoria": "Educación y Formación"
+    },
+    {
+      "id": "civ__caminos__permiso_especial_de_pesos_y_dimensiones_para_t",
+      "institucion": "CIV (Caminos)",
+      "tramite": "Permiso Especial de Pesos y Dimensiones para Transporte de Carga",
+      "descripcion": "Autorización indispensable para el traslado de maquinaria pesada, cargas indivisibles o de sobredimensión en la red vial nacional.",
+      "costo": "Q. 200.00",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Formulario DGC-01 debidamente lleno y firmado por el propietario...",
+        "Por favor, prepara tu por favor, prepara tu fotocopia de tarjeta de circulación del vehículo o cabezal.",
+        "Asegúrate de contar con: Asegúrate de contar con: Fotocopia de DPI del piloto y propietario...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Fotocopia de licencia de conducir vigente tipo A del piloto...",
+        "Por favor, prepara tu por favor, prepara tu póliza de seguro vigente de daños a terceros.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Esquema detallado de la carga a transportar y pesos por eje...",
+        "Por favor, prepara tu por favor, prepara tu comprobante de pago bancario oficial."
+      ],
+      "url_mas_info": "https://caminos.gob.gt/",
+      "tiempo_estimado": "5 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Infraestructura y Vialidad"
+    },
+    {
+      "id": "civ__caminos__registro_e_inscripci_n_de_nuevas_rutas_en_el_i",
+      "institucion": "CIV (Caminos)",
+      "tramite": "Registro e Inscripción de Nuevas Rutas en el Inventario Vial",
+      "descripcion": "Incorporación formal de caminos vecinales o tramos carreteros al inventario de mantenimiento oficial del Estado.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Solicitud escrita dirigida al Director General de Caminos..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Planos topográficos georreferenciados de la ruta propuesta...",
+        "Asegúrate de contar con: Por favor, prepara tu estudio de impacto ambiental con resolución aprobatoria del MARN..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Punto de acta de aprobación del Concejo Municipal respectivo...",
+        "Por favor, prepara tu asegúrate de contar con: Acreditación de propiedad o cesión de derecho de vía de los propietarios colindantes..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu estudio de aforo vehicular estimado.."
+      ],
+      "url_mas_info": "https://caminos.gob.gt/",
+      "tiempo_estimado": "30 días hábiles",
+      "modalidad": "Presencial (Expediente Técnico)",
+      "categoria": "Infraestructura Vial"
+    },
+    {
+      "id": "civ__caminos__permiso_para_trabajos_y_obras_en_derecho_de_v_",
+      "institucion": "CIV (Caminos)",
+      "tramite": "Permiso para Trabajos y Obras en Derecho de Vía",
+      "descripcion": "Autorización obligatoria para empresas de servicios, constructoras o particulares que requieran intervenir bermas o cunetas viales.",
+      "costo": "Q. 500.00 a Q. 2,000.00 de supervisión técnica",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Planos constructivos de las obras a ejecutar en la franja vial (tuberías, cableado, accesos)..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Plan de señalización y mitigación de tráfico durante la ejecución..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Fianza de conservación de obra a favor de la Dirección General de Caminos...",
+        "Asegúrate de contar con: Asegúrate de contar con: Resolución municipal y ambiental correspondiente..."
+      ],
+      "url_mas_info": "https://www.caminos.gob.gt/",
+      "tiempo_estimado": "15 a 20 días hábiles",
+      "modalidad": "Presencial y Plataforma CIV",
+      "categoria": "Obras Públicas"
+    },
+    {
+      "id": "direcci_n_general_de_transportes__dgt__registro_y_licencia_d",
+      "institucion": "Dirección General de Transportes (DGT)",
+      "tramite": "Registro y Licencia de Porteador de Transporte Extraurbano de Pasajeros",
+      "descripcion": "Autorización indispensable para operar empresas de buses de transporte extraurbano interdepartamental.",
+      "costo": "Q. 500.00 por expediente de porteador",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Formulario oficial de solicitud debidamente firmado...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia legalizada de DPI del solicitante o representante legal...",
+        "Por favor, prepara tu asegúrate de contar con: Patente de comercio de empresa y sociedad donde conste el giro de transporte..",
+        "Asegúrate de contar con: Por favor, prepara tu solvencia fiscal emitida por la SAT..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Carencia de antecedentes penales y policiales de los conductores asignados..."
+      ],
+      "url_mas_info": "https://portal.dgt.gob.gt/tramites/porteadores",
+      "tiempo_estimado": "30 días hábiles",
+      "modalidad": "En Línea (Portal DGT) y Expediente Físico",
+      "categoria": "Transporte Público Extraurbano"
+    },
+    {
+      "id": "direcci_n_general_de_transportes__dgt__renovaci_n_anual_de_t",
+      "institucion": "Dirección General de Transportes (DGT)",
+      "tramite": "Renovación Anual de Tarjeta de Operación de Bus Extraurbano",
+      "descripcion": "Habilitación legal para que las unidades de transporte de pasajeros puedan circular en carreteras nacionales.",
+      "costo": "Q. 250.00 por unidad vehicular",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu fotocopia de tarjeta de circulación vigente del vehículo..",
+        "Asegúrate de contar con: Por favor, prepara tu póliza de seguro obligatorio para pasajeros y terceros con vigencia de 1 año..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Constancia de revisión técnica mecánica emitida por taller autorizado por la DGT...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Tarjeta de operación del año anterior..",
+        "Por favor, prepara tu por favor, prepara tu solvencia de infracciones ante la DGT y Provial."
+      ],
+      "url_mas_info": "https://portal.dgt.gob.gt/tramites/tarjeta-operacion",
+      "tiempo_estimado": "10 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Regulación de Transporte"
+    },
+    {
+      "id": "direcci_n_general_de_transportes__dgt__permiso_especial_para",
+      "institucion": "Dirección General de Transportes (DGT)",
+      "tramite": "Permiso Especial para Viaje Extraordinario o de Turismo",
+      "descripcion": "Permiso temporal para excursiones, viajes turísticos o traslados especiales fuera de la ruta regular autorizada.",
+      "costo": "Q. 50.00 por día de viaje autorizado",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Formulario de solicitud indicando ruta, fecha y destino del viaje...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Fotocopia de tarjeta de operación vigente de la unidad...",
+        "Asegúrate de contar con: Por favor, prepara tu póliza de seguro con cobertura especial de pasajeros activa..",
+        "Asegúrate de contar con: Por favor, prepara tu fotocopia de licencia de conducir tipo 'A' del piloto..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Comprobante de pago bancario..."
+      ],
+      "url_mas_info": "https://portal.dgt.gob.gt/tramites/permiso-ocasional",
+      "tiempo_estimado": "24 a 48 horas",
+      "modalidad": "En Línea",
+      "categoria": "Permisos Temporales de Transporte"
+    },
+    {
+      "id": "ministerio_de_cultura_y_deportes__mcd__dictamen_de_intervenc",
+      "institucion": "Ministerio de Cultura y Deportes (MCD)",
+      "tramite": "Dictamen de Intervención en Bienes Inmuebles Patrimoniales (IDAEH)",
+      "descripcion": "Autorización técnica y legal obligatoria para remodelar, restaurar o construir en inmuebles del Centro Histórico o áreas protegidas.",
+      "costo": "Gratuito el trámite de dictamen; inspecciones técnicas según arancel IDAEH",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Formulario de solicitud del Instituto de Antropología e Historia (IDAEH)..",
+        "Por favor, prepara tu por favor, prepara tu fotocopia legalizada del título de propiedad del inmueble registrado.",
+        "Asegúrate de contar con: Por favor, prepara tu juego completo de planos arquitectónicos firmados y timbrados por arquitecto colegiado activo..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Memoria descriptiva y fotográfica del estado actual del bien patrimonial...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Copia de DPI del propietario o mandatario judicial..."
+      ],
+      "url_mas_info": "https://mcd.gob.gt/",
+      "tiempo_estimado": "30 a 45 días hábiles",
+      "modalidad": "Ventanilla Ágil MCD / Presencial",
+      "categoria": "Patrimonio Cultural"
+    },
+    {
+      "id": "ministerio_de_cultura_y_deportes__mcd__carn__de_gu_a_general",
+      "institucion": "Ministerio de Cultura y Deportes (MCD)",
+      "tramite": "Carné de Guía General de Turismo y de Sitios Arqueológicos",
+      "descripcion": "Certificación oficial para el guiado profesional de turistas nacionales y extranjeros en sitios y museos nacionales.",
+      "costo": "Q. 150.00",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu certificado de aprobación de los cursos técnicos de historia y arqueología de Guatemala..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Acreditación de dominio de segundo idioma avalada por institución reconocida...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia de DPI y boleto de ornato...",
+        "Asegúrate de contar con: Por favor, prepara tu constancia de carencia de antecedentes penales y policiales vigentes.."
+      ],
+      "url_mas_info": "https://mcd.gob.gt/",
+      "tiempo_estimado": "15 días hábiles",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Turismo y Cultura"
+    },
+    {
+      "id": "ministerio_de_cultura_y_deportes__mcd__permiso_para_filmaci_",
+      "institucion": "Ministerio de Cultura y Deportes (MCD)",
+      "tramite": "Permiso para Filmación y Fotografía Profesional en Parques y Sitios Arqueológicos",
+      "descripcion": "Autorización para grabaciones comerciales, cinematográficas o documentales en Tikal, Quiriguá, Iximché, etc.",
+      "costo": "Q. 500.00 a Q. 5,000.00 según el tipo de producción (comercial o documental)",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu sinopsis del proyecto audiovisual o fotográfico y plan de rodaje..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Listado del equipo técnico, cámaras, drones y personal que ingresará...",
+        "Por favor, prepara tu es importante firma de carta compromiso de respeto al patrimonio cultural y natural.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Póliza de seguro de responsabilidad civil para producciones de gran escala..."
+      ],
+      "url_mas_info": "https://va.mcd.gob.gt/ingreso.aspx",
+      "tiempo_estimado": "10 días hábiles",
+      "modalidad": "En Línea (Ventanilla Ágil)",
+      "categoria": "Cultura y Cinematografía"
+    },
+    {
+      "id": "ministerio_de_desarrollo_social__mides__solicitud_de_incorpo",
+      "institucion": "Ministerio de Desarrollo Social (MIDES)",
+      "tramite": "Solicitud de Incorporación al Programa 'Bono Social' (Transferencias Monetarias Condicionadas)",
+      "descripcion": "Apoyo financiero condicionado a familias guatemaltecas en situación de pobreza y pobreza extrema con niños en edad escolar.",
+      "costo": "Totalmente Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Formulario Único de Registro de Condiciones Socioeconómicas..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Fotocopia de Documento Personal de Identificación (DPI) de la madre de familia o jefa de hogar..",
+        "Asegúrate de contar con: Asegúrate de contar con: Certificado de nacimiento de los hijos menores de 15 años...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Constancia de inscripción escolar vigente de los menores..",
+        "Asegúrate de contar con: Asegúrate de contar con: Constancia de asistencia periódica a controles de salud y vacunación en el MSPAS..."
+      ],
+      "url_mas_info": "https://mides.gob.gt/bono-social/",
+      "tiempo_estimado": "30 a 60 días (Sujeto a censo y focalización)",
+      "modalidad": "En Línea / Ventanilla Departamental MIDES",
+      "categoria": "Programas Sociales y Subsidios"
+    },
+    {
+      "id": "ministerio_de_desarrollo_social__mides__solicitud_de_benefic",
+      "institucion": "Ministerio de Desarrollo Social (MIDES)",
+      "tramite": "Solicitud de Beneficio del Programa 'Bolsa Social'",
+      "descripcion": "Transferencia de subsidio alimentario canjeable en comercios locales para cubrir la canasta básica alimentaria.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Fotocopia de Documento Personal de Identificación (DPI) de la persona titular solicitante..",
+        "Asegúrate de contar con: Asegúrate de contar con: Comprobante de residencia en áreas urbanas precarias o asentamientos priorizados...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu dictamen del estudio socioeconómico realizado por los trabajadores sociales del MIDES..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu no ser beneficiario de otro programa similar del Estado.."
+      ],
+      "url_mas_info": "https://mides.gob.gt/bolsa-social/",
+      "tiempo_estimado": "45 días hábiles",
+      "modalidad": "Presencial y Registro en Plataforma MIDES",
+      "categoria": "Asistencia Alimentaria"
+    },
+    {
+      "id": "ministerio_de_desarrollo_social__mides__beca_social_para_edu",
+      "institucion": "Ministerio de Desarrollo Social (MIDES)",
+      "tramite": "Beca Social para Educación Media y Superior",
+      "descripcion": "Aporte económico periódico para jóvenes de escasos recursos económicos para culminar sus estudios de nivel medio o superior.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu por favor, prepara tu constancia oficial de inscripción en instituto público diversificado o universidad estatal.",
+        "Por favor, prepara tu asegúrate de contar con: Certificado de calificaciones del ciclo lectivo anterior con promedio mínimo de 75 puntos..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia de DPI del estudiante (o de los padres si es menor de edad)...",
+        "Por favor, prepara tu por favor, prepara tu estudio socioeconómico de la familia solicitante."
+      ],
+      "url_mas_info": "https://mides.gob.gt/becas-sociales/",
+      "tiempo_estimado": "Periodo de convocatorias anuales (Enero a Marzo)",
+      "modalidad": "En Línea / Convocatoria Anual",
+      "categoria": "Becas y Educación"
+    },
+    {
+      "id": "ministerio_de_econom_a__mineco__programa_de_becas_de_empleab",
+      "institucion": "Ministerio de Economía (MINECO)",
+      "tramite": "Programa de Becas de Empleabilidad e Inglés para el Trabajo",
+      "descripcion": "Capacitación intensiva para inserción laboral en la industria de Contact Centers, BPO y tecnología.",
+      "costo": "Gratuito 100% financiado por MINECO",
+      "requisitos": [
+        "Por favor, prepara tu por favor, prepara tu ser ciudadano guatemalteco de 18 a 29 años.",
+        "Por favor, prepara tu por favor, prepara tu fotocopia de Documento Personal de Identificación (DPI) de ambos lados.",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Título o diploma de nivel medio (diversificado)...",
+        "Asegúrate de contar con: Asegúrate de contar con: Aprobar la prueba diagnóstica de nivel de inglés o habilidades digitales...",
+        "Asegúrate de contar con: Por favor, prepara tu disponibilidad de tiempo y acceso a computadora con internet.."
+      ],
+      "url_mas_info": "https://becas.mineco.gob.gt/",
+      "tiempo_estimado": "Convocatorias abiertas por fases (3 a 4 semanas)",
+      "modalidad": "En Línea",
+      "categoria": "Becas y Empleabilidad"
+    },
+    {
+      "id": "ministerio_de_econom_a__mineco__fondo_de_cr_dito_y_subsidio_",
+      "institucion": "Ministerio de Economía (MINECO)",
+      "tramite": "Fondo de Crédito y Subsidio para la Reactivación de MiPyMEs",
+      "descripcion": "Acceso a fondos no reembolsables o créditos con tasas preferenciales para micro, pequeñas y medianas empresas.",
+      "costo": "Trámite de postulación gratuito",
+      "requisitos": [
+        "Por favor, prepara tu asegúrate de contar con: Constancia de inscripción en el Registro Mercantil (Patente de Comercio)..",
+        "Por favor, prepara tu por favor, prepara tu registro Tributario Unificado (Registro Tributario Unificado (RTU)) actualizado de la SAT con actividad económica vigente.",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Estados financieros del último periodo contable firmados por Perito Contador...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu plan de inversión o propuesta de reactivación productiva del negocio..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Solvencia fiscal emitida por SAT..."
+      ],
+      "url_mas_info": "https://www.mineco.gob.gt/",
+      "tiempo_estimado": "20 a 30 días hábiles",
+      "modalidad": "En Línea / Ventanilla MINECO",
+      "categoria": "Desarrollo Empresarial"
+    },
+    {
+      "id": "ministerio_de_econom_a__mineco__inscripci_n_y_formalizaci_n_",
+      "institucion": "Ministerio de Economía (MINECO)",
+      "tramite": "Inscripción y Formalización de Empresas en Línea (MiNegocio.gt)",
+      "descripcion": "Plataforma unificada para registrar patentes de comercio, NIT y libros contables de forma 100% digital.",
+      "costo": "Arancel legal del Registro Mercantil (según capital inicial desde Q. 100.00)",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: DPI del comerciante individual o socios fundadores...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu boleto de ornato del año en curso..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Formulario electrónico de solicitud de inscripción de empresa y comerciante...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Comprobante de pago de edictos y aranceles registrales..."
+      ],
+      "url_mas_info": "https://minegocio.gt/",
+      "tiempo_estimado": "24 a 72 horas hábiles",
+      "modalidad": "En Línea (MiNegocio.gt)",
+      "categoria": "Registro Mercantil y Comercio"
+    },
+    {
+      "id": "ministerio_de_educaci_n__mineduc__aut_ntica_y_cotejo_de_t_tu",
+      "institucion": "Ministerio de Educación (MINEDUC)",
+      "tramite": "Auténtica y Cotejo de Título o Diploma de Nivel Medio",
+      "descripcion": "Legalización y certificación estatal del documento que acredita la finalización de estudios de ciclo básico o diversificado.",
+      "costo": "Q. 0.50 por timbre fiscal notarial por documento autenticado",
+      "requisitos": [
+        "Asegúrate de contar con: Asegúrate de contar con: Título o diploma original emitido por el establecimiento educativo avalado por MINEDUC...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Cuadros de graduación (código de expediente de la Dirección Departamental de Educación)...",
+        "Por favor, prepara tu asegúrate de contar con: Fotocopia de Documento Personal de Identificación (DPI) o partida de nacimiento del graduando..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Timbre fiscal de Q. 0.50 adherido al reverso del documento..."
+      ],
+      "url_mas_info": "https://www.mineduc.gob.gt/",
+      "tiempo_estimado": "3 a 5 días hábiles",
+      "modalidad": "En Línea (Plataforma BPM) y Cita Departamental",
+      "categoria": "Educación y Títulos"
+    },
+    {
+      "id": "ministerio_de_educaci_n__mineduc__certificaci_n_de_estudios_",
+      "institucion": "Ministerio de Educación (MINEDUC)",
+      "tramite": "Certificación de Estudios y Calificaciones de Primaria y Secundaria",
+      "descripcion": "Emisión de constancia oficial de aprobación de grados para traslados o trámites de becas.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Código Personal del estudiante asignado por el SIRE (Sistema de Registros Educativos)..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Nombres y apellidos completos conforme a partida de nacimiento...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Nombre de la escuela o colegio y años lectivos cursados...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia de DPI del padre, madre o solicitante mayor de edad..."
+      ],
+      "url_mas_info": "https://sire.mineduc.gob.gt/",
+      "tiempo_estimado": "Descarga inmediata si está digitalizado / 5 días en DIDEDUC",
+      "modalidad": "En Línea / Presencial",
+      "categoria": "Expediente Escolar"
+    },
+    {
+      "id": "ministerio_de_educaci_n__mineduc__equivalencia_y_convalidaci",
+      "institucion": "Ministerio de Educación (MINEDUC)",
+      "tramite": "Equivalencia y Convalidación de Estudios Cursados en el Extranjero",
+      "descripcion": "Reconocimiento de grados cursados en el extranjero para continuar la trayectoria educativa en Guatemala.",
+      "costo": "Q. 50.00 por dictamen ministerial",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Certificados oficiales de estudios del país de procedencia debidamente apostillados o legalizados..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu traducción jurada al español por traductor jurado autorizado si están en otro idioma..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Partida de nacimiento o DPI / Pasaporte del estudiante...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Formulario de solicitud de convalidación académica de la Dirección General de Acreditación y Certificación (DIGEACE)..."
+      ],
+      "url_mas_info": "https://www.mineduc.gob.gt/",
+      "tiempo_estimado": "20 a 30 días hábiles",
+      "modalidad": "Presencial y Registro en BPM",
+      "categoria": "Educación Internacional"
+    },
+    {
+      "id": "ministerio_de_energ_a_y_minas__mem__licencia_para_estaci_n_d",
+      "institucion": "Ministerio de Energía y Minas (MEM)",
+      "tramite": "Licencia para Estación de Servicio de Combustibles y GLP",
+      "descripcion": "Autorización indispensable para el expendio y almacenamiento de derivados de petróleo y gas licuado.",
+      "costo": "Arancel fijado en la Ley de Comercialización de Hidrocarburos",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Formulario de solicitud de la Dirección General de Hidrocarburos (DGH)...",
+        "Por favor, prepara tu por favor, prepara tu resolución aprobatoria del Estudio de Impacto Ambiental emitida por el MARN.",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Planos de instalaciones mecánicas, tanques subterráneos y medidas contra incendios firmados por ingeniero mecánico o civil colegiado..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Póliza de seguro contra daños a terceros y cobertura ambiental...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Dictamen de CONRED sobre análisis de vulnerabilidad y riesgo..."
+      ],
+      "url_mas_info": "https://mem.gob.gt/hidrocarburos/",
+      "tiempo_estimado": "60 a 90 días hábiles",
+      "modalidad": "En Línea y Expediente Físico",
+      "categoria": "Energía e Hidrocarburos"
+    },
+    {
+      "id": "ministerio_de_energ_a_y_minas__mem__registro_e_inscripci_n_d",
+      "institucion": "Ministerio de Energía y Minas (MEM)",
+      "tramite": "Registro e Inscripción de Instaladores Electricistas Autorizados",
+      "descripcion": "Acreditación estatal para firmar planos eléctricos y acometidas de energía residencial e industrial.",
+      "costo": "Q. 100.00",
+      "requisitos": [
+        "Asegúrate de contar con: Asegúrate de contar con: Título o diploma de técnico electricista avalado por INTECAP o institución técnica reconocida...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Constancia de colegiado o carné de perito electricista...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Fotocopia de DPI y partida de nacimiento...",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Aprobación de la evaluación técnica de normas de seguridad eléctrica del MEM.."
+      ],
+      "url_mas_info": "https://mem.gob.gt/electricidad/",
+      "tiempo_estimado": "15 días hábiles",
+      "modalidad": "Presencial y Plataforma MEM",
+      "categoria": "Sector Eléctrico"
+    },
+    {
+      "id": "ministerio_de_energ_a_y_minas__mem__solicitud_de_licencia_de",
+      "institucion": "Ministerio de Energía y Minas (MEM)",
+      "tramite": "Solicitud de Licencia de Reconocimiento y Exploración Minera",
+      "descripcion": "Concesión temporal otorgada por la Dirección General de Minería para investigar recursos del subsuelo.",
+      "costo": "Tarifa según extensión territorial en hectáreas solicitadas",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Plano topográfico del área solicitada con coordenadas UTM GTM...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu memoria técnica del programa de prospección o exploración mineral..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu constancia de capacidad técnica y solvencia financiera de la empresa solicitante..",
+        "Asegúrate de contar con: Por favor, prepara tu compromiso de cumplimiento de consulta comunitaria y normativa ambiental.."
+      ],
+      "url_mas_info": "https://mem.gob.gt/mineria/",
+      "tiempo_estimado": "90 a 120 días hábiles",
+      "modalidad": "Expediente Formal ante Ventanilla MEM",
+      "categoria": "Minería"
+    },
+    {
+      "id": "ministerio_de_finanzas_p_blicas__minfin__inscripci_n_y_preca",
+      "institucion": "Ministerio de Finanzas Públicas (MINFIN)",
+      "tramite": "Inscripción y Precalificación en el Registro General de Adquisiciones del Estado (RGAE - Guatecompras)",
+      "descripcion": "Requisito obligatorio para vender bienes, suministros o prestar servicios y obras a cualquier entidad pública en Guatecompras.",
+      "costo": "Gratuito para personas individuales y jurídicas",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Es importante estar inscrito en la SAT y solvente de impuestos..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Registro Mercantil vigente (patente de comercio de sociedad y empresa)..",
+        "Asegúrate de contar con: Por favor, prepara tu constancia de Finiquito de la Contraloría General de Cuentas para representantes legales..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Estados financieros auditados de los últimos dos ejercicios fiscales...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Declaración jurada de no estar comprendido en las prohibiciones del artículo 80 de la Ley de Contrataciones del Estado..."
+      ],
+      "url_mas_info": "https://rgae.gob.gt/",
+      "tiempo_estimado": "10 a 15 días hábiles",
+      "modalidad": "En Línea 100% (Portal RGAE)",
+      "categoria": "Contrataciones del Estado"
+    },
+    {
+      "id": "ministerio_de_finanzas_p_blicas__minfin__habilitaci_n_de_usu",
+      "institucion": "Ministerio de Finanzas Públicas (MINFIN)",
+      "tramite": "Habilitación de Usuario en la Plataforma de Atención Virtual MINFIN",
+      "descripcion": "Acceso a servicios de tesorería, consulta de nóminas, transferencias y certificaciones del tesoro público.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: DPI digitalizado de ambos lados...",
+        "Por favor, prepara tu por favor, prepara tu correo electrónico institucional o personal vinculado.",
+        "Asegúrate de contar con: Asegúrate de contar con: Carta de solicitud firmada en caso de entidades descentralizadas o autónomas...",
+        "Asegúrate de contar con: Por favor, prepara tu aceptación del convenio de uso de medios electrónicos.."
+      ],
+      "url_mas_info": "https://atencionvirtual.minfin.gob.gt/",
+      "tiempo_estimado": "24 a 48 horas",
+      "modalidad": "En Línea",
+      "categoria": "Finanzas Públicas"
+    },
+    {
+      "id": "ministerio_de_finanzas_p_blicas__minfin__registro_de_cuentas",
+      "institucion": "Ministerio de Finanzas Públicas (MINFIN)",
+      "tramite": "Registro de Cuentas Bancarias para Transferencias y Pagos del Estado (SICOIN)",
+      "descripcion": "Registro indispensable para recibir pagos directos del Gobierno central por concepto de contratos, compras o sueldos.",
+      "costo": "Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Certificación bancaria original de cuenta monetaria activa en bancos del sistema guatemalteco...",
+        "Asegúrate de contar con: Por favor, prepara tu registro Tributario Unificado (RTU) actualizado de la SAT con el mismo nombre y NIT de la cuenta bancaria..",
+        "Por favor, prepara tu asegúrate de contar con: Formulario de acreditamiento de pagos del Sistema Integrado de Administración Financiera (SIAF)..",
+        "Por favor, prepara tu asegúrate de contar con: Copia de Documento Personal de Identificación (DPI) del titular o representante legal.."
+      ],
+      "url_mas_info": "https://www.minfin.gob.gt/tesoreria",
+      "tiempo_estimado": "3 a 5 días hábiles",
+      "modalidad": "En Línea / Ventanilla de Tesorería Nacional",
+      "categoria": "Tesorería Nacional"
+    },
+    {
+      "id": "digecam_licencia_de_portaci_n_de_arma_de_fuego_por_primera_v",
+      "institucion": "DIGECAM",
+      "tramite": "Licencia de Portación de Arma de Fuego por Primera Vez",
+      "descripcion": "Autorización oficial expedida por el Ministerio de la Defensa Nacional para portar legalmente armas de fuego de uso civil defensivo.",
+      "costo": "Q. 1,000.00 (Vigencia de 1 a 3 años según arancel oficial de la Ley de Armas)",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu ser mayor de 25 años de edad..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Fotocopia de DPI ampliado y legible...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Certificado de carencia de antecedentes penales y policiales recientes...",
+        "Por favor, prepara tu por favor, prepara tu evaluación y certificación psicológica y médica de idoneidad mental y física extendida por profesionales colegiados.",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu aprobación de la evaluación teórica y práctica de tiro en polígono autorizado por DIGECAM..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Constancia de empleo o solvencia económica..",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Boleto de ornato del año correspondiente..."
+      ],
+      "url_mas_info": "https://digecam.mil.gt/tramites",
+      "tiempo_estimado": "20 a 30 días hábiles",
+      "modalidad": "Presencial (Evaluación en polígono y entrega de expediente)",
+      "categoria": "Control de Armas y Seguridad"
+    },
+    {
+      "id": "digecam_renovaci_n_de_licencia_de_portaci_n_de_arma_de_fuego",
+      "institucion": "DIGECAM",
+      "tramite": "Renovación de Licencia de Portación de Arma de Fuego",
+      "descripcion": "Renovación legal de la licencia antes de su vencimiento para evitar faltas a la Ley de Armas y Municiones.",
+      "costo": "Q. 800.00 a Q. 1,200.00 según años de vigencia solicitados",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu licencia original de portación vencida o por vencer..",
+        "Asegúrate de contar con: Por favor, prepara tu copia de Documento Personal de Identificación (DPI) vigente..",
+        "Por favor, prepara tu asegúrate de contar con: Antecedentes penales y policiales del año en curso..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Certificación médica y psicológica vigente...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Prueba de huella balística actualizada en el laboratorio de balística si aplica...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Comprobante de pago de la tasa oficial..."
+      ],
+      "url_mas_info": "https://digecam.mil.gt/tramites",
+      "tiempo_estimado": "10 a 15 días hábiles",
+      "modalidad": "Presencial y Cita en Línea",
+      "categoria": "Control de Armas y Seguridad"
+    },
+    {
+      "id": "digecam_registro_y_tenencia_de_arma_de_fuego__tarjeta_de_ten",
+      "institucion": "DIGECAM",
+      "tramite": "Registro y Tenencia de Arma de Fuego (Tarjeta de Tenencia)",
+      "descripcion": "Inscripción en el Registro de Armas para posesión legal exclusiva dentro del domicilio particular o laboral.",
+      "costo": "Q. 250.00",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu factura comercial autorizada de armería registrada o testimonio notarial de traspaso de dominio..",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Presentación física del arma de fuego descargada para toma de muestra balística (ojivas y casquillos)...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Fotocopia de DPI del propietario...",
+        "Por favor, prepara tu asegúrate de contar con: Comprobante de dirección exacta del inmueble donde permanecerá el arma para defensa habitacional..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Carencia de antecedentes penales y policiales..."
+      ],
+      "url_mas_info": "https://digecam.mil.gt/tramites",
+      "tiempo_estimado": "5 a 10 días hábiles",
+      "modalidad": "Presencial en Sedes DIGECAM",
+      "categoria": "Registro de Armas"
+    },
+    {
+      "id": "ministerio_de_relaciones_exteriores__minex__apostilla_de_la_",
+      "institucion": "Ministerio de Relaciones Exteriores (MINEX)",
+      "tramite": "Apostilla de La Haya y Legalización Electrónica de Documentos",
+      "descripcion": "Certificación oficial internacional para que documentos públicos guatemaltecos tengan plena validez legal en países miembros del Convenio de La Haya.",
+      "costo": "Gratuito por trámite del MINEX (adherir especies fiscales o timbres de Q. 10.00 según documento)",
+      "requisitos": [
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Documento original emitido por la institución guatemalteca correspondiente (RENAP, MINEDUC, Universidades, etc.)..",
+        "Asegúrate de contar con: Por favor, prepara tu cadena de firmas y sellos previos de legalización de la institución de origen..",
+        "Asegúrate de contar con: Por favor, prepara tu registro y solicitud en la plataforma electrónica de Apostilla del MINEX..",
+        "Asegúrate de contar con: Asegúrate de contar con: Copia de DPI o pasaporte de la persona solicitante..."
+      ],
+      "url_mas_info": "https://apostilla.minex.gob.gt/",
+      "tiempo_estimado": "24 a 48 horas hábiles con firma electrónica avanzada",
+      "modalidad": "En Línea 100%",
+      "categoria": "Relaciones Exteriores y Legalizaciones"
+    },
+    {
+      "id": "ministerio_de_relaciones_exteriores__minex__citas_consulares",
+      "institucion": "Ministerio de Relaciones Exteriores (MINEX)",
+      "tramite": "Citas Consulares y Pasaportes en el Exterior para Guatemaltecos",
+      "descripcion": "Gestión y emisión de documentos de viaje y pasaportes para connacionales radicados en Estados Unidos y resto del mundo.",
+      "costo": "US$ 50.00 (Pasaporte 5 años) o US$ 85.00 (Pasaporte 10 años)",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Certificado de Nacimiento reciente con CUI o DPI original...",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Cita agendada previamente en el portal oficial de citas consulares...",
+        "Necesitarás presentar el siguiente requisito: Necesitarás presentar el siguiente requisito: Comprobante de pago con Money Order en el consulado correspondiente...",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu fotografía y captura biométrica realizada en sede consular.."
+      ],
+      "url_mas_info": "https://citaconsularguatemala.com/",
+      "tiempo_estimado": "Mismo día de la cita consular o envío postal",
+      "modalidad": "Cita en Línea / Atención Presencial en Consulado",
+      "categoria": "Servicios Consulares"
+    },
+    {
+      "id": "ministerio_de_relaciones_exteriores__minex__asistencia_y_pro",
+      "institucion": "Ministerio de Relaciones Exteriores (MINEX)",
+      "tramite": "Asistencia y Protección a Migrantes y Convalecientes en el Exterior",
+      "descripcion": "Apoyo humanitario, búsqueda de personas no localizadas, repatriación de cuerpos y orientación legal en derechos humanos.",
+      "costo": "Totalmente Gratuito",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Solicitud presentada por familiares directos en Guatemala o por el interesado en consulado...",
+        "Por favor, prepara tu por favor, prepara tu copia de documento de identificación del solicitante y de la persona en el exterior.",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Datos de contacto y última ubicación conocida del connacional en tránsito o detenido...",
+        "Asegúrate de contar con: Por favor, prepara tu narración sucinta del caso o necesidad humanitaria.."
+      ],
+      "url_mas_info": "https://minex.gob.gt/proteccion-consular",
+      "tiempo_estimado": "Atención y activación inmediata de alertas consulares",
+      "modalidad": "Presencial, Telefónica y En Línea",
+      "categoria": "Protección Humanitaria"
+    },
+    {
+      "id": "polic_a_nacional_civil__pnc__emisi_n_de_antecedentes_policia",
+      "institucion": "Policía Nacional Civil (PNC)",
+      "tramite": "Emisión de Antecedentes Policiales",
+      "descripcion": "Constancia oficial que certifica si un ciudadano guatemalteco tiene o no registros de historial delictivo o policial activo.",
+      "costo": "Q. 30.00",
+      "requisitos": [
+        "Asegúrate de contar con: Asegúrate de contar con: Documento Personal de Identificación (DPI) vigente...",
+        "Asegúrate de contar con: Asegúrate de contar con: Boleta de pago de Q30.00 en bancos autorizados (Banrural, Banco Industrial, Bantrab) o banca en línea...",
+        "Asegúrate de contar con: Necesitarás presentar el siguiente requisito: Crear usuario en el portal policiales.pnc.gob.gt con correo electrónico y CUI..."
+      ],
+      "url_mas_info": "https://policiales.pnc.gob.gt/",
+      "tiempo_estimado": "Inmediato tras validar pago en línea",
+      "modalidad": "En Línea / Presencial en comisarías",
+      "categoria": "Seguridad y Justicia"
+    },
+    {
+      "id": "organismo_judicial__oj__carencia_de_antecedentes_penales",
+      "institucion": "Organismo Judicial (OJ)",
+      "tramite": "Carencia de Antecedentes Penales",
+      "descripcion": "Constancia oficial extendida por el Organismo Judicial que certifica que la persona no cuenta con antecedentes de condenas penales firmes.",
+      "costo": "Q. 30.00",
+      "requisitos": [
+        "Necesitarás presentar el siguiente requisito: Es importante pago previo de Q. 30.00 en bancos autorizados (Banrural, Industrial o G&T Continental) o bancas en línea correspondientes..",
+        "Por favor, prepara tu necesitarás presentar el siguiente requisito: Contar con Documento Personal de Identificación (DPI)..",
+        "Necesitarás presentar el siguiente requisito: Asegúrate de contar con: Crear un usuario en el portal oficial del Organismo Judicial utilizando un correo electrónico válido..."
+      ],
+      "url_mas_info": "https://portal.oj.gob.gt/",
+      "tiempo_estimado": "Inmediato a 24 horas (en línea)",
+      "modalidad": "En Línea",
+      "categoria": "Seguridad y Justicia"
+    },
+    {
+      "id": "ministerio_de_trabajo_y_previsi_n_social__mintrab__registro_",
+      "institucion": "Ministerio de Trabajo y Previsión Social (MINTRAB)",
+      "tramite": "Registro Electrónico de Contratos Individuales de Trabajo (RECIT)",
+      "descripcion": "Registro obligatorio ante el Ministerio de Trabajo de todos los contratos laborales celebrados en Guatemala, utilizando la plataforma RECIT.",
+      "costo": "Totalmente Gratuito",
+      "requisitos": [
+        "Asegúrate de contar con: Por favor, prepara tu creación de usuario patronal en el portal RECIT..",
+        "Necesitarás presentar el siguiente requisito: Por favor, prepara tu contrato individual de trabajo firmado por patrono y trabajador en formato PDF..",
+        "Por favor, prepara tu por favor, prepara tu datos completos del trabajador (Documento Personal de Identificación (DPI), edad, sexo, nacionalidad, dirección).",
+        "Asegúrate de contar con: Recuerda que debes presentar el registro dentro de los 15 días posteriores a la celebración del contrato.."
+      ],
+      "url_mas_info": "https://recit.mintrabajo.gob.gt/",
+      "tiempo_estimado": "Inmediato (Emisión de constancia de recepción)",
+      "modalidad": "En Línea (RECIT)",
+      "categoria": "Trabajo y Empleo"
+    }
+  ]
+}
