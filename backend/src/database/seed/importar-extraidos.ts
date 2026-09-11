@@ -1,18 +1,26 @@
 /**
- * Importa `tramites-extraidos.json` (83 tramites de RENAP, SAT, UDEVIPO, etc.)
- * evitando duplicados:
+ * Importa/actualiza `tramites-extraidos.json` (RENAP, SAT, UDEVIPO,
+ * Contraloria, etc.) de forma idempotente:
  *   1. limpia duplicados previos de la BD (misma institucion + mismo nombre
- *      normalizado -> se queda el que tenga mas datos);
- *   2. salta cualquier tramite del JSON cuyo nombre ya exista para esa
- *      institucion (match exacto o por contencion);
- *   3. reutiliza instituciones y categorias existentes (no crea copias).
+ *      normalizado -> se queda el que tenga mas datos; NUNCA borra uno que
+ *      tenga videos LENSEGUA asociados);
+ *   2. por cada tramite del JSON: si `codigo = EXT-<id>` ya existe, lo
+ *      ACTUALIZA en el mismo registro (nunca lo borra ni recrea, para no
+ *      perder videos/relaciones); si no existe, lo crea (saltando si ya hay
+ *      un tramite con ese nombre en esa institucion, o si coincide con uno
+ *      del catalogo oficial);
+ *   3. dedup entre instituciones: si un EXT-* coincide con un CAT-* oficial,
+ *      gana el oficial (salvo que el EXT-* tenga videos asociados).
  *
  *   npm run import:extraidos          (local)
  *   npm run import:extraidos:prod     (Render / CI)
  *
- * Esta fuente es extraccion asistida (no scraping oficial estructurado): se
- * marca `tipo_fuente = aportada_usuario` y `calidad_datos = necesita_revision`
- * (CLAUDE.md 45/46/47). No trae pasos.
+ * Los "pasos" de esta fuente son PLANTILLAS genericas (solo 3 variantes se
+ * repiten en los ~70 tramites, no son el procedimiento real de cada uno) ->
+ * NO se importan como `tramites_pasos` para no presentar un texto generico
+ * como si fuera el procedimiento oficial de un tramite especifico
+ * (CLAUDE.md 47). Los requisitos si son especificos por tramite y se
+ * importan. `tipo_fuente = aportada_usuario` (CLAUDE.md 45).
  */
 import 'reflect-metadata';
 import { readFileSync } from 'node:fs';
@@ -259,7 +267,14 @@ async function main(): Promise<void> {
   const repoReq = ds.getRepository(TramiteRequisito);
 
   try {
-    // ---- 1. Limpiar duplicados previos de la BD -----------------------
+    const conVideos = new Set<string>(
+      (
+        await ds.query('SELECT DISTINCT tramite_id FROM tramites_videos_senas')
+      ).map((r: { tramite_id: string }) => r.tramite_id),
+    );
+
+    // ---- 1. Limpiar duplicados previos de la BD -------------------------
+    // Nunca borra un tramite que tenga videos LENSEGUA asociados.
     const todos: {
       id: string;
       nombre: string;
@@ -282,15 +297,25 @@ async function main(): Promise<void> {
     let borrados = 0;
     for (const g of grupos.values()) {
       if (g.length < 2) continue;
-      g.sort((a, b) => Number(b.hijos) - Number(a.hijos));
+      g.sort(
+        (a, b) =>
+          Number(conVideos.has(b.id)) - Number(conVideos.has(a.id)) ||
+          Number(b.hijos) - Number(a.hijos),
+      );
       for (const sobrante of g.slice(1)) {
+        if (conVideos.has(sobrante.id)) {
+          console.log(
+            `  AVISO: se conserva "${sobrante.nombre}" (${sobrante.codigo}) aunque es duplicado, porque tiene videos LENSEGUA`,
+          );
+          continue;
+        }
         await repoTr.delete({ id: sobrante.id });
         borrados += 1;
       }
     }
     console.log(`Duplicados previos eliminados: ${borrados}`);
 
-    // ---- 2. Indice de lo que ya hay ---------------------------------
+    // ---- 2. Indice de lo que ya hay --------------------------------------
     const trBD: { id: string; nombre: string; institucion_id: string }[] =
       await ds.query('SELECT id, nombre, institucion_id FROM tramites');
     const porInst = new Map<string, { id: string; n: string }[]>();
@@ -345,15 +370,84 @@ async function main(): Promise<void> {
       return creada.id;
     };
 
-    // ---- 3. Insertar los que NO estan repetidos --------------------
-    let insertados = 0;
+    // ---- 3. Actualizar los que ya existen, crear los que no --------------
+    let creados = 0;
+    let actualizados = 0;
     const saltados: string[] = [];
 
     for (const e of data.tramites) {
       const institucionId = await resolverInstitucion(e.institucion);
+      const codigo = `EXT-${e.id}`.slice(0, 60);
+      const costo = parsearCosto(e.costo);
+      const tiempo = parsearTiempo(e.tiempo_estimado);
+      const req = (e.requisitos ?? [])
+        .map(limpiarRequisito)
+        .filter((r) => r.length > 5)
+        .slice(0, 25);
+      // No se importan "pasos": esta fuente solo trae 3 plantillas genericas
+      // repetidas, no el procedimiento real de cada tramite (ver cabecera).
+      const calidad = req.length > 0 ? CalidadDatos.PARCIAL : CalidadDatos.NECESITA_REVISION;
+      const catId = await resolverCategoria(e.categoria);
+
+      const existente = await repoTr.findOne({ where: { codigo } });
+
+      if (existente) {
+        existente.nombre = e.tramite.trim();
+        existente.descripcionCorta =
+          (e.descripcion ?? '').trim().slice(0, 500) || null;
+        existente.institucionId = institucionId;
+        existente.modalidad = parsearModalidad(e.modalidad);
+        existente.tipoCosto = costo.tipoCosto;
+        existente.costo = costo.costo;
+        existente.moneda = costo.moneda;
+        existente.tiempoRespuestaValor = tiempo.valor;
+        existente.tiempoRespuestaUnidad = tiempo.unidad;
+        existente.tiempoRespuestaTexto = tiempo.texto;
+        existente.urlExterna = e.url_mas_info || null;
+        existente.urlFuenteOficial = e.url_mas_info || null;
+        existente.sourceUrl = e.url_mas_info || null;
+        existente.importadoEn = new Date();
+        existente.calidadDatos = calidad;
+        await repoTr.save(existente); // UPDATE en el mismo registro: preserva id/videos
+
+        await repoReq.delete({ tramiteId: existente.id });
+        if (req.length) {
+          await repoReq.save(
+            req.map((r, i) => ({
+              tramiteId: existente.id,
+              titulo: r.slice(0, 500),
+              descripcion: r.length > 500 ? r : null,
+              tipo: TipoRequisito.DOCUMENTO,
+              esObligatorio: true,
+              orden: i,
+            })),
+          );
+        }
+
+        if (catId) {
+          const linkExistente = await repoTrCat.findOne({
+            where: { tramiteId: existente.id, esPrincipal: true },
+          });
+          if (!linkExistente) {
+            await repoTrCat.save({
+              tramiteId: existente.id,
+              categoriaId: catId,
+              esPrincipal: true,
+            });
+          } else if (linkExistente.categoriaId !== catId) {
+            linkExistente.categoriaId = catId;
+            await repoTrCat.save(linkExistente);
+          }
+        }
+
+        actualizados += 1;
+        continue;
+      }
+
+      // ---- No existe: crear, salvo que sea duplicado de otro tramite ----
       const nombreN = norm(e.tramite);
-      const existentes = porInst.get(institucionId) ?? [];
-      const dup = existentes.find(
+      const existentesInst = porInst.get(institucionId) ?? [];
+      const dup = existentesInst.find(
         (x) =>
           x.n === nombreN ||
           (nombreN.length > 14 &&
@@ -361,12 +455,6 @@ async function main(): Promise<void> {
       );
       if (dup) {
         saltados.push(`${e.institucion} | ${e.tramite}`);
-        continue;
-      }
-
-      const codigo = `EXT-${e.id}`.slice(0, 60);
-      if (await repoTr.existsBy({ codigo })) {
-        saltados.push(`${e.institucion} | ${e.tramite} (codigo ya existe)`);
         continue;
       }
 
@@ -380,13 +468,6 @@ async function main(): Promise<void> {
         publicId = `TR-${randomBytes(5).toString('hex').toUpperCase()}`;
       }
       publicIdsUsados.add(publicId);
-
-      const costo = parsearCosto(e.costo);
-      const tiempo = parsearTiempo(e.tiempo_estimado);
-      const req = (e.requisitos ?? [])
-        .map(limpiarRequisito)
-        .filter((r) => r.length > 5)
-        .slice(0, 25);
 
       const guardado = await repoTr.save(
         repoTr.create({
@@ -403,7 +484,7 @@ async function main(): Promise<void> {
             : ModoEjecucion.SOLO_INFORMACION,
           modalidad: parsearModalidad(e.modalidad),
           tipoFuente: TipoFuente.APORTADA_USUARIO,
-          calidadDatos: CalidadDatos.NECESITA_REVISION,
+          calidadDatos: calidad,
           tipoCosto: costo.tipoCosto,
           costo: costo.costo,
           moneda: costo.moneda,
@@ -417,7 +498,6 @@ async function main(): Promise<void> {
         } as Partial<Tramite>),
       );
 
-      const catId = await resolverCategoria(e.categoria);
       if (catId) {
         await repoTrCat.save({
           tramiteId: guardado.id,
@@ -438,11 +518,12 @@ async function main(): Promise<void> {
         );
       }
       (porInst.get(institucionId) ?? []).push({ id: guardado.id, n: nombreN });
-      insertados += 1;
+      creados += 1;
     }
 
     // ---- 4. Dedup entre instituciones: si un EXT-* comparte nombre exacto
-    //         con un CAT-* (catalogo oficial), gana el oficial (tiene pasos).
+    //         con un CAT-* (catalogo oficial), gana el oficial. Nunca borra
+    //         un EXT-* que tenga videos LENSEGUA asociados.
     const todosFinal: { id: string; nombre: string; codigo: string | null }[] =
       await ds.query('SELECT id, nombre, codigo FROM tramites');
     const porNombre = new Map<string, typeof todosFinal>();
@@ -458,6 +539,12 @@ async function main(): Promise<void> {
       if (!tieneOficial) continue;
       for (const t of g) {
         if (t.codigo?.startsWith('EXT-')) {
+          if (conVideos.has(t.id)) {
+            console.log(
+              `  AVISO: se conserva "${t.nombre}" (${t.codigo}) aunque duplica al catalogo oficial, porque tiene videos LENSEGUA`,
+            );
+            continue;
+          }
           await repoTr.delete({ id: t.id });
           borradosCruce += 1;
         }
@@ -467,7 +554,7 @@ async function main(): Promise<void> {
       `Extraidos que ya existian en el catalogo oficial (eliminados): ${borradosCruce}`,
     );
 
-    // ---- 5. Verificacion final de la BD --------------------------
+    // ---- 5. Verificacion final de la BD ----------------------------------
     const dupFinal: { k: string; n: number }[] = await ds.query(`
       SELECT institucion_id::text || '::' || lower(btrim(regexp_replace(
         translate(nombre,'áéíóúÁÉÍÓÚñÑ','aeiouAEIOUnN'),
@@ -482,7 +569,8 @@ async function main(): Promise<void> {
     ]);
 
     console.log('\n--- Importacion tramites-extraidos ---');
-    console.log(`  insertados: ${insertados}`);
+    console.log(`  creados: ${creados}`);
+    console.log(`  actualizados: ${actualizados}`);
     console.log(`  saltados por duplicado: ${saltados.length}`);
     saltados.forEach((s) => console.log(`     · ${s}`));
     console.log('\n--- Estado de la BD ---');

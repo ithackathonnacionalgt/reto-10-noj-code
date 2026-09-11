@@ -231,3 +231,23 @@ curl -s $B/api-keys/uso -H "X-API-Key: $K" | jq
   `IMMUTABLE` como wrapper, porque en esta versión de Postgres
   `array_to_string()` es `STABLE` y Postgres exige `IMMUTABLE` tanto en
   columnas generadas como en índices de expresión.
+
+---
+
+## 12. tramites-extraidos.json: actualizador (upsert) + videos demo
+
+- `importar-extraidos.ts` ahora es **upsert**: si el `codigo = EXT-<id>` ya
+  existe, ACTUALIZA el mismo registro (nombre, requisitos, costo, tiempo,
+  categoría) sin borrarlo nunca; si no existe, lo crea (con el mismo dedup de
+  siempre). **Nunca borra un trámite que tenga videos LENSEGUA asociados**,
+  ni en la limpieza de duplicados previos ni en el cruce contra el catálogo
+  oficial — los protege explícitamente.
+- La fuente trae "pasos" pero son **3 plantillas genéricas repetidas en los
+  ~70 trámites** (no el procedimiento real de cada uno) → **no se importan**
+  como `tramites_pasos` (sí los requisitos, que son específicos por trámite).
+- `npm run replicar:videos-demo`: copia los 4 videos reales de `descripcion`
+  y los 4 de `pasos` (LENSEGUA) al resto del catálogo, **al azar**, para que
+  la demo muestre accesibilidad en todos los trámites. Se marcan con
+  `[DEMO]` en el campo `descripcion` del video — **no son el video real de
+  ese trámite**. `npm run quitar:videos-demo` los borra sin tocar los 4
+  reales, cuando haya contenido verdadero para reemplazarlos.
