@@ -108,6 +108,38 @@
   }
 }
 
+/* Entrada del texto al cambiar de idioma. */
+.aparece {
+  animation: aparece var(--transicion-lenta) both;
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--e-1)));
+  }
+}
+
+/* Aviso de traducción preliminar: discreto, pero a la vista. */
+.aviso-idioma {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--e-2);
+  padding: var(--e-1) var(--e-3);
+  border: 1px solid var(--color-acento-borde);
+  border-radius: var(--radio-full);
+  background: var(--color-acento-suave);
+  color: var(--color-acento-texto);
+  font-size: var(--texto-xs);
+  font-weight: 600;
+
+  svg {
+    flex: none;
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+}
+
 .bajada {
   color: var(--color-texto-suave);
   font-size: var(--texto-lg);

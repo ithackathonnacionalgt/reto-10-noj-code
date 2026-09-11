@@ -16,6 +16,8 @@ import type {
   Tramite,
 } from '../../core/models/catalogo.model';
 import type { Modalidad, Orden, TipoCosto } from '../../core/models/enums';
+import { IdiomaStore } from '../../core/idioma/idioma.store';
+import { TEXTOS_INICIO } from './textos-inicio';
 import { Aviso } from '../../shared/ui/aviso/aviso';
 import { Buscador } from '../../shared/ui/buscador/buscador';
 import { Paginacion } from '../../shared/ui/paginacion/paginacion';
@@ -71,6 +73,10 @@ export class Catalogo {
   private readonly asistente = inject(AsistenteService);
   private readonly router = inject(Router);
   private readonly ruta = inject(ActivatedRoute);
+  private readonly idioma = inject(IdiomaStore);
+
+  /** Textos del inicio en el idioma elegido en el panel de accesibilidad. */
+  protected readonly textos = computed(() => TEXTOS_INICIO[this.idioma.codigo()]);
 
   /* --- Estado de la URL ------------------------------------------------- */
 

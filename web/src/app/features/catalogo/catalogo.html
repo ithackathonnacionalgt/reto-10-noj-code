@@ -6,21 +6,38 @@
   <!-- Halo detrás del buscador. Con el modo IA se tiñe de azul y violeta. -->
   <div class="aura" aria-hidden="true"></div>
 
-  <div class="contenedor escena-interna">
+  @let tx = textos();
+
+  <!-- `lang` en el bloque traducido: el lector de pantalla cambia de idioma
+       acá y sigue en español en el resto de la página. -->
+  <div class="contenedor escena-interna" [attr.lang]="tx.lang">
     <!-- Se pliega al buscar, pero sigue en el árbol de accesibilidad: es el
          título de la página para quien usa lector de pantalla. -->
     <div class="encabezado">
       <div class="encabezado-interno">
-        <h1>¿Qué trámite necesitás?</h1>
-        <p class="bajada">
-          Consultá todos los trámites de Guatemala en un solo lugar: requisitos,
-          costos, tiempos y pasos a seguir.
-        </p>
+        <!-- Un bloque por idioma: al cambiar, el texto nuevo entra con un
+             fundido en vez de saltar. -->
+        @for (t of [tx]; track t.lang) {
+          <h1 animate.enter="aparece">{{ t.titulo }}</h1>
+          <p class="bajada" animate.enter="aparece">{{ t.bajada }}</p>
+          @if (t.nota; as nota) {
+            <p class="aviso-idioma" lang="es" animate.enter="aparece">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+              </svg>
+              {{ nota }}
+            </p>
+          }
+        }
       </div>
     </div>
 
     <app-buscador
-      etiqueta="Buscar trámites del catálogo"
+      [etiqueta]="tx.etiquetaBuscador"
+      [marcador]="tx.marcador"
+      [marcadorIa]="tx.marcadorIa"
       [valorInicial]="termino()"
       [modoIa]="modoIa()"
       (modoIaChange)="cambiarModoIa($event)"
@@ -30,7 +47,7 @@
     <!-- Siempre en el DOM (solo cambia la opacidad): así ocupa lo mismo
          encendida o apagada y el buscador no se mueve al alternar. -->
     <p class="pista-ia" [class.visible]="modoIa()" [attr.aria-hidden]="!modoIa()">
-      La IA interpreta tu pregunta y te muestra los trámites que mejor encajan.
+      {{ tx.pistaIa }}
     </p>
   </div>
 </section>

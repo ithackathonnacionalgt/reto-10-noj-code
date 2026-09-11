@@ -16,6 +16,7 @@ import {
   type IdPerfil,
 } from '../../core/accesibilidad/accesibilidad.store';
 import { IconoA11y, type NombreIconoA11y } from './icono-a11y';
+import { SelectorIdioma } from './selector-idioma';
 
 interface Herramienta {
   clave: ClaveHerramienta;
@@ -84,7 +85,7 @@ const HERRAMIENTAS: readonly Herramienta[] = [
  */
 @Component({
   selector: 'app-panel-accesibilidad',
-  imports: [IconoA11y],
+  imports: [IconoA11y, SelectorIdioma],
   templateUrl: './panel-accesibilidad.html',
   styleUrl: './panel-accesibilidad.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -275,6 +275,23 @@ reaccionan solos. La guía, la lupa y la voz necesitan JavaScript y viven en
 encendidas. La fuente Atkinson solo se descarga cuando alguien activa
 «Legible».
 
+### Idiomas mayas (prototipo)
+
+El panel ofrece **Español, K’iche’, Kaqchikel y Q’eqchi’** (códigos ISO 639-3,
+los mismos de la tabla `idiomas` de la base). Por ahora se traduce solo la
+pantalla de inicio: título, bajada, buscador y la pista del modo IA.
+
+- `core/idioma/idioma.store.ts` guarda la elección (en `localStorage`).
+- `features/catalogo/textos-inicio.ts` tiene todos los textos: corregir una
+  frase es editar ese archivo.
+- El bloque traducido lleva su `lang` (`quc`, `cak`, `kek`) para que el lector
+  de pantalla cambie de idioma solo ahí.
+
+**Las versiones mayas son preliminares** y no las revisó un hablante: por eso
+la pantalla muestra «Traducción preliminar · por validar con hablantes». Para
+llevarlo al resto del sitio, la base ya tiene `tramites_traducciones` con
+estado y revisor; falta que la API las sirva y cargarlas revisadas.
+
 También de serie: enlace de salto al contenido, foco visible que nunca se
 desactiva, `aria-live` en los resultados y respeto de `prefers-reduced-motion`.
 
