@@ -20,16 +20,6 @@
         @for (t of [tx]; track t.lang) {
           <h1 animate.enter="aparece">{{ t.titulo }}</h1>
           <p class="bajada" animate.enter="aparece">{{ t.bajada }}</p>
-          @if (t.nota; as nota) {
-            <p class="aviso-idioma" lang="es" animate.enter="aparece">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                   stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="9" />
-                <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
-              </svg>
-              {{ nota }}
-            </p>
-          }
         }
       </div>
     </div>

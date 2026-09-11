@@ -358,12 +358,6 @@
     background: var(--color-acento-suave);
     color: var(--color-acento-texto);
 
-    .herramienta-icono {
-      background: var(--color-acento);
-      color: var(--color-sobre-acento);
-      box-shadow: var(--sombra-acento);
-    }
-
     .marca {
       opacity: 1;
       transform: none;
@@ -376,23 +370,16 @@
   }
 }
 
+/* El ícono va directo en el botón, sin un recuadro propio: un solo cuadro
+   por herramienta. Activo, lo tiñe el color del botón. */
 .herramienta-icono {
   display: grid;
   place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: var(--radio);
-  background: var(--color-superficie);
   color: var(--color-acento-texto);
-  box-shadow: var(--sombra-1);
-  transition:
-    background-color var(--transicion),
-    color var(--transicion),
-    box-shadow var(--transicion);
 
   app-icono-a11y {
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 1.6rem;
+    height: 1.6rem;
   }
 }
 

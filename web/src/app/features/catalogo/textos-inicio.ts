@@ -6,8 +6,7 @@ import type { CodigoIdioma } from '../../core/idioma/idioma.store';
  * ⚠ Las versiones mayas son PRELIMINARES: se redactaron para el prototipo y
  * no las revisó un hablante. Antes de publicarlas de verdad hay que
  * validarlas (idealmente con la Academia de Lenguas Mayas de Guatemala).
- * Por eso la pantalla muestra el aviso `nota` mientras estén así. Corregir
- * una frase es editar este archivo: no hay que tocar nada más.
+ * Corregir una frase es editar este archivo: no hay que tocar nada más.
  */
 export interface TextosInicio {
   lang: string;
@@ -17,8 +16,6 @@ export interface TextosInicio {
   marcador: string;
   marcadorIa: string;
   pistaIa: string;
-  /** Aviso visible mientras la traducción no esté validada. */
-  nota: string | null;
 }
 
 export const TEXTOS_INICIO: Record<CodigoIdioma, TextosInicio> = {
@@ -31,7 +28,6 @@ export const TEXTOS_INICIO: Record<CodigoIdioma, TextosInicio> = {
     marcador: 'Buscá por nombre, institución o código…',
     marcadorIa: 'Describí lo que necesitás hacer…',
     pistaIa: 'La IA interpreta tu pregunta y te muestra los trámites que mejor encajan.',
-    nota: null,
   },
 
   quc: {
@@ -43,7 +39,6 @@ export const TEXTOS_INICIO: Record<CodigoIdioma, TextosInicio> = {
     marcador: "Chatz'ib'aj ri ub'i' o ri k'olb'al…",
     marcadorIa: "Chatzijoj jas kawaj kab'an…",
     pistaIa: "Ri IA kuta' ri atzij xuquje' kuk'ut ri trámite kakoj chawe.",
-    nota: 'Traducción preliminar al K’iche’ · por validar con hablantes',
   },
 
   cak: {
@@ -55,7 +50,6 @@ export const TEXTOS_INICIO: Record<CodigoIdioma, TextosInicio> = {
     marcador: "Katz'ib'an ri rub'i' o ri molaj…",
     marcadorIa: "Tatzijoj achike nawajo' nab'än…",
     pistaIa: "Ri IA nuq'ät ri ach'ab'äl chuqa' nuk'üt chawäch ri taq trámite ye'ok chawe.",
-    nota: 'Traducción preliminar al Kaqchikel · por validar con hablantes',
   },
 
   kek: {
@@ -67,6 +61,5 @@ export const TEXTOS_INICIO: Record<CodigoIdioma, TextosInicio> = {
     marcador: "Tz'iib'a li xk'ab'a' malaj li molam…",
     marcadorIa: "Ch'olob'resi k'aru naawaj xb'aanunkil…",
     pistaIa: 'Li IA naxtaw ru laa patz\'om ut naxk\'ut chaawu li trámite us chaawe.',
-    nota: 'Traducción preliminar al Q’eqchi’ · por validar con hablantes',
   },
 };
