@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
-import { VisorVideo } from '../../shared/video/visor-video.service';
 import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { CatalogoApi } from '../../core/api/catalogo-api';
 import { ErrorApi } from '../../core/api/error-api.interceptor';
@@ -39,7 +38,6 @@ type Estado =
 })
 export class TramiteDetalle {
   private readonly api = inject(CatalogoApi);
-  protected readonly visor = inject(VisorVideo);
 
   /** Viene de la ruta gracias a `withComponentInputBinding()`. */
   readonly slug = input.required<string>();
@@ -112,7 +110,6 @@ export class TramiteDetalle {
     return r.fase === 'listo' ? agruparVideos(r.tramite.accesibilidad?.videosSenas) : SIN_VIDEOS;
   });
 
-  protected readonly videoDescripcion = computed(() => this.videos().descripcion ?? this.videos().pasos);
 
   protected readonly hayVideos = computed(() => {
     const v = this.videos();

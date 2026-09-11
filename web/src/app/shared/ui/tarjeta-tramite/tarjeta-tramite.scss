@@ -85,6 +85,7 @@
 
 /* Encima del enlace que cubre la tarjeta (z-index 1), así el clic es suyo. */
 .boton-senas {
+  display: none;
   position: absolute;
   z-index: 1;
   top: var(--e-3);
@@ -110,7 +111,7 @@
   }
 }
 
-@media (max-width: 48rem), (hover: none), (pointer: coarse) {
+@media (max-width: 64rem) {
   .boton-senas {
     display: inline-flex;
     align-items: center;

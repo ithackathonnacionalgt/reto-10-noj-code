@@ -219,24 +219,3 @@
 
 .cabecera-visual { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--e-4); width: 100%; }
 .cabecera-visual .emblema { min-width: 0; }
-.acceso-senas {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  gap: var(--e-2);
-  min-height: 2.75rem;
-  padding: var(--e-3);
-  border: 1px solid var(--color-acento-borde);
-  border-radius: var(--radio-full);
-  background: var(--color-acento-suave);
-  color: var(--color-acento-texto);
-  font-size: var(--texto-xs);
-  font-weight: 600;
-  svg { width: 1.4rem; height: 1.4rem; }
-  &:hover { background: var(--color-acento); color: var(--color-sobre-acento); }
-}
-@media (max-width: 40rem) {
-  .acceso-senas { width: 3rem; height: 3rem; padding: 0; }
-  .acceso-senas span { display: none; }
-}
